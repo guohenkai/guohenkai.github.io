@@ -1,0 +1,958 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="antd," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="来西安这边工作也好几个月了，研究ant Design Pro也有一段时间了。今天来记录学习一下它的基本工作原理和它如何调用封装的组件等等
+为了客观真实的分析解读 Ant Design Pro 源码执行流程，我们可以随便找一个其中的页面进行分析。
+以 基础详情页 为例：https://preview.pro.ant.design/profile/basic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析 Ant Design Pro 工作流程">
+<meta property="og:url" content="https://guohenkai.github.io/2019/10/26/浅析 Ant Design Pro 工作流程/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="来西安这边工作也好几个月了，研究ant Design Pro也有一段时间了。今天来记录学习一下它的基本工作原理和它如何调用封装的组件等等
+为了客观真实的分析解读 Ant Design Pro 源码执行流程，我们可以随便找一个其中的页面进行分析。
+以 基础详情页 为例：https://preview.pro.ant.design/profile/basic">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1gi7kczusijj20kn09qgmh.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1gi7kerawbcj20iw08x0t4.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1gi83qwzo15j20jp0cy0uu.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1gi842xdqwpj209q0860u5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1gi844o10h8j209r07j766.jpg">
+<meta property="og:updated_time" content="2020-09-06T05:27:33.052Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅析 Ant Design Pro 工作流程">
+<meta name="twitter:description" content="来西安这边工作也好几个月了，研究ant Design Pro也有一段时间了。今天来记录学习一下它的基本工作原理和它如何调用封装的组件等等
+为了客观真实的分析解读 Ant Design Pro 源码执行流程，我们可以随便找一个其中的页面进行分析。
+以 基础详情页 为例：https://preview.pro.ant.design/profile/basic">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1gi7kczusijj20kn09qgmh.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 浅析 Ant Design Pro 工作流程 | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                浅析 Ant Design Pro 工作流程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-10-26T00:00:00+08:00" content="2019-10-26">
+              2019-10-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/antd/" itemprop="url" rel="index">
+                    <span itemprop="name">antd</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/10/26/浅析 Ant Design Pro 工作流程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/10/26/浅析 Ant Design Pro 工作流程/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>来西安这边工作也好几个月了，研究ant Design Pro也有一段时间了。今天来记录学习一下它的基本工作原理和它如何调用封装的组件等等</p>
+<p>为了客观真实的分析解读 Ant Design Pro 源码执行流程，我们可以随便找一个其中的页面进行分析。</p>
+<p>以 基础详情页 为例：<a href="https://preview.pro.ant.design/profile/basic" target="_blank" rel="external">https://preview.pro.ant.design/profile/basic</a></p>
+<a id="more"></a>
+<h4 id="UI-页面分析"><a href="#UI-页面分析" class="headerlink" title="UI 页面分析"></a>UI 页面分析</h4><p><img src="http://ww1.sinaimg.cn/large/e0823b04ly1gi7kczusijj20kn09qgmh.jpg" alt="ace59a2706afd2bf6d8ca2432253f49.png"></p>
+<p>我们如何根据 URL 路由地址快速找到该代码位置呢？</p>
+<p>首先，我们可以先找到 “/config/route.config.js” 文件，根据 URL 路由，Ctrl + F 搜索 “profile” ，就能快速定位到位置：</p>
+<p><img src="http://ww1.sinaimg.cn/large/e0823b04ly1gi7kerawbcj20iw08x0t4.jpg" alt="68904cb2432be357c563843bd87a2d1.png"></p>
+<p>这样我们就能找到代码位置了。看到这里，不知道大家有没有什么疑问呢？</p>
+<p>它的路径为啥是：”./Profile/BasicProfile” ?</p>
+<p>1、”@” 具体代表什么含义？</p>
+<p>还有就是我们会经常看到这样的引入方式：</p>
+<p><strong>import GlobalFooter from ‘@/components/GlobalFooter’;</strong></p>
+<p>其实，这是 Ant Design Pro 为了方便引入组件，就给常用模块设置的别名，这里的 “@”,代表 “/scr/“ 文件夹。<br>上面 “./Profile/BasicProfile” 代表在 “/src/pages/“ 目录下。</p>
+<p>2、UI页面组成部分有哪些？</p>
+<p>既然找到我们需要的UI视图页面，那它有哪几部分呢？</p>
+<p><img src="http://ww1.sinaimg.cn/large/e0823b04ly1gi83qwzo15j20jp0cy0uu.jpg" alt="925374348ac9e787770ddc8b03ff323.png"></p>
+<p>我们将代码折叠后如上图,大致可分为3个重要部分：</p>
+<ul>
+<li>引入相关组件和库</li>
+<li>connect 将数据和视图关联</li>
+<li>编写UI视图页面class类</li>
+<li>OK，既然分析出了这关键的3部分，那我们就继续往下面看。</li>
+</ul>
+<p>“引入相关组件和库” 与 “编写UI视图页面class类” 是基础部分，也不需要多啰嗦了。</p>
+<p>3、@connect()是什么呢？</p>
+<p>好习惯–tips：在碰到一个自己不熟悉的语法或者其他，我们需要的做的是查相关资料，弄清楚它的用法与作用。</p>
+<p>所以，在分析 “connect 将数据和视图关联”这部分之前，我就先考虑下：@connect（），是什么？有何作用呢？</p>
+<p>首先，我们回忆一下 “ES6修饰器” ，我前面的TypeScript学习笔记记录过<br><a href="https://guohengkai.gitee.io/2019/05/26/TypeScript%E4%B8%AD%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88%E4%B8%8A%EF%BC%89/" target="_blank" rel="external">https://guohengkai.gitee.io/2019/05/26/TypeScript%E4%B8%AD%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88%E4%B8%8A%EF%BC%89/</a></p>
+<p><a href="https://guohengkai.gitee.io/2019/05/27/TypeScript%E4%B8%AD%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8(%E4%B8%8B)/" target="_blank" rel="external">https://guohengkai.gitee.io/2019/05/27/TypeScript%E4%B8%AD%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8(%E4%B8%8B)/</a></p>
+<p>修饰器（Decorator）是一个函数，用来修改类的行为。修饰器对类的行为的改变，是代码编译时发生的，而不是在运行时。这意味着，修饰器能在编译阶段运行代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function testable(props) &#123;</div><div class="line">  props.isLoading = true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@testable</div><div class="line">class MyTestableClass &#123;&#125;</div><div class="line"></div><div class="line">console.log(MyTestableClass.isLoading) // true</div></pre></td></tr></table></figure>
+<p>这里：@testable 就是一个修饰器，它修改了 MyTestableClass 这个类的行为，为它加上了静态属性 isLoading。</p>
+<p>既然修饰器是一个函数，那它能传参数吗？回答是肯定的，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">function testable(isLoading) &#123;</div><div class="line">  return function(target) &#123;</div><div class="line">    target.isLoading = isLoading;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@testable(true)</div><div class="line">class MyTestableClass &#123;&#125;</div><div class="line">MyTestableClass.isLoading // true</div><div class="line"></div><div class="line">@testable(false)</div><div class="line">class MyClass &#123;&#125;</div><div class="line">MyClass.isLoading // false</div></pre></td></tr></table></figure></p>
+<p>这样就能在修饰器中传参数了，如果需要多个参数，直接函数中：testable（{ a, b}）{ }；即可。</p>
+<p>看到这里是不是大概明白：@connect 是修饰器了吧。既然 connect 是修饰器，那么它给 BasicProfile 这个类添加哪些额外属性呢？我们一起继续往下看…</p>
+<h4 id="Dva-数据处理与搬运分析"><a href="#Dva-数据处理与搬运分析" class="headerlink" title="Dva 数据处理与搬运分析"></a>Dva 数据处理与搬运分析</h4><p><strong>1、分析models源码</strong></p>
+<p>其实，每个models结构几乎都是一样的，我们就以 profile.js 为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">import &#123; queryBasicProfile, queryAdvancedProfile &#125; from &apos;@/services/api&apos;;</div><div class="line"></div><div class="line">export default &#123;</div><div class="line">  namespace: &apos;profile&apos;,</div><div class="line"></div><div class="line">  state: &#123;</div><div class="line">    basicGoods: [],</div><div class="line">    advancedOperation1: [],</div><div class="line">    advancedOperation2: [],</div><div class="line">    advancedOperation3: [],</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  effects: &#123;</div><div class="line">    *fetchBasic(&#123; payload &#125;, &#123; call, put &#125;) &#123;</div><div class="line">      const response = yield call(queryBasicProfile, payload);</div><div class="line">      yield put(&#123;</div><div class="line">        type: &apos;show&apos;,</div><div class="line">        payload: response,</div><div class="line">      &#125;);</div><div class="line">    &#125;,</div><div class="line">    *fetchAdvanced(_, &#123; call, put &#125;) &#123;</div><div class="line">      const response = yield call(queryAdvancedProfile);</div><div class="line">      yield put(&#123;</div><div class="line">        type: &apos;show&apos;,</div><div class="line">        payload: response,</div><div class="line">      &#125;);</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  reducers: &#123;</div><div class="line">    show(state, &#123; payload &#125;) &#123;</div><div class="line">      return &#123;</div><div class="line">        ...state,</div><div class="line">        ...payload,</div><div class="line">      &#125;;</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>看到这里，对于不熟悉dva或者redux的小伙伴来讲，肯定看到的一头雾水。不过，不用怕，我们一起分析它。</p>
+<p>其实我们分析观察到dva中的每个model，实际上都是普通的JavaScript对象，包含</p>
+<ul>
+<li>namespace</li>
+<li>state</li>
+<li>reducers</li>
+<li>effects</li>
+</ul>
+<p>那我们一起了解下，它们具体代表什么含义：</p>
+<p><strong>namespace：</strong> </p>
+<p>该字段就相当于model的索引，根据该命名空间就可以找到页面对应的model。注意 namespace 必须唯一。</p>
+<p><strong>state：</strong></p>
+<p>state 是储存数据的地方，收到 Action 以后，会更新数据。</p>
+<p><strong>effects：</strong></p>
+<p>处理所有的异步逻辑，将返回结果以Action的形式交给reducer处理。</p>
+<p><strong>reducers：</strong></p>
+<p>处理所有的同步逻辑，将数据返回给页面。</p>
+<blockquote>
+<p>既然知道它们的含义，它们如何有何关系？</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/large/e0823b04ly1gi842xdqwpj209q0860u5.jpg" alt="3c3065f532ce62d7d43d20b1af7b41a.png"></p>
+<p>这张图表是不参与服务器传递数据的，通过View页面中的点击事件或者其他触发 dispatch 的Action 改变 State 的数据。所以，随着 state 发生改变，页面也会重新渲染。</p>
+<p><img src="http://ww1.sinaimg.cn/large/e0823b04ly1gi844o10h8j209r07j766.jpg" alt="3a57adb90602493618cd6ccaaedddd5.png"></p>
+<p>这张图表是通过 访问 URL 触发 effect 的异步从服务器请求数据，将拿到的数据 data ，再通过 reducer 同步到 state 中，即 state 值发生变化，页面也会随之改变。</p>
+<p>聊到这里，估计没有 reudx 基础的小伙伴，看的云里雾里的。不过没关系，毕竟文字描述，太过于乏力了。这里只需要对这些字段有基本的了解，就算任务完成了。</p>
+<p>需要详细了解redux的伙伴，可以看我之前的redux博客</p>
+<p><a href="https://guohengkai.gitee.io/2019/06/03/redux(%E4%B8%8A)/" target="_blank" rel="external">https://guohengkai.gitee.io/2019/06/03/redux(%E4%B8%8A)/</a></p>
+<p><a href="https://guohengkai.gitee.io/2019/06/10/redux(%E4%B8%8B)/" target="_blank" rel="external">https://guohengkai.gitee.io/2019/06/10/redux(%E4%B8%8B)/</a></p>
+<p><strong>2、分析数据请求过程</strong></p>
+<p>我们在 profile.js 中发现有 effects 的一段代码，如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">import &#123; queryBasicProfile, queryAdvancedProfile &#125; from &apos;@/services/api&apos;;</div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line">effects: &#123;</div><div class="line">    *fetchBasic(&#123; payload &#125;, &#123; call, put &#125;) &#123;</div><div class="line">      const response = yield call(queryBasicProfile, payload);</div><div class="line">      yield put(&#123;</div><div class="line">        type: &apos;show&apos;,</div><div class="line">        payload: response,</div><div class="line">      &#125;);</div><div class="line">    &#125;,</div><div class="line">    *fetchAdvanced(_, &#123; call, put &#125;) &#123;</div><div class="line">      const response = yield call(queryAdvancedProfile);</div><div class="line">      yield put(&#123;</div><div class="line">        type: &apos;show&apos;,</div><div class="line">        payload: response,</div><div class="line">      &#125;);</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div></pre></td></tr></table></figure></p>
+<p>OK，我们根据引入路径 “@/services/api” 找到 api.js ,如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">import &#123; stringify &#125; from &apos;qs&apos;;</div><div class="line">import request from &apos;@/utils/request&apos;;</div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line">//get请求</div><div class="line">export async function queryRule(params) &#123;</div><div class="line">  return request(`/api/rule?$&#123;stringify(params)&#125;`);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//post请求</div><div class="line">export async function removeRule(params) &#123;</div><div class="line">  return request(&apos;/api/rule&apos;, &#123;</div><div class="line">    method: &apos;POST&apos;,</div><div class="line">    data: &#123;</div><div class="line">      ...params,</div><div class="line">      method: &apos;delete&apos;,</div><div class="line">    &#125;,</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
+<p>在开发环境中，以 “/api/xxx” 开头api路径，request会默认去找 mock 中的预设数据。但是需要注意的是，当我们打包（npm run build）之后，上传到线上环境，mock 将不在起作用哦。</p>
+<p>在这里函数用到 “async” 关键字，扩展阅读：</p>
+<p><a href="https://www.w3cschool.cn/ecmascript/vis51q5w.html#async%E5%87%BD%E6%95%B0" target="_blank" rel="external">异步操作和 Async 函数</a></p>
+<p><a href="https://www.w3cschool.cn/ecmascript/3uge1q5v.html" target="_blank" rel="external">Promise 对象</a></p>
+<p><strong>3、mock 模拟真实API接口数据</strong></p>
+<p>在开发前后端分离的项目过程中，为了互相不影响（前端工程师和后端工程师）进度，一些必要的测试数据，可以通过mock模拟，所以mock也就应运而生了。</p>
+<p>位置：”/mock/“</p>
+<p>以 user.js 为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div></pre></td><td class="code"><pre><div class="line">export default &#123;</div><div class="line">  // 支持值为 Object 和 Array</div><div class="line">  &apos;GET /api/currentUser&apos;: &#123;</div><div class="line">    name: &apos;Serati Ma&apos;,</div><div class="line">    avatar: &apos;https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png&apos;,</div><div class="line">    userid: &apos;00000001&apos;,</div><div class="line">    email: &apos;antdesign@alipay.com&apos;,</div><div class="line">    signature: &apos;海纳百川，有容乃大&apos;,</div><div class="line">    title: &apos;交互专家&apos;,</div><div class="line">    group: &apos;蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED&apos;,</div><div class="line">    tags: [</div><div class="line">      &#123;</div><div class="line">        key: &apos;0&apos;,</div><div class="line">        label: &apos;很有想法的&apos;,</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        key: &apos;1&apos;,</div><div class="line">        label: &apos;专注设计&apos;,</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        key: &apos;2&apos;,</div><div class="line">        label: &apos;辣~&apos;,</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        key: &apos;3&apos;,</div><div class="line">        label: &apos;大长腿&apos;,</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        key: &apos;4&apos;,</div><div class="line">        label: &apos;川妹子&apos;,</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        key: &apos;5&apos;,</div><div class="line">        label: &apos;海纳百川&apos;,</div><div class="line">      &#125;,</div><div class="line">    ],</div><div class="line">    notifyCount: 12,</div><div class="line">    unreadCount: 11,</div><div class="line">    country: &apos;China&apos;,</div><div class="line">    geographic: &#123;</div><div class="line">      province: &#123;</div><div class="line">        label: &apos;浙江省&apos;,</div><div class="line">        key: &apos;330000&apos;,</div><div class="line">      &#125;,</div><div class="line">      city: &#123;</div><div class="line">        label: &apos;杭州市&apos;,</div><div class="line">        key: &apos;330100&apos;,</div><div class="line">      &#125;,</div><div class="line">    &#125;,</div><div class="line">    address: &apos;西湖区工专路 77 号&apos;,</div><div class="line">    phone: &apos;0752-268888888&apos;,</div><div class="line">  &#125;,</div><div class="line">  // GET POST 可省略</div><div class="line">  &apos;GET /api/users&apos;: [</div><div class="line">    &#123;</div><div class="line">      key: &apos;1&apos;,</div><div class="line">      name: &apos;John Brown&apos;,</div><div class="line">      age: 32,</div><div class="line">      address: &apos;New York No. 1 Lake Park&apos;,</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      key: &apos;2&apos;,</div><div class="line">      name: &apos;Jim Green&apos;,</div><div class="line">      age: 42,</div><div class="line">      address: &apos;London No. 1 Lake Park&apos;,</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      key: &apos;3&apos;,</div><div class="line">      name: &apos;Joe Black&apos;,</div><div class="line">      age: 32,</div><div class="line">      address: &apos;Sidney No. 1 Lake Park&apos;,</div><div class="line">    &#125;,</div><div class="line">  ],</div><div class="line">  &apos;POST /api/login/account&apos;: (req, res) =&gt; &#123;</div><div class="line">    const &#123; password, userName, type &#125; = req.body;</div><div class="line">    if (password === &apos;ant.design&apos; &amp;&amp; userName === &apos;admin&apos;) &#123;</div><div class="line">      res.send(&#123;</div><div class="line">        status: &apos;ok&apos;,</div><div class="line">        type,</div><div class="line">        currentAuthority: &apos;admin&apos;,</div><div class="line">      &#125;);</div><div class="line">      return;</div><div class="line">    &#125;</div><div class="line">    if (password === &apos;ant.design&apos; &amp;&amp; userName === &apos;user&apos;) &#123;</div><div class="line">      res.send(&#123;</div><div class="line">        status: &apos;ok&apos;,</div><div class="line">        type,</div><div class="line">        currentAuthority: &apos;user&apos;,</div><div class="line">      &#125;);</div><div class="line">      return;</div><div class="line">    &#125;</div><div class="line">    res.send(&#123;</div><div class="line">      status: &apos;error&apos;,</div><div class="line">      type,</div><div class="line">      currentAuthority: &apos;guest&apos;,</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">  &apos;POST /api/register&apos;: (req, res) =&gt; &#123;</div><div class="line">    res.send(&#123; status: &apos;ok&apos;, currentAuthority: &apos;user&apos; &#125;);</div><div class="line">  &#125;,</div><div class="line">  &apos;GET /api/500&apos;: (req, res) =&gt; &#123;</div><div class="line">    res.status(500).send(&#123;</div><div class="line">      timestamp: 1513932555104,</div><div class="line">      status: 500,</div><div class="line">      error: &apos;error&apos;,</div><div class="line">      message: &apos;error&apos;,</div><div class="line">      path: &apos;/base/category/list&apos;,</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">  &apos;GET /api/404&apos;: (req, res) =&gt; &#123;</div><div class="line">    res.status(404).send(&#123;</div><div class="line">      timestamp: 1513932643431,</div><div class="line">      status: 404,</div><div class="line">      error: &apos;Not Found&apos;,</div><div class="line">      message: &apos;No message available&apos;,</div><div class="line">      path: &apos;/base/category/list/2121212&apos;,</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">  &apos;GET /api/403&apos;: (req, res) =&gt; &#123;</div><div class="line">    res.status(403).send(&#123;</div><div class="line">      timestamp: 1513932555104,</div><div class="line">      status: 403,</div><div class="line">      error: &apos;Unauthorized&apos;,</div><div class="line">      message: &apos;Unauthorized&apos;,</div><div class="line">      path: &apos;/base/category/list&apos;,</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">  &apos;GET /api/401&apos;: (req, res) =&gt; &#123;</div><div class="line">    res.status(401).send(&#123;</div><div class="line">      timestamp: 1513932555104,</div><div class="line">      status: 401,</div><div class="line">      error: &apos;Unauthorized&apos;,</div><div class="line">      message: &apos;Unauthorized&apos;,</div><div class="line">      path: &apos;/base/category/list&apos;,</div><div class="line">    &#125;);</div><div class="line">  &#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>在这里，我们可以写一些模拟预设数据与一些简单的逻辑判断。从而保证项目不需要真实后端真实API数据，达到展示效果的目的。</p>
+<p>具体如何书写预设数据，由于很简单，模仿上述即可。</p>
+<p>关于 mock 的其他用法： <a href="http://mockjs.com/" target="_blank" rel="external">mock官网</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/antd/" rel="tag">#antd</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/20/js之call,apply,bind/" rel="next" title="js之 call,apply,bind原生实现">
+                <i class="fa fa-chevron-left"></i> js之 call,apply,bind原生实现
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/11/数组去重⽅法总结/" rel="prev" title="数组去重⽅法总结（十二种）">
+                数组去重⽅法总结（十二种） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2019/10/26/浅析 Ant Design Pro 工作流程/"
+     data-title="浅析 Ant Design Pro 工作流程"
+     data-content=""
+     data-url="https://guohenkai.github.io/2019/10/26/浅析 Ant Design Pro 工作流程/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/10/26/浅析 Ant Design Pro 工作流程/"
+           data-title="浅析 Ant Design Pro 工作流程" data-url="https://guohenkai.github.io/2019/10/26/浅析 Ant Design Pro 工作流程/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#UI-页面分析"><span class="nav-number">1.</span> <span class="nav-text">UI 页面分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dva-数据处理与搬运分析"><span class="nav-number">2.</span> <span class="nav-text">Dva 数据处理与搬运分析</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

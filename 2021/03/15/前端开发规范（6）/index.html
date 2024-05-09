@@ -1,0 +1,934 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="规范," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="vue 项目规范以 Vue 官方规范 中的 A 规范为基础，在其上面进行项目开发，故所有代码均遵守该规范。
+
+请仔仔细细阅读 Vue 官方规范，切记，此为第一步。
+
+组件规范组件名为多个单词组件名应该始终是多个单词组成（大于等于 2），且命名规范为KebabCase格式。这样做可以避免跟现有的以及未来的 HTML 元素相冲突，因为所有的 HTML 元素名称都是单个单词的。
+正例：1234expor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端开发规范（Vue 编码规范）">
+<meta property="og:url" content="https://guohenkai.github.io/2021/03/15/前端开发规范（6）/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="vue 项目规范以 Vue 官方规范 中的 A 规范为基础，在其上面进行项目开发，故所有代码均遵守该规范。
+
+请仔仔细细阅读 Vue 官方规范，切记，此为第一步。
+
+组件规范组件名为多个单词组件名应该始终是多个单词组成（大于等于 2），且命名规范为KebabCase格式。这样做可以避免跟现有的以及未来的 HTML 元素相冲突，因为所有的 HTML 元素名称都是单个单词的。
+正例：1234expor">
+<meta property="og:updated_time" content="2022-10-17T10:29:34.195Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端开发规范（Vue 编码规范）">
+<meta name="twitter:description" content="vue 项目规范以 Vue 官方规范 中的 A 规范为基础，在其上面进行项目开发，故所有代码均遵守该规范。
+
+请仔仔细细阅读 Vue 官方规范，切记，此为第一步。
+
+组件规范组件名为多个单词组件名应该始终是多个单词组成（大于等于 2），且命名规范为KebabCase格式。这样做可以避免跟现有的以及未来的 HTML 元素相冲突，因为所有的 HTML 元素名称都是单个单词的。
+正例：1234expor">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 前端开发规范（Vue 编码规范） | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                前端开发规范（Vue 编码规范）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2021-03-15T00:00:00+08:00" content="2021-03-15">
+              2021-03-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/规范/" itemprop="url" rel="index">
+                    <span itemprop="name">规范</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2021/03/15/前端开发规范（6）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/03/15/前端开发规范（6）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>vue 项目规范以 Vue 官方规范 中的 A 规范为基础，在其上面进行项目开发，故所有代码均遵守该规范。</strong></p>
+<blockquote>
+<p>请仔仔细细阅读 Vue 官方规范，切记，此为第一步。</p>
+</blockquote>
+<h4 id="组件规范"><a href="#组件规范" class="headerlink" title="组件规范"></a>组件规范</h4><h5 id="组件名为多个单词"><a href="#组件名为多个单词" class="headerlink" title="组件名为多个单词"></a><strong>组件名为多个单词</strong></h5><p>组件名应该始终是多个单词组成（大于等于 2），且命名规范为KebabCase格式。<br>这样做可以避免跟现有的以及未来的 HTML 元素相冲突，因为所有的 HTML 元素名称都是单个单词的。</p>
+<p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export default &#123;</div><div class="line">  name: &apos;TodoItem&apos;</div><div class="line">  // ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export default &#123;</div><div class="line">  name: &apos;Todo&apos;,</div><div class="line">  // ...</div><div class="line">&#125;</div><div class="line">export default &#123;</div><div class="line">  name: &apos;todo-item&apos;,</div><div class="line">  // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="组件文件名为-pascal-case-格式"><a href="#组件文件名为-pascal-case-格式" class="headerlink" title="组件文件名为 pascal-case 格式"></a><strong>组件文件名为 pascal-case 格式</strong></h5><p>正例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">components/</div><div class="line">│- my-component.vue</div></pre></td></tr></table></figure>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">components/</div><div class="line">│- myComponent.vue</div><div class="line">│- MyComponent.vue</div></pre></td></tr></table></figure></p>
+<h5 id="基础组件文件名为-base-开头，使用完整单词而不是缩写。"><a href="#基础组件文件名为-base-开头，使用完整单词而不是缩写。" class="headerlink" title="基础组件文件名为 base 开头，使用完整单词而不是缩写。"></a><strong>基础组件文件名为 base 开头，使用完整单词而不是缩写。</strong></h5><p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">components/</div><div class="line">│- base-button.vue</div><div class="line">│- base-table.vue</div><div class="line">│- base-icon.vue</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">components/</div><div class="line">│- MyButton.vue</div><div class="line">│- VueTable.vue</div><div class="line">│- Icon.vue</div></pre></td></tr></table></figure></p>
+<h5 id="和父组件紧密耦合的子组件应该以父组件名作为前缀命名"><a href="#和父组件紧密耦合的子组件应该以父组件名作为前缀命名" class="headerlink" title="和父组件紧密耦合的子组件应该以父组件名作为前缀命名"></a><strong>和父组件紧密耦合的子组件应该以父组件名作为前缀命名</strong></h5><p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">components/</div><div class="line">│- todo-list.vue</div><div class="line">│- todo-list-item.vue</div><div class="line">│- todo-list-item-button.vue</div><div class="line">│- user-profile-options.vue （完整单词）</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">components/</div><div class="line">│- TodoList.vue</div><div class="line">│- TodoItem.vue</div><div class="line">│- TodoButton.vue</div><div class="line">│- UProfOpts.vue （使用了缩写）</div></pre></td></tr></table></figure></p>
+<h5 id="在-Template-模版中使用组件，应使用-PascalCase-模式，并且使用自闭合组件"><a href="#在-Template-模版中使用组件，应使用-PascalCase-模式，并且使用自闭合组件" class="headerlink" title="在 Template 模版中使用组件，应使用 PascalCase 模式，并且使用自闭合组件"></a><strong>在 Template 模版中使用组件，应使用 PascalCase 模式，并且使用自闭合组件</strong></h5><p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 在单文件组件、字符串模板和 JSX 中 --&gt;</div><div class="line">&lt;MyComponent /&gt;</div><div class="line">&lt;Row&gt;&lt;table :column=&quot;data&quot;/&gt;&lt;/Row&gt;</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;my-component /&gt; </div><div class="line">&lt;row&gt;&lt;table :column=&quot;data&quot;/&gt;&lt;/row&gt;</div></pre></td></tr></table></figure></p>
+<h5 id="组件的-data-必须是一个函数"><a href="#组件的-data-必须是一个函数" class="headerlink" title="组件的 data 必须是一个函数"></a><strong>组件的 data 必须是一个函数</strong></h5><p>当在组件中使用 data 属性的时候 (除了 new Vue 外的任何地方)，它的值必须是返回一个对象的函数。 因为如果直接是一个对象的话，子组件之间的属性值会互相影响。</p>
+<p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export default &#123;</div><div class="line">  data () &#123;</div><div class="line">    return &#123;</div><div class="line">      name: &apos;jack&apos;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">export default &#123;</div><div class="line">  data: &#123;</div><div class="line">    name: &apos;jack&apos;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="Prop-定义应该尽量详细"><a href="#Prop-定义应该尽量详细" class="headerlink" title="Prop 定义应该尽量详细"></a><strong>Prop 定义应该尽量详细</strong></h5><ul>
+<li>必须使用 camelCase 驼峰命名</li>
+<li>必须指定类型</li>
+<li>必须加上注释，表明其含义</li>
+<li>必须加上 required 或者 default，两者二选其一</li>
+<li>如果有业务需要，必须加上 validator 验证</li>
+</ul>
+<p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"> props: &#123;</div><div class="line">  // 组件状态，用于控制组件的颜色</div><div class="line">   status: &#123;</div><div class="line">     type: String,</div><div class="line">     required: true,</div><div class="line">     validator: function (value) &#123;</div><div class="line">       return [</div><div class="line">         &apos;success&apos;,</div><div class="line">         &apos;info&apos;,</div><div class="line">         &apos;error&apos;</div><div class="line">       ].indexOf(value) !== -1</div><div class="line">     &#125;</div><div class="line">   &#125;,</div><div class="line">    // 用户级别，用于显示皇冠个数</div><div class="line">   userLevel：&#123;</div><div class="line">      type: String,</div><div class="line">      required: true</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="为组件样式设置作用域"><a href="#为组件样式设置作用域" class="headerlink" title="为组件样式设置作用域"></a><strong>为组件样式设置作用域</strong></h5><p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;button class=&quot;btn btn-close&quot;&gt;X&lt;/button&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;!-- 使用 `scoped` 特性 --&gt;</div><div class="line">&lt;style scoped&gt;</div><div class="line">  .btn-close &#123;</div><div class="line">    background-color: red;</div><div class="line">  &#125;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure></p>
+<p>反例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;button class=&quot;btn btn-close&quot;&gt;X&lt;/button&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;!-- 没有使用 `scoped` 特性 --&gt;</div><div class="line">&lt;style&gt;</div><div class="line">  .btn-close &#123;</div><div class="line">    background-color: red;</div><div class="line">  &#125;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+<h5 id="如果特性元素较多，应该主动换行。"><a href="#如果特性元素较多，应该主动换行。" class="headerlink" title="如果特性元素较多，应该主动换行。"></a><strong>如果特性元素较多，应该主动换行。</strong></h5><p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;MyComponent foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot;</div><div class="line">    foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot;</div><div class="line">    foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot;</div><div class="line"> /&gt;</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;MyComponent foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot; foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot; foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot; foo=&quot;a&quot; bar=&quot;b&quot; baz=&quot;c&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="模板中使用简单的表达式"><a href="#模板中使用简单的表达式" class="headerlink" title="模板中使用简单的表达式"></a>模板中使用简单的表达式</h4><p>组件模板应该只包含简单的表达式，复杂的表达式则应该重构为计算属性或方法。复杂表达式会让你的模板变得不那么声明式。我们应该尽量描述应该出现的是什么，而非如何计算那个值。而且计算属性和方法使得代码可以重用。</p>
+<p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;p&gt;&#123;&#123; normalizedFullName &#125;&#125;&lt;/p&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">// 复杂表达式已经移入一个计算属性</div><div class="line">computed: &#123;</div><div class="line">  normalizedFullName: function () &#123;</div><div class="line">    // 姓名首字母大写</div><div class="line">    return this.fullName.split(&apos; &apos;).map(function (word) &#123;</div><div class="line">      return word[0].toUpperCase() + word.slice(1)</div><div class="line">    &#125;).join(&apos; &apos;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;p&gt;</div><div class="line">       &#123;&#123;</div><div class="line">          fullName.split(&apos; &apos;).map(function (word) &#123;</div><div class="line">             return word[0].toUpperCase() + word.slice(1)</div><div class="line">           &#125;).join(&apos; &apos;)</div><div class="line">        &#125;&#125;</div><div class="line">  &lt;/p&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="指令都使用缩写形式"><a href="#指令都使用缩写形式" class="headerlink" title="指令都使用缩写形式"></a>指令都使用缩写形式</h4><p>指令推荐都使用缩写形式，(用 : 表示 v-bind: 、用 @ 表示 v-on: 和用 # 表示 v-slot:)</p>
+<p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;input</div><div class="line">  @input=&quot;onInput&quot;</div><div class="line">  @focus=&quot;onFocus&quot;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;input</div><div class="line">  v-on:input=&quot;onInput&quot;</div><div class="line">  @focus=&quot;onFocus&quot;</div><div class="line">&gt;</div></pre></td></tr></table></figure></p>
+<p>组件标签的 Props 应该有统一的顺序，依次为指令、属性和事件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;MyComponent</div><div class="line">  v-if=&quot;if&quot;</div><div class="line">  v-show=&quot;show&quot;</div><div class="line">  v-model=&quot;value&quot;</div><div class="line">  ref=&quot;ref&quot;</div><div class="line">  :key=&quot;key&quot;</div><div class="line">  :text=&quot;text&quot;</div><div class="line">  @input=&quot;onInput&quot;</div><div class="line">  @change=&quot;onChange&quot;</div><div class="line">/&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="标签顺序保持一致"><a href="#标签顺序保持一致" class="headerlink" title="标签顺序保持一致"></a>标签顺序保持一致</h4><p>单文件组件应该总是让标签顺序保持为:</p>
+<p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;...&lt;/template&gt;</div><div class="line">&lt;script&gt;...&lt;/script&gt;</div><div class="line">&lt;style&gt;...&lt;/style&gt;</div></pre></td></tr></table></figure></p>
+<p>反例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;...&lt;/template&gt;</div><div class="line">&lt;style&gt;...&lt;/style&gt;</div><div class="line">&lt;script&gt;...&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="必须为-v-for-设置键值-key"><a href="#必须为-v-for-设置键值-key" class="headerlink" title="必须为 v-for 设置键值 key"></a>必须为 v-for 设置键值 key</h4><h4 id="v-show-与-v-if-选择"><a href="#v-show-与-v-if-选择" class="headerlink" title="v-show 与 v-if 选择"></a>v-show 与 v-if 选择</h4><p>如果运行时，需要非常频繁地切换，使用 v-show ；如果在运行时，条件很少改变，使用 v-if。</p>
+<h4 id="script-标签内部结构顺序"><a href="#script-标签内部结构顺序" class="headerlink" title="script 标签内部结构顺序"></a>script 标签内部结构顺序</h4><blockquote>
+<p>components &gt; props &gt; data &gt; computed &gt; watch &gt; filter &gt; 钩子函数（钩子函数按其执行顺序） &gt; methods</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">export default &#123;</div><div class="line">  name: &apos;&apos;,</div><div class="line"></div><div class="line">  mixins: [],</div><div class="line"></div><div class="line">  components: &#123;&#125;,</div><div class="line"></div><div class="line">  props: &#123;&#125;,</div><div class="line"></div><div class="line">  data() &#123;&#125;,</div><div class="line"></div><div class="line">  computed: &#123;&#125;,</div><div class="line"></div><div class="line">  watch: &#123;&#125;,</div><div class="line"></div><div class="line">  created() &#123;&#125;,</div><div class="line"></div><div class="line">  mounted() &#123;&#125;,</div><div class="line"></div><div class="line">  destroyed() &#123;&#125;,</div><div class="line"></div><div class="line">  methods: &#123;&#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="Vue-Router-规范"><a href="#Vue-Router-规范" class="headerlink" title="Vue Router 规范"></a>Vue Router 规范</h4><h5 id="页面跳转数据传递使用路由参数"><a href="#页面跳转数据传递使用路由参数" class="headerlink" title="页面跳转数据传递使用路由参数"></a><strong>页面跳转数据传递使用路由参数</strong></h5><p>页面跳转，例如 A 页面跳转到 B 页面，需要将 A 页面的数据传递到 B 页面，推荐使用路由参数进行传参，而不是将需要传递的数据保存 vuex，然后在 B 页面取出 vuex 的数据，因为如果在 B 页面刷新会导致 vuex 数据丢失，导致 B 页面无法正常显示数据。</p>
+<p>正例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let id = &apos; 123&apos;;</div><div class="line">this.$router.push(&#123; name: &apos;userCenter&apos;, query: &#123; id: id &#125; &#125;);</div></pre></td></tr></table></figure></p>
+<h5 id="使用路由懒加载（延迟加载）机制"><a href="#使用路由懒加载（延迟加载）机制" class="headerlink" title="使用路由懒加载（延迟加载）机制"></a><strong>使用路由懒加载（延迟加载）机制</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path: &apos;/upload-attachment&apos;,</div><div class="line">    name: &apos;upload-attachment&apos;,</div><div class="line">    meta: &#123;</div><div class="line">      title: &apos;上传附件&apos;</div><div class="line">    &#125;,</div><div class="line">    component: () =&gt; import(&apos;@/view/components/upload-attachment/index.vue&apos;)</div><div class="line">  &#125;,</div></pre></td></tr></table></figure>
+<h5 id="router-中的命名规范"><a href="#router-中的命名规范" class="headerlink" title="router 中的命名规范"></a><strong>router 中的命名规范</strong></h5><p>path、childrenPoints 命名规范采用kebab-case命名规范（尽量vue文件的目录结构保持一致，因为目录、文件名都是kebab-case，这样很方便找到对应的文件）</p>
+<p>name 命名规范采用KebabCase命名规范且和component组件名保持一致！（因为要保持keep-alive特性，keep-alive按照component的name进行缓存，所以两者必须高度保持一致）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">// 动态加载</div><div class="line">export const reload = [</div><div class="line">  &#123;</div><div class="line">    path: &apos;/reload&apos;,</div><div class="line">    name: &apos;reload&apos;,</div><div class="line">    component: Main,</div><div class="line">    meta: &#123;</div><div class="line">      title: &apos;动态加载&apos;,</div><div class="line">      icon: &apos;icon iconfont&apos;</div><div class="line">    &#125;,</div><div class="line">    children: [</div><div class="line">      &#123;</div><div class="line">        path: &apos;/reload/smart-reload-list&apos;,</div><div class="line">        name: &apos;smart-reload-list&apos;,</div><div class="line">        meta: &#123;</div><div class="line">          title: &apos;SmartReload&apos;,</div><div class="line">          childrenPoints: [</div><div class="line">            &#123;</div><div class="line">              title: &apos;查询&apos;,</div><div class="line">              name: &apos;smart-reload-search&apos;</div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">              title: &apos;执行reload&apos;,</div><div class="line">              name: &apos;smart-reload-update&apos;</div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">              title: &apos;查看执行结果&apos;,</div><div class="line">              name: &apos;smart-reload-result&apos;</div><div class="line">            &#125;</div><div class="line">          ]</div><div class="line">        &#125;,</div><div class="line">        component: () =&gt;</div><div class="line">          import(&apos;@/views/reload/smart-reload/smart-reload-list.vue&apos;)</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">];</div></pre></td></tr></table></figure>
+<h5 id="router-中的-path-命名规范"><a href="#router-中的-path-命名规范" class="headerlink" title="router 中的 path 命名规范"></a><strong>router 中的 path 命名规范</strong></h5><p>path除了采用kebab-case命名规范以外，必须以 / 开头，即使是children里的path也要以 / 开头。</p>
+<p>目的：经常有这样的场景：某个页面有问题，要立刻找到这个vue文件，如果不用以/开头，path为parent和children组成的，可能经常需要在router文件里搜索多次才能找到，而如果以/开头，则能立刻搜索到对应的组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path: &apos;/file&apos;,</div><div class="line">    name: &apos;file&apos;,</div><div class="line">    component: Main,</div><div class="line">    meta: &#123;</div><div class="line">      title: &apos;文件服务&apos;,</div><div class="line">      icon: &apos;ios-cloud-upload&apos;</div><div class="line">    &#125;,</div><div class="line">    children: [</div><div class="line">      &#123;</div><div class="line">        path: &apos;/file/file-list&apos;,</div><div class="line">        name: &apos;file-list&apos;,</div><div class="line">        component: () =&gt; import(&apos;@/views/file/file-list.vue&apos;)</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        path: &apos;/file/file-add&apos;,</div><div class="line">        name: &apos;file-add&apos;,</div><div class="line">        component: () =&gt; import(&apos;@/views/file/file-add.vue&apos;)</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        path: &apos;/file/file-update&apos;,</div><div class="line">        name: &apos;file-update&apos;,</div><div class="line">        component: () =&gt; import(&apos;@/views/file/file-update.vue&apos;)</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/规范/" rel="tag">#规范</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/02/05/前端开发规范（5）/" rel="next" title="前端开发规范（javascript）">
+                <i class="fa fa-chevron-left"></i> 前端开发规范（javascript）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/18/前端开发规范（7）/" rel="prev" title="前端开发规范（Vue Vue项目目录规范）">
+                前端开发规范（Vue Vue项目目录规范） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2021/03/15/前端开发规范（6）/"
+     data-title="前端开发规范（Vue 编码规范）"
+     data-content=""
+     data-url="https://guohenkai.github.io/2021/03/15/前端开发规范（6）/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/03/15/前端开发规范（6）/"
+           data-title="前端开发规范（Vue 编码规范）" data-url="https://guohenkai.github.io/2021/03/15/前端开发规范（6）/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#组件规范"><span class="nav-number">1.</span> <span class="nav-text">组件规范</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#组件名为多个单词"><span class="nav-number">1.1.</span> <span class="nav-text">组件名为多个单词</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组件文件名为-pascal-case-格式"><span class="nav-number">1.2.</span> <span class="nav-text">组件文件名为 pascal-case 格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基础组件文件名为-base-开头，使用完整单词而不是缩写。"><span class="nav-number">1.3.</span> <span class="nav-text">基础组件文件名为 base 开头，使用完整单词而不是缩写。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#和父组件紧密耦合的子组件应该以父组件名作为前缀命名"><span class="nav-number">1.4.</span> <span class="nav-text">和父组件紧密耦合的子组件应该以父组件名作为前缀命名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在-Template-模版中使用组件，应使用-PascalCase-模式，并且使用自闭合组件"><span class="nav-number">1.5.</span> <span class="nav-text">在 Template 模版中使用组件，应使用 PascalCase 模式，并且使用自闭合组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组件的-data-必须是一个函数"><span class="nav-number">1.6.</span> <span class="nav-text">组件的 data 必须是一个函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Prop-定义应该尽量详细"><span class="nav-number">1.7.</span> <span class="nav-text">Prop 定义应该尽量详细</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为组件样式设置作用域"><span class="nav-number">1.8.</span> <span class="nav-text">为组件样式设置作用域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如果特性元素较多，应该主动换行。"><span class="nav-number">1.9.</span> <span class="nav-text">如果特性元素较多，应该主动换行。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模板中使用简单的表达式"><span class="nav-number">2.</span> <span class="nav-text">模板中使用简单的表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指令都使用缩写形式"><span class="nav-number">3.</span> <span class="nav-text">指令都使用缩写形式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标签顺序保持一致"><span class="nav-number">4.</span> <span class="nav-text">标签顺序保持一致</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#必须为-v-for-设置键值-key"><span class="nav-number">5.</span> <span class="nav-text">必须为 v-for 设置键值 key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#v-show-与-v-if-选择"><span class="nav-number">6.</span> <span class="nav-text">v-show 与 v-if 选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#script-标签内部结构顺序"><span class="nav-number">7.</span> <span class="nav-text">script 标签内部结构顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Vue-Router-规范"><span class="nav-number">8.</span> <span class="nav-text">Vue Router 规范</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#页面跳转数据传递使用路由参数"><span class="nav-number">8.1.</span> <span class="nav-text">页面跳转数据传递使用路由参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用路由懒加载（延迟加载）机制"><span class="nav-number">8.2.</span> <span class="nav-text">使用路由懒加载（延迟加载）机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#router-中的命名规范"><span class="nav-number">8.3.</span> <span class="nav-text">router 中的命名规范</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#router-中的-path-命名规范"><span class="nav-number">8.4.</span> <span class="nav-text">router 中的 path 命名规范</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

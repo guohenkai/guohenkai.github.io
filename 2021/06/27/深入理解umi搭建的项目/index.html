@@ -1,0 +1,1003 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="umi," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="项目介绍简介根据  UmiJS  （乌米）搭建的前端应用框架，需要了解具体配置请查看以下文档。
+目录结构123456789101112131415161718192021222324├── config 							env 环境配置和路由配置						├── mock├── public└── src    ├── .umi    ├── assets						图片资源    ├── con">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解umi搭建的项目">
+<meta property="og:url" content="https://guohenkai.github.io/2021/06/27/深入理解umi搭建的项目/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="项目介绍简介根据  UmiJS  （乌米）搭建的前端应用框架，需要了解具体配置请查看以下文档。
+目录结构123456789101112131415161718192021222324├── config 							env 环境配置和路由配置						├── mock├── public└── src    ├── .umi    ├── assets						图片资源    ├── con">
+<meta property="og:updated_time" content="2022-10-17T10:45:06.574Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解umi搭建的项目">
+<meta name="twitter:description" content="项目介绍简介根据  UmiJS  （乌米）搭建的前端应用框架，需要了解具体配置请查看以下文档。
+目录结构123456789101112131415161718192021222324├── config 							env 环境配置和路由配置						├── mock├── public└── src    ├── .umi    ├── assets						图片资源    ├── con">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 深入理解umi搭建的项目 | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                深入理解umi搭建的项目
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2021-06-27T00:00:00+08:00" content="2021-06-27">
+              2021-06-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/umi/" itemprop="url" rel="index">
+                    <span itemprop="name">umi</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2021/06/27/深入理解umi搭建的项目/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/06/27/深入理解umi搭建的项目/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>根据  UmiJS  （乌米）搭建的前端应用框架，需要了解具体配置请查看以下文档。</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">├── config 							env 环境配置和路由配置						</div><div class="line">├── mock</div><div class="line">├── public</div><div class="line">└── src</div><div class="line">    ├── .umi</div><div class="line">    ├── assets						图片资源</div><div class="line">    ├── config						全局配置相关，所有的 api 和 error 都在这个文件夹内</div><div class="line">    ├── components   		全局组件</div><div class="line">    ├── language   			语言配置</div><div class="line">    ├── hoc   						高阶组件</div><div class="line">    ├── layouts   				布局组件</div><div class="line">    ├── models           dva 相关</div><div class="line">    ├── pages						页面</div><div class="line">        ├── index.less</div><div class="line">        └── index.js</div><div class="line">    ├── service  				请求相关配置		</div><div class="line">    ├── styles  				  全局样式配置	</div><div class="line">    ├── utils						公共方法</div><div class="line">    ├── document.ejs			HTML 模板 引入外部资源,例如阿里 iconfont, 神策埋点</div><div class="line">    └── app.js</div><div class="line">├── .gitlab-ci.yml				gitlab runner 配置				</div><div class="line">├── package.json</div><div class="line">├── version.json  			  打包版本和环境配置</div></pre></td></tr></table></figure>
+ <a id="more"></a>
+<h2 id="开发配置"><a href="#开发配置" class="headerlink" title="开发配置"></a>开发配置</h2><h3 id="增加环境和后端服务配置"><a href="#增加环境和后端服务配置" class="headerlink" title="增加环境和后端服务配置"></a>增加环境和后端服务配置</h3><h4 id="增加环境"><a href="#增加环境" class="headerlink" title="增加环境"></a>增加环境</h4><ol>
+<li>在项目中config -&gt; env 目录下增加对应环境的文件，例如：增加 test10.js 文件</li>
+<li><p>在新加的文件中把各种全局变量配置好，可以参考之前配置的好的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export default &#123;</div><div class="line">  PUBLIC_URL: &apos;https://test10.coolcollege.cn&apos;,</div><div class="line">  CL_PLATFORM_API: &apos;https://t10platformapi.coolcollege.cn&apos;,</div><div class="line">  CL_ENTERPRISE_API: &apos;https://t10enterpriseapi.coolcollege.cn&apos;,</div><div class="line">  CL_EXAM_API: &apos;https://t10examapi.coolcollege.cn&apos;,</div><div class="line">   ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在config -&gt; env -&gt; index.js中导出对应的环境的变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">import dev from &apos;./dev&apos;;</div><div class="line">import dev2 from &apos;./dev2&apos;;</div><div class="line">import test9 from &apos;./test9&apos;;</div><div class="line">import test10 from &apos;./test10&apos;;</div><div class="line"></div><div class="line">const getEnv = (env: string | undefined, name: string) =&gt; &#123;</div><div class="line">  switch (env) &#123;</div><div class="line">    case &apos;dev&apos;:</div><div class="line">      return dev;</div><div class="line">    case &apos;dev2&apos;:</div><div class="line">      return dev2;</div><div class="line">    case &apos;test9&apos;:</div><div class="line">      return test9;</div><div class="line">    case &apos;test10&apos;:</div><div class="line">      return test10;</div><div class="line">    ...</div><div class="line">    ...</div><div class="line">    default:</div><div class="line">      return dev;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">export default getEnv;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="增加后端服务域名配置"><a href="#增加后端服务域名配置" class="headerlink" title="增加后端服务域名配置"></a>增加后端服务域名配置</h4><ol>
+<li><p>在项目中config -&gt; env 目录下找到对应的开发环境，添加全局变量，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> export default &#123;</div><div class="line">  PUBLIC_URL: &apos;https://test7.coolcollege.cn&apos;,</div><div class="line">  CL_PLATFORM_API: &apos;https://t7platformapi.coolcollege.cn&apos;,</div><div class="line">  ...</div><div class="line">  ...</div><div class="line">  CL_CMS_API: &apos;https://tcmsapi.coolcollege.cn&apos;, // 新加的服务域名</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在项目里 src -&gt; config -&gt; api.js  中配置接口地址；例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">const RE_CL_CMS_API = CL_CMS_API;</div><div class="line"></div><div class="line">const CONFIG = &#123;</div><div class="line">    ...</div><div class="line">    ...</div><div class="line">  // CMS相关</div><div class="line">  CMSApi: &#123;</div><div class="line">    /**</div><div class="line">     *</div><div class="line">     * @returns 简介：通过机构信息获得页面详情t</div><div class="line">     */</div><div class="line">    getPageScope: (t) =&gt; `$&#123;RE_CL_CMS_API&#125;/cms/v1/enterprises/cmsPage/$&#123;t.enterpriseId&#125;/getPageDetailByScope`,</div><div class="line">  &#125;</div><div class="line"> &#125;</div><div class="line">export default CONFIG;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="接口请求相关配置"><a href="#接口请求相关配置" class="headerlink" title="接口请求相关配置"></a>接口请求相关配置</h3><h4 id="在项目里-src-gt-config-gt-api-js-中配置接口地址，按模块放置；例如："><a href="#在项目里-src-gt-config-gt-api-js-中配置接口地址，按模块放置；例如：" class="headerlink" title="在项目里 src -&gt; config -&gt; api.js  中配置接口地址，按模块放置；例如："></a>在项目里 src -&gt; config -&gt; api.js  中配置接口地址，按模块放置；例如：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 培训日志</div><div class="line">operationLog: &#123;</div><div class="line">  getAudits:  () =&gt; `$&#123;RE_CL_FEED_API&#125;/v2/$&#123;CONFIG.enterpriseId&#125;/audits`,</div><div class="line">&#125;,</div><div class="line">// 多端登录</div><div class="line">multiTerminalLogin: &#123;</div><div class="line">  getWXStatus: () =&gt; `$&#123;RE_CL_ENTERPRISE_API&#125;/oa/id_for_name/tab_show_status`,</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<h4 id="在开发的文件夹中新建-service-文件夹，统一将该模块的接口放到这个文件夹的-index-js-文件内，注意每个接口加注释。例如"><a href="#在开发的文件夹中新建-service-文件夹，统一将该模块的接口放到这个文件夹的-index-js-文件内，注意每个接口加注释。例如" class="headerlink" title="在开发的文件夹中新建 service 文件夹，统一将该模块的接口放到这个文件夹的  index.js 文件内，注意每个接口加注释。例如:"></a>在开发的文件夹中新建 service 文件夹，统一将该模块的接口放到这个文件夹的  index.js 文件内，注意每个接口加注释。例如:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">import CONFIG from &apos;@/config&apos;</div><div class="line">import &#123; request &#125; from &apos;@/service/index&apos;;</div><div class="line"></div><div class="line">/**</div><div class="line"> * @desc 获取导师辅导详情</div><div class="line"> * @param &#123;String&#125; tutorialsId 辅导任务id</div><div class="line"> * @param &#123;String&#125; tutorUserId  导师id</div><div class="line"> * @param &#123;String&#125; userId 学员id</div><div class="line"> */</div><div class="line">export function getTutorialDetails(&#123;tutorialsId, tutorUserId, userId&#125;) &#123;</div><div class="line">  const url = CONFIG.tutor.getCoachDetail(&#123;</div><div class="line">    tutorialsId,</div><div class="line">    tutorUserId,</div><div class="line">    userId</div><div class="line">  &#125;)</div><div class="line">  return request.get(&#123; url, params: &#123; status: &apos;single&apos; &#125; &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> * @desc 通过导师id获取导师详情数据</div><div class="line"> * @param &#123;String&#125; tutorId 导师id</div><div class="line"> */</div><div class="line">export function getTutorInfoById(tutorId) &#123;</div><div class="line">  const url = CONFIG.tutor.queryTutor(tutorId)</div><div class="line">  return request.get(&#123; url &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="全局错误提示配置"><a href="#全局错误提示配置" class="headerlink" title="全局错误提示配置"></a>全局错误提示配置</h3><h4 id="新接口错误处理提示配置"><a href="#新接口错误处理提示配置" class="headerlink" title="新接口错误处理提示配置"></a>新接口错误处理提示配置</h4><ul>
+<li>在项目中 src -&gt; service-&gt; request.js中全局处理接口返回的错误</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">handleError(error) &#123;</div><div class="line">  if (error.response.status &amp;&amp; error.response.status === 401) &#123;</div><div class="line">    history.push(&apos;/&apos;);</div><div class="line">  &#125;</div><div class="line">  if (error.response.status &amp;&amp; error.response.status &gt;= 400) &#123;</div><div class="line">    if (error.response.data.code === &apos;enterpriseapi.542003&apos;) &#123;</div><div class="line">      // Resources are not exist</div><div class="line">    &#125; else if (error.response.data.code === &apos;openapi.common.002&apos;) &#123;</div><div class="line">      // openApi 403</div><div class="line">      // 什么都不做，防止通用设置openApi报错。不要删除</div><div class="line">    &#125; else if (</div><div class="line">      error.response.data.code &amp;&amp;</div><div class="line">      errorInfo[error.response.data.code] &amp;&amp;</div><div class="line">      errorInfo[error.response.data.code].showErrorMessage</div><div class="line">    ) &#123;</div><div class="line">      message.error(errorInfo[error.response.data.code].content);</div><div class="line">    &#125; else if (</div><div class="line">      error.response.data.code &amp;&amp;</div><div class="line">      errorInfo[error.response.data.code] &amp;&amp;</div><div class="line">      !errorInfo[error.response.data.code].showErrorMessage</div><div class="line">    ) &#123;</div><div class="line">      return Promise.reject(error);</div><div class="line">    &#125; else if (error.response.data.error) &#123;</div><div class="line">      const &#123; code &#125; = error.response.data.error;</div><div class="line">      if (errorInfo[code] &amp;&amp; errorInfo[code].showErrorMessage) &#123;</div><div class="line">        message.error(errorInfo[code].content);</div><div class="line">      &#125; else &#123;</div><div class="line">        return Promise.reject(error);</div><div class="line">      &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">      message.error(&apos;网络通信错误&apos;);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  return Promise.reject(error);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>在项目里 src -&gt; config -&gt; error.js  中配置接口返回的错误码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">export default &#123; </div><div class="line">  &apos;enterpriseapi.4001&apos;: &#123;</div><div class="line">    message:          &apos;resource not found&apos;,</div><div class="line">    content:          &apos;资源不存在&apos;,</div><div class="line">    showErrorMessage: true,</div><div class="line">  &#125;,</div><div class="line">  &apos;enterpriseapi.404002&apos;: &#123;</div><div class="line">    message:          &apos;resource not found&apos;,</div><div class="line">    content:          &apos;资源不存在&apos;,</div><div class="line">    showErrorMessage: true,</div><div class="line">  &#125;,</div><div class="line">  &apos;enterpriseapi.4061&apos;: &#123;</div><div class="line">    message:          &apos;occupied by task&apos;,</div><div class="line">    content:          &apos;资源已被任务引用&apos;,</div><div class="line">    showErrorMessage: false, </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="老接口错误处理提示配置"><a href="#老接口错误处理提示配置" class="headerlink" title="老接口错误处理提示配置"></a>老接口错误处理提示配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">// code 为 0 是正常， code 为 1 直接提示后端返回的错误提示信息  </div><div class="line">handleSuccess(response) &#123;</div><div class="line">    const res = response.data;</div><div class="line">    if (res.code === 1) &#123;</div><div class="line">      if (res.msg) &#123;</div><div class="line">        message.error(res.msg);</div><div class="line">      &#125; else &#123;</div><div class="line">        message.error(&apos;网络通讯错误&apos;);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (res.code === 112) &#123;</div><div class="line">      // 学习任务、考试任务中新增编辑，资源不存在的错误处理，已经catch</div><div class="line">      return Promise.reject(&apos;error&apos;);</div><div class="line">    &#125;</div><div class="line">    return response;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h3 id="路由配置"><a href="#路由配置" class="headerlink" title="路由配置"></a>路由配置</h3><h4 id="学员端和后台管理路由"><a href="#学员端和后台管理路由" class="headerlink" title="学员端和后台管理路由"></a>学员端和后台管理路由</h4><p>isWhichHeader： ‘Trainee’, 表示为学员端路由; ‘manage’,  表示为管理端路由， 这个变量控制 header 的显示学员端的头还是管理端的头</p>
+<h4 id="布局方式"><a href="#布局方式" class="headerlink" title="布局方式"></a>布局方式</h4><p>layoutType ：页面布局使用的方式有三种 LAYOUT_FULLSCREEN LAYOUT_COMMON LAYOUT_HASSLDEBAR</p>
+<ul>
+<li>LAYOUT_FULLSCREEN  —— 全屏，例如数据大屏页面，视频课程观看页面等</li>
+<li>LAYOUT_HASSLDEBAR  —— 带侧边栏的，比如任务列表等</li>
+<li>LAYOUT_COMMON  —— 带header的，比如新增试卷等<h4 id="菜单数据来源"><a href="#菜单数据来源" class="headerlink" title="菜单数据来源"></a>菜单数据来源</h4></li>
+</ul>
+<p>前端菜单路由是根据后端返回的菜单配置的，开发的时候确保和后端返回的菜单的 key 一致，否则进入 404 页面，后端返回的数据处理后存在  Local Storage 中</p>
+<ul>
+<li>管理端的菜单 =&gt; modules</li>
+<li>学员端的菜单 =&gt; traineeModules<h4 id="路由修改"><a href="#路由修改" class="headerlink" title="路由修改"></a>路由修改</h4></li>
+</ul>
+<p>在项目中config -&gt; routes.js 文件中修改，路由配置文件如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">const allRoute = [</div><div class="line">  &#123;</div><div class="line">    path: &apos;/login&apos;,</div><div class="line">    title:       &apos;登录&apos;,</div><div class="line">    component: &apos;@/pages/login/index&apos;,</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    path: &apos;/&apos;,</div><div class="line">    component: &apos;@/layouts/SecurityLayout&apos;, // 鉴权登录页面</div><div class="line">    routes: [</div><div class="line">      // isWhichHeader:    &apos;Trainee&apos;, 表示为学院端路由</div><div class="line">      // isWhichHeader:    &apos;manage&apos;,  表示为管理端路由</div><div class="line">      &#123;</div><div class="line">        path: &apos;/&apos;,</div><div class="line">        component: &apos;@/layouts/BasicLayout&apos;,</div><div class="line">        routes:[</div><div class="line">          &#123;</div><div class="line">            path: &apos;/home&apos;,</div><div class="line">            title:       &apos;首页&apos;,</div><div class="line">            layoutType:       LAYOUT_COMMON,</div><div class="line">            isHeaderMenuItem: false,</div><div class="line">            headerMenuKey:    &apos;home&apos;,</div><div class="line">            menuKey:          &apos;home&apos;,</div><div class="line">            isWhichHeader:    &apos;Trainee&apos;,</div><div class="line">            isWhiteList:      true,</div><div class="line">            component: &apos;@/pages/trainee&apos;,</div><div class="line">          &#125;,</div><div class="line">          &#123; component: &apos;./404&apos; &#125;,</div><div class="line">        ]</div><div class="line">      &#125;,</div><div class="line"></div><div class="line">      &#123; component: &apos;./404&apos; &#125;,</div><div class="line">    ],</div><div class="line">  &#125;,</div><div class="line">  &#123; component: &apos;./404&apos;&#125;,</div><div class="line">];</div></pre></td></tr></table></figure></p>
+<h3 id="主题色配置"><a href="#主题色配置" class="headerlink" title="主题色配置"></a>主题色配置</h3><ul>
+<li>PC端项目使用的 Ant Design UI 组件库，不要随便更改 Ant Design 组件的默认颜色，如字体和背景色等，已经统一配置</li>
+<li>hover和antd等行内无法解决的样式参考下面的包里的readme来使用mini-dynamic-antd-theme-enterprise</li>
+<li>主题色在 localStorage和 redux里面都存了， 在里面封装了取颜色方法可以直接调用，使用方法如下：<br>a. 使用定义好的主题色类名 cl-primary<br>b. 使用 utils &gt; theme.js 里的 getThemeColor 方法获取主题色<br>c. 从 localStorage获取主题色<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;</div><div class="line">// 引入获取主题色方法</div><div class="line">import &#123; getThemeColor &#125; from &apos;@/utils/theme&apos;</div><div class="line"></div><div class="line">class Latoja extends React.Component &#123;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    // 1. 使用定义好的类名 `cl-primary`</div><div class="line">    // 2. 使用 utils/theme 里的 getThemeColor 方法获取主题色</div><div class="line">    const color = getThemeColor()</div><div class="line">    // 3. 从 localStorage 获取</div><div class="line">    // const themeColor = localStorage.getItem(&apos;themeColor&apos;) || &apos;#516ae6&apos;</div><div class="line">    return (</div><div class="line"> 		&lt;h1 className=&apos;title&apos;&gt;</div><div class="line">            &lt;span style=&#123;&#123;color&#125;&#125;&gt;讲师名称&lt;/span&gt;</div><div class="line">            &lt;span className=&apos;cl-primary&apos;&gt;主题色&lt;/span&gt;</div><div class="line">        &lt;/h1&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default withTranslation()(Latoja)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="国际化"><a href="#国际化" class="headerlink" title="国际化"></a>国际化</h3><p>需求开发过程中需要注意国际化，需要注意以下几点：</p>
+<ol>
+<li>词条一般使用 key:value的形式添加，</li>
+<li>各个模块都有自己自身的词条，当前开发的需求在哪个模块词条就更新在当前的模块内</li>
+<li><code>common</code> 模块里都是通用的词条，如果是全局通用的词条最好添加到这个模块内</li>
+<li>添加词条前最好搜一下是否已经存在该词条，不要重复添加</li>
+<li>修改词条的时候注意影响范围，很可能被多个地方引用</li>
+<li>所有的文案都需要翻译成中文简体、中文繁体、英语三种语言，配置完成后需要切换语言看是否生效，样式是否错乱</li>
+<li>页面和组件内使用国际化<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;</div><div class="line">// 引入 withTranslation</div><div class="line">import &#123; withTranslation &#125; from &apos;react-i18next&apos;</div><div class="line">// 替换字符 %s </div><div class="line">import &#123; sprinf &#125; from &apos;@/utils/toolFun&apos;</div><div class="line">class Example extends React.Component &#123;</div><div class="line">  render() &#123;</div><div class="line">    const &#123; t &#125; = this.props</div><div class="line">    const limit_count = 6</div><div class="line">    // 使用 t() 方法， </div><div class="line">    // 不需要传参的国际化  t(&apos;common.register&apos;) 立即报名</div><div class="line">    // 需要传参的国际化 sprinf(t(&apos;common.limitedPeopleCount&apos;), limit_count)  限6人</div><div class="line">    return (</div><div class="line">      &lt;div className=&apos;title&apos;&gt;</div><div class="line">      	&#123;t(&apos;common.register&apos;)&#125; (&#123;sprinf(t(&apos;common.limitedPeopleCount&apos;), limit_count)&#125;)</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">export default withTranslation()(Example)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="开发注意事项"><a href="#开发注意事项" class="headerlink" title="开发注意事项"></a>开发注意事项</h2><h3 id="页面组件数据共享"><a href="#页面组件数据共享" class="headerlink" title="页面组件数据共享"></a>页面组件数据共享</h3><h4 id="使用-dva"><a href="#使用-dva" class="headerlink" title="使用 dva"></a>使用 dva</h4><ol>
+<li>dva 的概念<br>数据的改变发生通常是通过用户交互行为或者浏览器行为（如路由跳转等）触发的，当此类行为会改变数据的时候可以通过 dispatch 发起一个 action，如果是同步行为会直接通过 Reducers 改变 State ，如果是异步行为（副作用）会先触发 Effects 然后流向 Reducers 最终改变 State，所以在 dva 中，数据流向非常清晰简明，并且思路基本跟开源社区保持一致（也是来自于开源社区）。</li>
+<li><p>umi 中已经集成了 dva，可以直接使用<br>在项目目录config -&gt; config.js 文件中开启 dva 配置，还有其他额外配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">export default defineConfig(&#123;</div><div class="line">  routes,</div><div class="line">  dva: &#123; hmr: true &#125;, // 开启 dva</div><div class="line">  define: &#123; REACT_APP_ENV, ...getEnv(env, name)&#125;,</div><div class="line">  history: &#123; type: &apos;hash&apos; &#125;,</div><div class="line">  theme: &#123;</div><div class="line">    &apos;@primary-color&apos;:            &apos;#516AE6&apos;,</div><div class="line">    &apos;@outline-width&apos;:            &apos;1px&apos;,</div><div class="line">    // left menu</div><div class="line">    &apos;@menu-dark-bg&apos;:             &apos;#5b658d&apos;,</div><div class="line">    &apos;@layout-header-background&apos;: &apos;#5b658d&apos;,</div><div class="line">    &apos;@menu-dark-submenu-bg&apos;:     &apos;#5b658d&apos;,</div><div class="line">    &apos;@menu-dark-item-active-bg&apos;: &apos;#516AE6&apos;,</div><div class="line">    &apos;@border-color-base&apos;:        &apos;#B2BAC4&apos;</div><div class="line">  &#125;,</div><div class="line">  publicPath: publicPath,</div><div class="line">  devtool: sourceMap,</div><div class="line">  locale: &#123;</div><div class="line">    antd: true</div><div class="line">  &#125;,</div><div class="line">  hash: true,</div><div class="line">  nodeModulesTransform: &#123;type: IS_BUILD ? &apos;all&apos; : &apos;none&apos;&#125;,</div><div class="line">  // favicon: &apos;static/favicon.ico&apos;,</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用方式</p>
+</li>
+</ol>
+<ul>
+<li>在项目 src -&gt; models 目录中新增一个文件courseClassify.js当作一个课程分类模块全局状态管理器</li>
+<li>courseClassify.js文件内容如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">import &#123; request &#125; from &apos;@/service&apos;;</div><div class="line">import CONFIG from &apos;@/config&apos;;</div><div class="line"></div><div class="line">const APIs = &#123;</div><div class="line">  getClassifyList: CONFIG.Courses.getClassifyList,</div><div class="line">&#125;;</div><div class="line">// 示例</div><div class="line">function getClassifyTreeFun() &#123;</div><div class="line">  const params = &#123;</div><div class="line">    courseType: &apos;all&apos;,</div><div class="line">    queryType:  &apos;course_query&apos;</div><div class="line">  &#125;;</div><div class="line">  return request.get(&#123;</div><div class="line">    url: APIs.getClassifyList(),</div><div class="line">    params,</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default &#123;</div><div class="line">  // State 表示 Model 的状态数据，通常表现为一个 javascript 对象（当然它可以是任何值）；操作的时候每次都要当作不可变数据（immutable data）来对待，保证每次都是全新对象，没有引用关系，这样才能保证 State 的独立性，便于测试和追踪变化。</div><div class="line">    </div><div class="line">  state: &#123;</div><div class="line">    firstClassifyList: [],</div><div class="line">  &#125;,</div><div class="line">   // Reducer（也称为 reducing function）函数接受两个参数：之前已经累积运算的结果和当前要被累积的值，返回的是一个新的累积结果。该函数把一个集合归并成一个单值。</div><div class="line">   // Reducer 以 key/value 格式定义 reducer。用于处理同步操作，唯一可以修改 state 的地方。由 action 触发。</div><div class="line">   // 格式为 (state, action) =&gt; newState 或 [(state, action) =&gt; newState, enhancer]。</div><div class="line">  reducers: &#123;</div><div class="line">    updateFirstClassify(state, action) &#123;</div><div class="line">      return &#123;</div><div class="line">        ...state,</div><div class="line">        firstClassify: action.payload,</div><div class="line">      &#125;;</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">  // Effect 被称为副作用，在我们的应用中，最常见的就是异步操作。它来自于函数编程的概念，之所以叫副作用是因为它使得我们的函数变得不纯，同样的输入不一定获得同样的输出。</div><div class="line">  // dva 为了控制副作用的操作，底层引入了redux-sagas做异步流程控制，由于采用了generator的相关概念，所以将异步转成同步写法，从而将effects转为纯函数。</div><div class="line">  // effects 以 key/value 格式定义 effect。用于处理异步操作和业务逻辑，不直接修改 state。由 action 触发，可以触发 action，可以和服务器交互，可以获取全局 state 的数据等等。例如请求课程分类回来后更新 state 中的 firstClassifyList 的值</div><div class="line">  effects: &#123;</div><div class="line">    *getClassifyTree(state, &#123; call, put, select &#125;) &#123;</div><div class="line">      // call 发起请求</div><div class="line">      const requeseData = yield call(getClassifyTreeFun);</div><div class="line">      if (requeseData) &#123;</div><div class="line">        // put 用于创建 dispatch Effect, 更新 state 的值</div><div class="line">        yield put(&#123; type: &apos;initFirstClassifyList&apos;, payload: requeseData.data.data &#125;);</div><div class="line">      &#125;</div><div class="line">      // select 用来获取 state 中的数据</div><div class="line">      console.log(yield select(state =&gt; state.courseClassify.firstClassifyList))</div><div class="line">      return requeseData</div><div class="line">    &#125;,</div><div class="line">  &#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li>页面中获取 state 中的值和更新 state 中的值，示例如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">import React, &#123; Component &#125; from &apos;react&apos;;</div><div class="line">import &#123; connect &#125; from &apos;dva&apos;;</div><div class="line">import &#123; withTranslation &#125; from &apos;react-i18next&apos;;</div><div class="line"></div><div class="line"></div><div class="line">class CourseClassify extends Component &#123;</div><div class="line">  clearClassifyPath = () =&gt; &#123;</div><div class="line">    const &#123; firstClassifyList, dispatch &#125; = this.props;</div><div class="line">    let allCourseClassify = firstClassifyList[0];</div><div class="line">     // 更新 courseClassify 模块内 state 的值，courseClassify 是模块名称 ，updateFirstClassify 是 reducers 内的方法 </div><div class="line">    dispatch(&#123;</div><div class="line">      type: &apos;courseClassify/updateFirstClassify&apos;,</div><div class="line">      payload: allCourseClassify,</div><div class="line">    &#125;);</div><div class="line">  &#125;;</div><div class="line">  render() &#123;</div><div class="line">    const &#123; visible &#125; = this.state;</div><div class="line">    const &#123; classifyPathList, t &#125; = this.props;</div><div class="line">    return (</div><div class="line">      &lt;div className=&quot;course-classify-container&quot;&gt;</div><div class="line">        &lt;div className=&quot;classify-path&quot;&gt;</div><div class="line">          &#123;classifyPathList.map((item, index) =&gt; &#123;</div><div class="line">                return item.id ? (</div><div class="line">                    &lt;span className=&quot;classify-path__path-name&quot; key=&#123;item.id&#125;&gt;</div><div class="line">                        &#123;item.name&#125;</div><div class="line">                    &lt;/span&gt;</div><div class="line">                ) : null;</div><div class="line">          &#125;)&#125;</div><div class="line">          &lt;div className=&quot;classify-path__clear-path&quot; onClick=&#123;this.clearClassifyPath&#125;&gt;</div><div class="line">            &#123;t(&apos;common.clear&apos;)&#125;</div><div class="line">          &lt;/div&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">// 获取 state 中的值，</div><div class="line">const mapStateToProps = state =&gt; (&#123;</div><div class="line">  classifyPathList: state.courseClassify.classifyPathList,</div><div class="line">&#125;);</div><div class="line">// 使用 connect 注入到当前组件的 props </div><div class="line">export default connect(mapStateToProps)(withTranslation()(CourseClassify));</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="使用-Context"><a href="#使用-Context" class="headerlink" title="使用 Context"></a>使用 Context</h4><pre><code>Context 提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法。[参考](https://react.docschina.org/docs/context.html)
+</code></pre><h3 id="组件开发规范"><a href="#组件开发规范" class="headerlink" title="组件开发规范"></a>组件开发规范</h3><h4 id="全局公用组件和页面内部组件"><a href="#全局公用组件和页面内部组件" class="headerlink" title="全局公用组件和页面内部组件"></a>全局公用组件和页面内部组件</h4><ul>
+<li>全局组件是公用组件<blockquote>
+<p>开发过程中记得先去查看是否已经实现了该组件，避免做重复工作，重复造轮子，例如全局组件中的：ClDocReader、ClHeader 等</p>
+</blockquote>
+</li>
+<li>内部组件供页面内部使用，即不通用的组件<blockquote>
+<p>即每个页面或者表单页有自己内部和业务有耦合的组件，例如： pk =&gt; components  =&gt; pkUserList 组件</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="业务组件和非业务组件"><a href="#业务组件和非业务组件" class="headerlink" title="业务组件和非业务组件"></a>业务组件和非业务组件</h4><ul>
+<li>业务组件是和业务相关的组件，即里面涉及到和数据交互<blockquote>
+<p>例如：选人组件 OrgDialog</p>
+</blockquote>
+</li>
+<li>非业务组件<blockquote>
+<p>例如： table操作列按钮封装 TableOperateColumn，弹窗组件ClModal</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="组件开发注意事项"><a href="#组件开发注意事项" class="headerlink" title="组件开发注意事项"></a>组件开发注意事项</h4><ol>
+<li>组件名必须以大驼峰式命名法（upper camel case），组件文件夹命名全部采用小写方式， 以中划线分隔（后续会有组件开发规范文档）</li>
+<li>全局组件引入组件的时候不要引入页面内部组件</li>
+<li>组件开发需要注意加 defaultProps 和 propTypes,需要清楚的描述相关字段的作用。例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">DocReader.defaultProps = &#123;</div><div class="line">  type:           &apos;&apos;, // 来源 课程，任务，课件预览</div><div class="line">  docType:        &apos;&apos;, // 文档类型 例如：ppt doc等</div><div class="line">  aliUrl:         &apos;&apos;, // 新文档预览地址 path</div><div class="line">  url:            &apos;&apos;, // 365文档预览地址 url</div><div class="line">  isSaveProgress: true, // 是否保存进度</div><div class="line">  studyId:        &apos;&apos;, // 任务的 id</div><div class="line">  courseId:       &apos;&apos;, // 任务下 item 的 courseId</div><div class="line">  resourceId:     &apos;&apos;, // 资源id 如果任务下都是课件则 courseId 和 resourceId 是相同的， 都是当前课件的 courseId， 如果是课程的话 resourceId 就是每个课件的 id</div><div class="line">  docTitle:       &apos;&apos;, // 文档的名称</div><div class="line">  studyTimeLimit: 0, // 文档倒计时的标识， 文档的每页学习时长 大于 0 则开启倒计时</div><div class="line">  studyTime:      0, // 文档倒计时的时候把 recentStart 作为文档剩余学习时长传给文档服务器</div><div class="line">  progress:       0, // 文档的进度</div><div class="line">&#125;;</div><div class="line"></div><div class="line">DocReader.propTypes = &#123;</div><div class="line">  type:     PropTypes.string.isRequired, // 来源 课程，任务，课件预览 enterprise platform study &apos;&apos;</div><div class="line">  docType:  PropTypes.string.isRequired, // 文档类型</div><div class="line">  aliUrl:   PropTypes.string.isRequired, // 新文档预览地址</div><div class="line">  url:      PropTypes.string.isRequired, // 365文档预览地址</div><div class="line">  docTitle: PropTypes.string.isRequired, // 文档名称</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="使用频率较高的组件和方法"><a href="#使用频率较高的组件和方法" class="headerlink" title="使用频率较高的组件和方法"></a>使用频率较高的组件和方法</h3><h4 id="NewTabLink-新开窗口"><a href="#NewTabLink-新开窗口" class="headerlink" title="NewTabLink 新开窗口"></a>NewTabLink 新开窗口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;;</div><div class="line">import NewTabLink from &apos;@/components/NewTabLink&apos;</div><div class="line"></div><div class="line">export default function Example() &#123;</div><div class="line">  // 新开内部页面窗口</div><div class="line">  const linkTo = ()=&gt; &#123;</div><div class="line">     NewTabLink.targetTo(&#123;</div><div class="line">       path: `/lecturer/lecturerManage/lecturerList`,</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">  // 外部链接新开窗口打开, isExternalLink 是外部链接，具体逻辑可以查看 NewTabLink 这个组件</div><div class="line">  const operatingGuide = () =&gt; &#123;</div><div class="line">    NewTabLink.targetTo(&#123;</div><div class="line">      path:           &apos;https://www.yuque.com/books/share/4dc0b2ad-3bda-4631-8584-e5f94b48b861?#&apos;,</div><div class="line">      isExternalLink: true,</div><div class="line">    &#125;);</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  return (&lt;div&gt;</div><div class="line">      &lt;div onClick=&#123;linkTo&#125;&gt; 新开页面 &lt;/div&gt;</div><div class="line">      &lt;div onClick=&#123;operatingGuide&#125;&gt; 打开指南 &lt;/div&gt;</div><div class="line">      &#123;/* 新开内部页面窗口 */&#125;</div><div class="line">      &lt;NewTabLink to=&quot;/lecturer/lecturerManage/lecturerList&quot;&gt;新开页面&lt;/NewTabLink&gt;</div><div class="line">   &lt;/div&gt;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="常用的方法"><a href="#常用的方法" class="headerlink" title="常用的方法"></a>常用的方法</h4><ol>
+<li>获取当前菜单对应的按钮权限：src -&gt; utils -&gt; moduleWorkflow.js</li>
+</ol>
+<ul>
+<li><p>获取当前菜单下的按钮信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// `tutorList` 是当前菜单的 key, `modules` 是从后端接口请求回来的用户菜单信息</div><div class="line">const allowActions = getPermissionActionsByKey(&apos;tutorList&apos;, props.modules)</div></pre></td></tr></table></figure>
+</li>
+<li><p>从菜单获取的按钮信息中获取当前按钮是否显示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 根据菜单获取的按钮，再获取编辑按钮是否显示</div><div class="line">const shouldRenderEditBtn = getPermissionRenderByKey(&apos;edit&apos;, allowActions)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li><p>获取正在下载中的文件： src -&gt; utils -&gt; globalRequest.js全局请求</p>
+</li>
+<li><p>钉钉相关：src -&gt; utils -&gt; dd.js<br>a. 钉钉 API 调用鉴权：getJsApisSignature<br>b. 钉功能： Ding<br>c. 钉盘文件预览： previewDingFile</p>
+</li>
+</ol>
+<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p> 为了解决样式冲突问题</p>
+<ol>
+<li><p>每个页面或组件使用唯一变量作为容器类名，为了避免全局样式污染，使用 __ 或  —连接，包裹在主容器样式里，防止样式冲突</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">.classify-container-wrapper &#123;</div><div class="line">    display: flex;</div><div class="line">    flex-direction: column;</div><div class="line">    flex: 1;</div><div class="line">    &amp;__content &#123;</div><div class="line">      flex: 1;</div><div class="line">      padding: 24px 32px 32px;</div><div class="line">      overflow: hidden;</div><div class="line">      background: #fff;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用 css module 的写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">import React from &apos;react&apos;;</div><div class="line">import &#123; DragSource &#125; from &apos;react-dnd&apos;;</div><div class="line"></div><div class="line">import style from &apos;./index.less&apos;;</div><div class="line"></div><div class="line">const ComponentLeft = (materialKeys) =&gt; &#123;</div><div class="line"></div><div class="line">  return (</div><div class="line">    &lt;div className=&#123;style.leftContent&#125;&gt;</div><div class="line">      &lt;div className=&#123;style.leftTitle&#125;&gt;</div><div class="line">        &lt;h3&gt;组件库&lt;/h3&gt;</div><div class="line">        &lt;p className=&#123;style.desc&#125;&gt;拖拽下方模块添加到右侧布局中&lt;/p&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  )</div><div class="line">&#125;;</div><div class="line"></div><div class="line">export default ComponentLeft;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="其他注意事项"><a href="#其他注意事项" class="headerlink" title="其他注意事项"></a>其他注意事项</h3><p>根据 Ant Design 组件的规范开发</p>
+<blockquote>
+<p>如果设计图出现和 Ant Design 的组件规范不符合的，可以直接找设计修改设计图，一定不要随便更改 Ant Design 组件自身的样式</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/umi/" rel="tag">#umi</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/06/06/VScode的esLint配置同步/" rel="next" title="VSCode 的 esLint 配置同步">
+                <i class="fa fa-chevron-left"></i> VSCode 的 esLint 配置同步
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/31/nvm安装使用/" rel="prev" title="nvm安装使用">
+                nvm安装使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2021/06/27/深入理解umi搭建的项目/"
+     data-title="深入理解umi搭建的项目"
+     data-content=""
+     data-url="https://guohenkai.github.io/2021/06/27/深入理解umi搭建的项目/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/06/27/深入理解umi搭建的项目/"
+           data-title="深入理解umi搭建的项目" data-url="https://guohenkai.github.io/2021/06/27/深入理解umi搭建的项目/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目介绍"><span class="nav-number">1.</span> <span class="nav-text">项目介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录结构"><span class="nav-number">1.2.</span> <span class="nav-text">目录结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发配置"><span class="nav-number">2.</span> <span class="nav-text">开发配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#增加环境和后端服务配置"><span class="nav-number">2.1.</span> <span class="nav-text">增加环境和后端服务配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#增加环境"><span class="nav-number">2.1.1.</span> <span class="nav-text">增加环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增加后端服务域名配置"><span class="nav-number">2.1.2.</span> <span class="nav-text">增加后端服务域名配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口请求相关配置"><span class="nav-number">2.2.</span> <span class="nav-text">接口请求相关配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在项目里-src-gt-config-gt-api-js-中配置接口地址，按模块放置；例如："><span class="nav-number">2.2.1.</span> <span class="nav-text">在项目里 src -> config -> api.js  中配置接口地址，按模块放置；例如：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在开发的文件夹中新建-service-文件夹，统一将该模块的接口放到这个文件夹的-index-js-文件内，注意每个接口加注释。例如"><span class="nav-number">2.2.2.</span> <span class="nav-text">在开发的文件夹中新建 service 文件夹，统一将该模块的接口放到这个文件夹的  index.js 文件内，注意每个接口加注释。例如:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局错误提示配置"><span class="nav-number">2.3.</span> <span class="nav-text">全局错误提示配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新接口错误处理提示配置"><span class="nav-number">2.3.1.</span> <span class="nav-text">新接口错误处理提示配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#老接口错误处理提示配置"><span class="nav-number">2.3.2.</span> <span class="nav-text">老接口错误处理提示配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由配置"><span class="nav-number">2.4.</span> <span class="nav-text">路由配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#学员端和后台管理路由"><span class="nav-number">2.4.1.</span> <span class="nav-text">学员端和后台管理路由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#布局方式"><span class="nav-number">2.4.2.</span> <span class="nav-text">布局方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#菜单数据来源"><span class="nav-number">2.4.3.</span> <span class="nav-text">菜单数据来源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路由修改"><span class="nav-number">2.4.4.</span> <span class="nav-text">路由修改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主题色配置"><span class="nav-number">2.5.</span> <span class="nav-text">主题色配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#国际化"><span class="nav-number">2.6.</span> <span class="nav-text">国际化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发注意事项"><span class="nav-number">3.</span> <span class="nav-text">开发注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#页面组件数据共享"><span class="nav-number">3.1.</span> <span class="nav-text">页面组件数据共享</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-dva"><span class="nav-number">3.1.1.</span> <span class="nav-text">使用 dva</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-Context"><span class="nav-number">3.1.2.</span> <span class="nav-text">使用 Context</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件开发规范"><span class="nav-number">3.2.</span> <span class="nav-text">组件开发规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局公用组件和页面内部组件"><span class="nav-number">3.2.1.</span> <span class="nav-text">全局公用组件和页面内部组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#业务组件和非业务组件"><span class="nav-number">3.2.2.</span> <span class="nav-text">业务组件和非业务组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组件开发注意事项"><span class="nav-number">3.2.3.</span> <span class="nav-text">组件开发注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用频率较高的组件和方法"><span class="nav-number">3.3.</span> <span class="nav-text">使用频率较高的组件和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NewTabLink-新开窗口"><span class="nav-number">3.3.1.</span> <span class="nav-text">NewTabLink 新开窗口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的方法"><span class="nav-number">3.3.2.</span> <span class="nav-text">常用的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#样式"><span class="nav-number">3.4.</span> <span class="nav-text">样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他注意事项"><span class="nav-number">3.5.</span> <span class="nav-text">其他注意事项</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

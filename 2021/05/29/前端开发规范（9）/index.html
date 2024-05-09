@@ -1,0 +1,1008 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="规范," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="基本规则
+每个文件只包含一个 React 类组件 
+但是多个函数式组件可以放到一个文件中，eslint: react/no-multi-comp
+
+
+如果使用 JavaScript，则文件扩展名为 .jsx；如果使用 TypeScript，则文件扩展名为 .tsx
+除非是在非 JSX 文件中初始化应用，否则不要使用 React.createElement
+只允许使用 Class Component">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端开发规范（React项目开发规范）">
+<meta property="og:url" content="https://guohenkai.github.io/2021/05/29/前端开发规范（9）/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="基本规则
+每个文件只包含一个 React 类组件 
+但是多个函数式组件可以放到一个文件中，eslint: react/no-multi-comp
+
+
+如果使用 JavaScript，则文件扩展名为 .jsx；如果使用 TypeScript，则文件扩展名为 .tsx
+除非是在非 JSX 文件中初始化应用，否则不要使用 React.createElement
+只允许使用 Class Component">
+<meta property="og:updated_time" content="2022-10-17T08:35:54.448Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端开发规范（React项目开发规范）">
+<meta name="twitter:description" content="基本规则
+每个文件只包含一个 React 类组件 
+但是多个函数式组件可以放到一个文件中，eslint: react/no-multi-comp
+
+
+如果使用 JavaScript，则文件扩展名为 .jsx；如果使用 TypeScript，则文件扩展名为 .tsx
+除非是在非 JSX 文件中初始化应用，否则不要使用 React.createElement
+只允许使用 Class Component">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 前端开发规范（React项目开发规范） | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                前端开发规范（React项目开发规范）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2021-05-29T00:00:00+08:00" content="2021-05-29">
+              2021-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/规范/" itemprop="url" rel="index">
+                    <span itemprop="name">规范</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2021/05/29/前端开发规范（9）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/05/29/前端开发规范（9）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h3><ul>
+<li>每个文件只包含一个 React 类组件 <ul>
+<li>但是多个函数式组件可以放到一个文件中，eslint: react/no-multi-comp</li>
+</ul>
+</li>
+<li>如果使用 JavaScript，则文件扩展名为 .jsx；如果使用 TypeScript，则文件扩展名为 .tsx</li>
+<li>除非是在非 JSX 文件中初始化应用，否则不要使用 React.createElement</li>
+<li>只允许使用 Class Component 和 Functional Component 两种形态来书写组件，建议尽量使用函数式组件配合 Hooks 来进行开发，没有state的组件生命为函数组件。</li>
+</ul>
+<a id="more"></a>
+<h3 id="组件规范"><a href="#组件规范" class="headerlink" title="组件规范"></a>组件规范</h3><ul>
+<li>对于所有非isRequired的属性，在defaultProps中声明对应的值；声明初始值有助于对组件初始状态的理解，也可以减少propTypes对类型进行校验产生的开销。对于初始没有值的属性，应当声明初始值为null而非undefined。</li>
+<li>[建议]将JSX的层级控制在3层以内。JSX提供了基于组件的便携的复用形式，因此可以通过将结构中的一部分封装为一个函数组件来很好地拆分大型复杂的结构。层次过深的结构会带来过多缩进、可读性下降等缺点。如同控制函数内代码行数和分支层级一样，对JSX的层级进行控制可以有效提升代码的可维护性。</li>
+</ul>
+<h4 id="组件命名"><a href="#组件命名" class="headerlink" title="组件命名"></a>组件命名</h4><ul>
+<li>React 组件使用 PascalCase，组件实例使用 CamelCase，eslint: react/jsx-pascal-case</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">import reservationCard from &apos;./ReservationCard&apos;</div><div class="line"></div><div class="line">// good</div><div class="line">import ReservationCard from &apos;./ReservationCard&apos;</div><div class="line"></div><div class="line">// bad</div><div class="line">const ReservationItem = &lt;ReservationCard /&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">const reservationItem = &lt;ReservationCard /&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>如果是组件文件，使用文件名全小写-分割，例如, reservation-card.js 应该包含名为 ReservationCard 的引用，然而对于文件夹中的根组件, 使用 index.js 作为文件名，使用文件夹的名字作为组件的名字</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// good</div><div class="line">import ReservationCard from &apos;./reservation-card/reservation-card&apos;</div><div class="line"></div><div class="line">// bad</div><div class="line">import Footer from &apos;./footer/index&apos;</div><div class="line"></div><div class="line">// good</div><div class="line">import Footer from &apos;./footer&apos;</div></pre></td></tr></table></figure>
+<ul>
+<li>组件的引用</li>
+</ul>
+<p>组件引用的路径除非是当前目录下的组件可以使用相对路径，其他的都使用绝对路径，src已添加路径别名，使用路径别名引入，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// good</div><div class="line">import MyComponent from &apos;./component/my-component&apos;</div><div class="line"></div><div class="line">// bad</div><div class="line">import MyComponent from &apos;../../../component/my-component&apos;</div><div class="line"></div><div class="line">// good</div><div class="line">import MyComponent from &apos;@/component/my-component&apos;</div></pre></td></tr></table></figure>
+<ul>
+<li>自闭合的标签前要加一个空格，eslint: no-multi-spaces, react/jsx-tag-spacing</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo/&gt;</div><div class="line"></div><div class="line">// very bad</div><div class="line">&lt;Foo                 /&gt;</div><div class="line"></div><div class="line">// bad</div><div class="line">&lt;Foo</div><div class="line"> /&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo /&gt;</div></pre></td></tr></table></figure>
+<h4 id="组件属性"><a href="#组件属性" class="headerlink" title="组件属性"></a>组件属性</h4><ul>
+<li>属性名使用 camelCase</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo</div><div class="line">  UserName=&apos;hello&apos;</div><div class="line">  phone_number=&#123;12345678&#125;</div><div class="line">/&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo</div><div class="line">  userName=&apos;hello&apos;</div><div class="line">  phoneNumber=&#123;12345678&#125;</div><div class="line">/&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>当属性值为true时可以省略， eslint: react/jsx-boolean-value</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo</div><div class="line">  hidden=&#123;true&#125;</div><div class="line">/&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo</div><div class="line">  hidden</div><div class="line">/&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo hidden /&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>避免使用数组的索引作为 key 属性值, 建议使用稳定的ID，eslint: react/no-array-index-key</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&#123;todos.map((todo, index) =&gt;</div><div class="line">  &lt;Todo</div><div class="line">    &#123;...todo&#125;</div><div class="line">    key=&#123;index&#125;</div><div class="line">  /&gt;</div><div class="line">)&#125;</div><div class="line"></div><div class="line">// good</div><div class="line">&#123;todos.map(todo =&gt; (</div><div class="line">  &lt;Todo</div><div class="line">    &#123;...todo&#125;</div><div class="line">    key=&#123;todo.id&#125;</div><div class="line">  /&gt;</div><div class="line">))&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>为所有的非必需属性定义使用 defaultProps 明确的默认值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">function SFC (&#123; foo, bar, children &#125;) &#123;</div><div class="line">  return &lt;div&gt;&#123;foo&#125;&#123;bar&#125;&#123;children&#125;&lt;/div&gt;</div><div class="line">&#125;</div><div class="line">SFC.propTypes = &#123;</div><div class="line">  foo: PropTypes.number.isRequired,</div><div class="line">  bar: PropTypes.string,</div><div class="line">  children: PropTypes.node</div><div class="line">&#125;</div><div class="line"></div><div class="line">// good</div><div class="line">function SFC (&#123; foo, bar, children &#125;) &#123;</div><div class="line">  return &lt;div&gt;&#123;foo&#125;&#123;bar&#125;&#123;children&#125;&lt;/div&gt;</div><div class="line">&#125;</div><div class="line">SFC.propTypes = &#123;</div><div class="line">  foo: PropTypes.number.isRequired,</div><div class="line">  bar: PropTypes.string,</div><div class="line">  children: PropTypes.node</div><div class="line">&#125;</div><div class="line">SFC.defaultProps = &#123;</div><div class="line">  bar: &apos;&apos;,</div><div class="line">  children: null</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>当 JSX 标签超过一行时使用圆括号包裹， eslint: react/wrap-multilines</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// bad</div><div class="line">render () &#123;</div><div class="line">  return &lt;MyComponent className=&apos;long body&apos; foo=&apos;bar&apos;&gt;</div><div class="line">           &lt;MyChild /&gt;</div><div class="line">         &lt;/MyComponent&gt;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// good</div><div class="line">render () &#123;</div><div class="line">  return (</div><div class="line">    &lt;MyComponent className=&apos;long body&apos; foo=&apos;bar&apos;&gt;</div><div class="line">      &lt;MyChild /&gt;</div><div class="line">    &lt;/MyComponent&gt;</div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line">// good, when single line</div><div class="line">render () &#123;</div><div class="line">  const body = &lt;div&gt;hello&lt;/div&gt;</div><div class="line">  return &lt;MyComponent&gt;&#123;body&#125;&lt;/MyComponent&gt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>没有子元素的标签请自闭合，eslint: react/self-closing-comp</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo className=&apos;stuff&apos;&gt;&lt;/Foo&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo className=&apos;stuff&apos; /&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>如果组件包含多行属性，在新的一行闭合标签，eslint: react/jsx-closing-bracket-location</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo</div><div class="line">  bar=&apos;bar&apos;</div><div class="line">  baz=&apos;baz&apos; /&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo</div><div class="line">  bar=&apos;bar&apos;</div><div class="line">  baz=&apos;baz&apos;</div><div class="line">/&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>属性对齐，遵循以下JSX语法的对齐风格，eslint: react/jsx-closing-bracket-location</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo superLongParam=&apos;bar&apos;</div><div class="line">     anotherSuperLongParam=&apos;baz&apos; /&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo</div><div class="line">  superLongParam=&apos;bar&apos;</div><div class="line">  anotherSuperLongParam=&apos;baz&apos;</div><div class="line">/&gt;</div><div class="line"></div><div class="line">// if props fit in one line then keep it on the same line</div><div class="line">&lt;Foo bar=&apos;bar&apos; /&gt;</div><div class="line"></div><div class="line">// children get indented normally</div><div class="line">&lt;Foo</div><div class="line">  superLongParam=&apos;bar&apos;</div><div class="line">  anotherSuperLongParam=&apos;baz&apos;</div><div class="line">&gt;</div><div class="line">  &lt;Quux /&gt;</div><div class="line">&lt;/Foo&gt;</div><div class="line"></div><div class="line">// bad</div><div class="line">&#123;showButton &amp;&amp;</div><div class="line">  &lt;Button /&gt;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// bad</div><div class="line">&#123;</div><div class="line">  showButton &amp;&amp;</div><div class="line">    &lt;Button /&gt;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// good</div><div class="line">&#123;showButton &amp;&amp; (</div><div class="line">  &lt;Button /&gt;</div><div class="line">)&#125;</div><div class="line"></div><div class="line">// good</div><div class="line">&#123;showButton &amp;&amp; &lt;Button /&gt;&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>不要在 JSX 的花括号里边加空格，eslint: react/jsx-curly-spacing</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo bar=&#123; baz &#125; /&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo bar=&#123;baz&#125; /&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>引号：JSX 属性要使用单引号，与其他普通 JS 保持一致</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo bar=&quot;bar&quot; /&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo bar=&apos;bar&apos; /&gt;</div><div class="line"></div><div class="line">// bad</div><div class="line">&lt;Foo style=&#123;&#123; left: &quot;20px&quot; &#125;&#125; /&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo style=&#123;&#123; left: &apos;20px&apos; &#125;&#125; /&gt;</div></pre></td></tr></table></figure>
+<h4 id="组件方法"><a href="#组件方法" class="headerlink" title="组件方法"></a>组件方法</h4><ul>
+<li>类组件的内部方法不要使用下划线前缀</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">class extends React.Component &#123;</div><div class="line">  _onClickSubmit () &#123;</div><div class="line">    // do stuff</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  // other stuff</div><div class="line">&#125;</div><div class="line"></div><div class="line">// good</div><div class="line">class extends React.Component &#123;</div><div class="line">  onClickSubmit () &#123;</div><div class="line">    // do stuff</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  // other stuff</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>确保在 render 方法中存在返回值，eslint: require-render-return</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">render () &#123;</div><div class="line">  (&lt;div /&gt;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">// good</div><div class="line">render () &#123;</div><div class="line">  return (&lt;div /&gt;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>使用箭头函数包裹本地变量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function ItemList (props) &#123;</div><div class="line">  return (</div><div class="line">    &lt;ul&gt;</div><div class="line">      &#123;props.items.map((item, index) =&gt; (</div><div class="line">        &lt;Item</div><div class="line">          key=&#123;item.key&#125;</div><div class="line">          onClick=&#123;() =&gt; doSomethingWith(item.name, index)&#125;</div><div class="line">        /&gt;</div><div class="line">      ))&#125;</div><div class="line">    &lt;/ul&gt;</div><div class="line">  )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>组件方法命名，组件方法使用handle开头，组件调用属性方法以on开头</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;MyComponent handleChange=&#123;this.handleChange&#125; /&gt;</div><div class="line">&lt;MyComponent onChange=&#123;this.componentChanged&#125; /&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;MyComponent onChange=&#123;this.handleChange&#125; /&gt;</div><div class="line">&lt;MyComponent onChange=&#123;this.props.onFoo&#125; /&gt;</div></pre></td></tr></table></figure>
+<h4 id="组件内顺序"><a href="#组件内顺序" class="headerlink" title="组件内顺序"></a>组件内顺序</h4><p>按照以下顺序编排组件中的方法和属性：</p>
+<ol>
+<li>static state</li>
+<li>constructor</li>
+<li>其它静态的属性</li>
+<li>getChildContext</li>
+<li>componentWillMount</li>
+<li>componentDidMount</li>
+<li>shouldComponentUpdate</li>
+<li>componentWillUpdate</li>
+<li>componentDidUpdate</li>
+<li>componentWillUnmount</li>
+<li>事件处理方法</li>
+<li>其它方法</li>
+<li>render其中shouldComponentUpdate和render是一个组件最容易被阅读的函数，因此放在最下方有助于快速定位。</li>
+<li>state defaultProps</li>
+<li>static propTypes</li>
+<li>static contextTypes</li>
+</ol>
+<blockquote>
+<p>可以在 Visual Studio Code 编辑器中添加 code snippets，没有用的方法删掉</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div></pre></td><td class="code"><pre><div class="line">import React, &#123; Component &#125; from &apos;react&apos;</div><div class="line">import PropTypes from &apos;prop-types&apos;</div><div class="line">import &#123; Upload, Icon, Modal &#125; from &apos;antd&apos;</div><div class="line">import &#123; Cookie &#125; from &apos;utils&apos;</div><div class="line">import styles from &apos;./UploadFile.less&apos;</div><div class="line"></div><div class="line">const getFileList = (files) =&gt; &#123;</div><div class="line">  if (Array.isArray(files)) &#123;</div><div class="line">    return files.map((item, key) =&gt; &#123;</div><div class="line">      const urlArr = item.full_url.split(&apos;/&apos;)</div><div class="line">      return &#123; url: item.full_url, id: item.id, uid: key, name: urlArr[urlArr.length - 1], status: &apos;done&apos; &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">  if (files &amp;&amp; !!files.length) &#123;</div><div class="line">    const filesArr = files.split(&apos;/&apos;)</div><div class="line">    return [&#123; uid: -1, url: files, name: filesArr[filesArr.length - 1], status: &apos;done&apos; &#125;]</div><div class="line">  &#125;</div><div class="line">  return &apos;&apos;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function renderAccecpt (accept) &#123;</div><div class="line">  if (!accept) &#123;</div><div class="line">    return null</div><div class="line">  &#125;</div><div class="line">  if ([&apos;image&apos;, &apos;video&apos;, &apos;audio&apos;].find(ext =&gt; ext === accept)) &#123;</div><div class="line">    return `$&#123;accept&#125;/*`</div><div class="line">  &#125;</div><div class="line">  if (accept === &apos;zip&apos;) &#123;</div><div class="line">    return &apos;application/zip,application/x-zip,application/x-zip-compressed&apos;</div><div class="line">  &#125;</div><div class="line">  return `.$&#123;accept&#125;`</div><div class="line">&#125;</div><div class="line"></div><div class="line">class UploadFiles extends Component &#123;</div><div class="line"></div><div class="line">  constructor (props) &#123;</div><div class="line">    super(props)</div><div class="line"></div><div class="line">    this.state = &#123;</div><div class="line">      previewVisible: false,</div><div class="line">      previewImage: &apos;&apos;,</div><div class="line">      files: getFileList(props.files),</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentWillReceiveProps (nextProps) &#123;</div><div class="line">    if (Array.isArray(this.props.files) &amp;&amp; !this.props.files.length &amp;&amp; !!nextProps.files.length) &#123;</div><div class="line">      this.setState(&#123; files: getFileList(nextProps.files) &#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render () &#123;</div><div class="line">    const &#123; previewVisible, previewImage, files &#125; = this.state</div><div class="line"></div><div class="line">    const &#123; multiple = 1, onUpload, disabled, path, accept &#125; = this.props</div><div class="line"></div><div class="line">    const renderFiles = (fileList) =&gt; &#123;</div><div class="line">      const newFiles = fileList.map((file) =&gt; &#123;</div><div class="line">        return file.response ? file.response.data.file : file</div><div class="line">      &#125;)</div><div class="line">      if (multiple === 1) &#123;</div><div class="line">        return newFiles[0]</div><div class="line">      &#125;</div><div class="line">      return newFiles</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    let actionUrl = `$&#123;newband.app.admin.API_HOST&#125;v2/file/upload/formData?access_token=$&#123;Cookie.get(&apos;access_token&apos;)&#125;`</div><div class="line">    if (path) &#123;</div><div class="line">      actionUrl += `&amp;path=$&#123;path&#125;`</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    const uploadProps = &#123;</div><div class="line">      accept: renderAccecpt(accept),</div><div class="line">      action: actionUrl,</div><div class="line">      headers: &#123;</div><div class="line">        &apos;X-Requested-With&apos;: null,</div><div class="line">      &#125;,</div><div class="line">      data: &#123;</div><div class="line">      &#125;,</div><div class="line">      disabled,</div><div class="line">      listType: &apos;picture-card&apos;,</div><div class="line">      fileList: files,</div><div class="line">      multiple: multiple === true,</div><div class="line">      onPreview: (file) =&gt; &#123;</div><div class="line">        this.setState(&#123;</div><div class="line">          previewImage: file.url || file.thumbUrl,</div><div class="line">          previewVisible: true,</div><div class="line">        &#125;)</div><div class="line">      &#125;,</div><div class="line">      beforeUpload: () =&gt; &#123;</div><div class="line">        return true</div><div class="line">      &#125;,</div><div class="line">      onChange: (&#123; file, fileList &#125;) =&gt; &#123;</div><div class="line">        this.setState(&#123; files: fileList &#125;)</div><div class="line">        if (file.percent === 100 &amp;&amp; file.status === &apos;done&apos;) &#123;</div><div class="line">          onUpload(renderFiles(fileList, 1))</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      onRemove: (file) =&gt; &#123;</div><div class="line">        if (disabled) &#123;</div><div class="line">          return false</div><div class="line">        &#125;</div><div class="line">        const fileList = this.state.files.filter(item =&gt; item.uid !== file.uid)</div><div class="line">        onUpload(renderFiles(fileList, 0))</div><div class="line">        return true</div><div class="line">      &#125;,</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    const modalProps = &#123;</div><div class="line">      visible: previewVisible,</div><div class="line">      footer: null,</div><div class="line">      onCancel: () =&gt; this.setState(&#123; previewVisible: false &#125;),</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    const uploadButton = (</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;Icon type=&quot;plus&quot; /&gt;</div><div class="line">        &lt;div className=&quot;ant-upload-text&quot;&gt;点击上传&lt;/div&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line"></div><div class="line">    return (</div><div class="line">      &lt;div className=&quot;clearfix&quot;&gt;</div><div class="line">        &lt;Upload &#123;...uploadProps&#125;&gt;</div><div class="line">          &#123;multiple === true ? uploadButton : (files.length &lt; multiple &amp;&amp; uploadButton)&#125;</div><div class="line">        &lt;/Upload&gt;</div><div class="line">        &lt;Modal &#123;...modalProps&#125;&gt;</div><div class="line">          &lt;img className=&#123;styles.previewImage&#125; alt=&quot;&quot; src=&#123;previewImage&#125; /&gt;</div><div class="line">        &lt;/Modal&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">  static defaultProps = &#123;</div><div class="line">    onUpload: ()=&gt;&#123;&#125;,</div><div class="line">    accept: &apos;image/*&apos;</div><div class="line">  &#125;</div><div class="line">  static propTypes = &#123;</div><div class="line">    files: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),</div><div class="line">    onUpload: PropTypes.func.isRequired,</div><div class="line">    multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),</div><div class="line">    disabled: PropTypes.bool,</div><div class="line">    path: PropTypes.string,</div><div class="line">    accept: PropTypes.string,</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default UploadFiles</div></pre></td></tr></table></figure>
+<h3 id="Refs"><a href="#Refs" class="headerlink" title="Refs"></a>Refs</h3><p>避免使用字符串引用，请使用回调函数作为引用，eslint: react/no-string-refs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// bad</div><div class="line">&lt;Foo</div><div class="line">  ref=&apos;myRef&apos;</div><div class="line">/&gt;</div><div class="line"></div><div class="line">// good</div><div class="line">&lt;Foo</div><div class="line">  ref=&#123;ref =&gt; &#123; this.myRef = ref &#125;&#125;</div><div class="line">/&gt;</div></pre></td></tr></table></figure>
+<h3 id="Hooks-书写规范"><a href="#Hooks-书写规范" class="headerlink" title="Hooks 书写规范"></a>Hooks 书写规范</h3><ul>
+<li>Hooks 只能应用于函数式组件中 </li>
+<li>Hook 函数必须以 “use” 命名开头</li>
+<li>利用 useState 创建 Redux</li>
+<li>利用 useEffect 代替一些生命周期</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">// template</div><div class="line">import &#123; useState, useEffect &#125; from &quot;react&quot;;</div><div class="line"></div><div class="line">// 底层 Hooks, 返回布尔值：是否在线</div><div class="line">function useFriendStatusBoolean(friendID) &#123;</div><div class="line">  const [isOnline, setIsOnline] = useState(null);</div><div class="line"></div><div class="line">  function handleStatusChange(status) &#123;</div><div class="line">    setIsOnline(status.isOnline);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  useEffect(() =&gt; &#123;</div><div class="line">    API.subscribeToFriendStatus(friendID, handleStatusChange);</div><div class="line">    return () =&gt; &#123;</div><div class="line">      API.unsubscribeFromFriendStatus(friendID, handleStatusChange);</div><div class="line">    &#125;;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  return isOnline;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 上层 Hooks，根据在线状态返回字符串：Loading... or Online or Offline</div><div class="line">function useFriendStatusString(props) &#123;</div><div class="line">  const isOnline = useFriendStatusBoolean(props.friend.id);</div><div class="line"></div><div class="line">  if (isOnline === null) &#123;</div><div class="line">    return &quot;Loading...&quot;;</div><div class="line">  &#125;</div><div class="line">  return isOnline ? &quot;Online&quot; : &quot;Offline&quot;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 使用了底层 Hooks 的 UI</div><div class="line">function FriendListItem(props) &#123;</div><div class="line">  const isOnline = useFriendStatusBoolean(props.friend.id);</div><div class="line"></div><div class="line">  return (</div><div class="line">    &lt;li style=&#123;&#123; color: isOnline ? &quot;green&quot; : &quot;black&quot; &#125;&#125;&gt;&#123;props.friend.name&#125;&lt;/li&gt;</div><div class="line">  );</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 使用了上层 Hooks 的 UI</div><div class="line">function FriendListStatus(props) &#123;</div><div class="line">  const statu = useFriendStatusString(props.friend.id);</div><div class="line"></div><div class="line">  return &lt;li&gt;&#123;statu&#125;&lt;/li&gt;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>只在 React 函数最顶层使用 Hooks </li>
+</ul>
+<p>不要在循环，条件或嵌套函数中调用 Hook， 确保总是在你的 React 函数的最顶层调用他们，详见<a href="https://reactjs.org/docs/hooks-rules.html#explanation" target="_blank" rel="external">官方文档</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/规范/" rel="tag">#规范</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/20/前端开发规范（8）/" rel="next" title="前端开发规范（代码提交规范）">
+                <i class="fa fa-chevron-left"></i> 前端开发规范（代码提交规范）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/06/06/VScode的esLint配置同步/" rel="prev" title="VSCode 的 esLint 配置同步">
+                VSCode 的 esLint 配置同步 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2021/05/29/前端开发规范（9）/"
+     data-title="前端开发规范（React项目开发规范）"
+     data-content=""
+     data-url="https://guohenkai.github.io/2021/05/29/前端开发规范（9）/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/05/29/前端开发规范（9）/"
+           data-title="前端开发规范（React项目开发规范）" data-url="https://guohenkai.github.io/2021/05/29/前端开发规范（9）/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本规则"><span class="nav-number">1.</span> <span class="nav-text">基本规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件规范"><span class="nav-number">2.</span> <span class="nav-text">组件规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#组件命名"><span class="nav-number">2.1.</span> <span class="nav-text">组件命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组件属性"><span class="nav-number">2.2.</span> <span class="nav-text">组件属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组件方法"><span class="nav-number">2.3.</span> <span class="nav-text">组件方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组件内顺序"><span class="nav-number">2.4.</span> <span class="nav-text">组件内顺序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Refs"><span class="nav-number">3.</span> <span class="nav-text">Refs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hooks-书写规范"><span class="nav-number">4.</span> <span class="nav-text">Hooks 书写规范</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,935 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="egg.js," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="框架介绍Egg是一款由阿里团队开源的nodejs服务端框架，框架内置多进程管理，插件高度可扩展。能够很大程度的降低团队的开发成本。
+设计原则● 约定优于配置● 一个插件只做一件事">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node服务端框架Egg.js">
+<meta property="og:url" content="https://guohenkai.github.io/2022/10/16/Node服务端框架Egg.js/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="框架介绍Egg是一款由阿里团队开源的nodejs服务端框架，框架内置多进程管理，插件高度可扩展。能够很大程度的降低团队的开发成本。
+设计原则● 约定优于配置● 一个插件只做一件事">
+<meta property="og:updated_time" content="2022-10-17T09:42:51.696Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node服务端框架Egg.js">
+<meta name="twitter:description" content="框架介绍Egg是一款由阿里团队开源的nodejs服务端框架，框架内置多进程管理，插件高度可扩展。能够很大程度的降低团队的开发成本。
+设计原则● 约定优于配置● 一个插件只做一件事">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Node服务端框架Egg.js | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Node服务端框架Egg.js
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2022-10-16T00:00:00+08:00" content="2022-10-16">
+              2022-10-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Node/" itemprop="url" rel="index">
+                    <span itemprop="name">Node</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2022/10/16/Node服务端框架Egg.js/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2022/10/16/Node服务端框架Egg.js/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="框架介绍"><a href="#框架介绍" class="headerlink" title="框架介绍"></a>框架介绍</h1><p>Egg是一款由阿里团队开源的nodejs服务端框架，框架内置多进程管理，插件高度可扩展。能够很大程度的降低团队的开发成本。</p>
+<h1 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h1><p>● 约定优于配置<br>● 一个插件只做一件事<br> <a id="more"></a></p>
+<h1 id="和其他框架的差异"><a href="#和其他框架的差异" class="headerlink" title="和其他框架的差异"></a>和其他框架的差异</h1><p>● Express: 缺少框架上的约定，随着时间和功能的迭代，团队协作成本越来越高。<br>● koa： 由express原班团队打造，egg基于koa框架之上，egg约定了一些配置和规则，进一步对koa进行了一些增强。<br>● Sails： Sails内部集成了众多插件，egg不提供插件功能，由用户自行选择</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//初始化package.json</div><div class="line">npm init</div><div class="line"></div><div class="line">//安装egg框架核心模块</div><div class="line">npm install egg --save</div><div class="line"></div><div class="line">//安装egg框架命令行工具</div><div class="line">npm install egg-bin --save-dev</div></pre></td></tr></table></figure>
+<h2 id="脚手架"><a href="#脚手架" class="headerlink" title="脚手架"></a>脚手架</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//常用初始化</div><div class="line">npm init egg --type=simple</div><div class="line"></div><div class="line">//完整初始化安装一个egg项目</div><div class="line">npm init egg</div><div class="line"></div><div class="line">//安装框架依赖</div><div class="line">npm install</div></pre></td></tr></table></figure>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>egg框架的全局配置在根目录下的config文件夹下： /config/</p>
+<h3 id="多环境配置"><a href="#多环境配置" class="headerlink" title="多环境配置"></a>多环境配置</h3><p>● 默认配置： config.default.js<br>● 线上环境：config.prod.js<br>● 本地开发:：config.local.js<br>● 测试环境:：config.test.js<br>● 单元测试：config.unittest,js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line">//示例</div><div class="line"></div><div class="line">const config = exports;</div><div class="line"></div><div class="line">//中间件列表声明</div><div class="line">config.middleware = [ &apos;authentication&apos; ];</div><div class="line">//中间件配置</div><div class="line">config.authentication = &#123;</div><div class="line">  //是否启用</div><div class="line">  enable: true,</div><div class="line">  //不适用该中间件的规则</div><div class="line">  ignore: [ &apos;/api/user/login&apos;, ctx =&gt; &#123;</div><div class="line">    if (ctx.path === &apos;/api/version&apos; &amp;&amp; ctx.request.method.toUpperCase() === &apos;POST&apos;) &#123;</div><div class="line">      return true;</div><div class="line">    &#125;</div><div class="line">    return false;</div><div class="line">  &#125; ],</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//本地开发调试server配置</div><div class="line">config.cluster = &#123;</div><div class="line">  listen: &#123;</div><div class="line">    port: 8089,</div><div class="line">    hostname: &apos;0.0.0.0&apos;,</div><div class="line">  &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//mysql服务器配置</div><div class="line">config.mysql = &#123;</div><div class="line">  client: &#123;</div><div class="line">    host: &apos;&apos;,</div><div class="line">    port: &apos;&apos;,</div><div class="line">    user: &apos;&apos;,</div><div class="line">    password: &apos;&apos;,</div><div class="line">    database: &apos;&apos;,</div><div class="line">  &#125;,</div><div class="line">  app: true,</div><div class="line">  agent: false,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//redis服务器配置</div><div class="line">config.redis = &#123;</div><div class="line">  client: &#123;</div><div class="line">    port: 6379,</div><div class="line">    host: &apos;127.0.0.1&apos;,</div><div class="line">    password: &apos;&apos;,</div><div class="line">    db: 0,</div><div class="line">  &#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line">//http请求配置</div><div class="line">config.httpclient = &#123;</div><div class="line">  request: &#123;</div><div class="line">    timeout: 10000,</div><div class="line">  &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//跨域请求配置</div><div class="line">config.cors = &#123;</div><div class="line">  origin: &apos;*&apos;,</div><div class="line">  allowMethods: &apos;GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS&apos;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//HTTP访问安全配置</div><div class="line">config.security = &#123;</div><div class="line">  csrf: &#123;</div><div class="line">    enable: false,</div><div class="line">  &#125;,</div><div class="line">  domainWhiteList: [ &apos;*&apos; ],</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//日志配置</div><div class="line">config.logger = &#123;</div><div class="line">  dir: path.join(appInfo.baseDir, &apos;logs&apos;),</div><div class="line">  appLogName: `$&#123;appInfo.name&#125;-web.log`,</div><div class="line">  coreLogName: &apos;core.log&apos;,</div><div class="line">  agentLogName: &apos;agent.log&apos;,</div><div class="line">  errorLogName: &apos;error.log&apos;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="插件配置"><a href="#插件配置" class="headerlink" title="插件配置"></a>插件配置</h3><blockquote>
+<p>详细文档地址：<a href="https://eggjs.org/zh-cn/basics/plugin.html" target="_blank" rel="external">https://eggjs.org/zh-cn/basics/plugin.html</a><br>插件开发文档地址： <a href="https://eggjs.org/zh-cn/advanced/plugin.html" target="_blank" rel="external">https://eggjs.org/zh-cn/advanced/plugin.html</a></p>
+</blockquote>
+<p>● plugin.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">//示例</div><div class="line"></div><div class="line">/**</div><div class="line">* mysql的配置</div><div class="line">* enable: 是否启用</div><div class="line">* package: 插件的安装包包名</div><div class="line">*/</div><div class="line">exports.mysql = &#123;</div><div class="line">  enable: true,</div><div class="line">  package: &apos;egg-mysql&apos;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">/**</div><div class="line">* 跨域配置插件</div><div class="line">* enable: 是否启用</div><div class="line">* package: 插件的安装包包名</div><div class="line">*/</div><div class="line">exports.cors = &#123;</div><div class="line">  enable: true,</div><div class="line">  package: &apos;egg-cors&apos;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">/**</div><div class="line">* redis的配置</div><div class="line">* enable: 是否启用</div><div class="line">* package: 插件的安装包包名</div><div class="line">*/</div><div class="line">exports.redis = &#123;</div><div class="line">  enable: true,</div><div class="line">  package: &apos;egg-redis&apos;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="配置加载顺序"><a href="#配置加载顺序" class="headerlink" title="配置加载顺序"></a>配置加载顺序</h3><p>从环境上区分：</p>
+<ol>
+<li>default</li>
+<li>prod</li>
+</ol>
+<p>从组件类型上区分：</p>
+<ol>
+<li>插件</li>
+<li>框架</li>
+<li>应用</li>
+</ol>
+<p>规则：先加载环境，也就是所有default，然后加载prod<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//示例</div><div class="line">-&gt; 插件 config.default.js</div><div class="line">-&gt; 框架 config.default.js</div><div class="line">-&gt; 应用 config.default.js</div><div class="line">-&gt; 插件 config.prod.js</div><div class="line">-&gt; 框架 config.prod.js</div><div class="line">-&gt; 应用 config.prod.js</div></pre></td></tr></table></figure></p>
+<h3 id="配置内置对象"><a href="#配置内置对象" class="headerlink" title="配置内置对象"></a>配置内置对象</h3><p>配置也可以使用回调函数，来接收一个appInfo对象，获取应用自身的一些配置信息，appInfo对象有以下属性：</p>
+<p>● pkg: package.json对象<br>● name: package.json的属性name，即配置的应用名<br>● baseDir: 应用的代码根目录<br>● HOME: 用户在系统中的目录地址<br>● root：本地和测试时指向baseDir,其它环境指向HOME<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//示例用法</div><div class="line">const path = require(&apos;path&apos;);</div><div class="line">module.exports = appInfo =&gt; &#123;</div><div class="line">  return &#123;</div><div class="line">    logger: &#123;</div><div class="line">      dir: path.join(appInfo.baseDir, &apos;logs&apos;),</div><div class="line">    &#125;,</div><div class="line">  &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="目录结构和约定"><a href="#目录结构和约定" class="headerlink" title="目录结构和约定"></a>目录结构和约定</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">egg-project</div><div class="line">├── package.json //项目配置描述文件</div><div class="line">├── app.js (可选) //项目入口文件</div><div class="line">├── agent.js (可选)//agent进程入口文件</div><div class="line">├── app //项目源代码目录</div><div class="line">|   ├── router.js //路由配置文件</div><div class="line">│   ├── controller //controller层目录，用于解析用户的输入，处理后返回相应的结果</div><div class="line">│   |   └── home.js</div><div class="line">│   ├── service (可选)//service层目录，用于编写业务逻辑层</div><div class="line">│   |   └── user.js</div><div class="line">│   ├── middleware (可选) //中间件目录</div><div class="line">│   |   └── response_time.js</div><div class="line">│   ├── schedule (可选) //定时任务目录</div><div class="line">│   |   └── my_task.js</div><div class="line">│   ├── public (可选)//用于放置静态资源</div><div class="line">│   |   └── reset.css</div><div class="line">│   ├── view (可选) //SSR，服务端渲染模板目录</div><div class="line">│   |   └── home.tpl</div><div class="line">│   └── extend (可选)//框架扩展文件目录</div><div class="line">│       ├── helper.js (可选)</div><div class="line">│       ├── request.js (可选)</div><div class="line">│       ├── response.js (可选)</div><div class="line">│       ├── context.js (可选)</div><div class="line">│       ├── application.js (可选)</div><div class="line">│       └── agent.js (可选)</div><div class="line">├── config //项目配置目录，关于插件配置，环境配置，单元测试配置等都在此目录</div><div class="line">|   ├── plugin.js</div><div class="line">|   ├── config.default.js</div><div class="line">│   ├── config.prod.js</div><div class="line">|   ├── config.test.js (可选)</div><div class="line">|   ├── config.local.js (可选)</div><div class="line">|   └── config.unittest.js (可选)</div><div class="line">└── test//单元测试目录</div><div class="line">    ├── middleware</div><div class="line">    |   └── response_time.test.js</div><div class="line">    └── controller</div><div class="line">        └── home.test.js</div></pre></td></tr></table></figure>
+<h2 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h2><h3 id="启动自定义"><a href="#启动自定义" class="headerlink" title="启动自定义"></a>启动自定义</h3><blockquote>
+<p>有点类似前端框架的生命周期，在生命周期函数中可以做一些事<br>配置地址：app.js中定义</p>
+</blockquote>
+<p>● configWillLoad: 配置文件即将加载<br>● configDidLoad: 配置文件加载完成<br>● didLoad:文件加载完成<br>● willReady: 插件启动完毕<br>● didReady: worker 准备就绪<br>● serverDidReady:应用启动完成<br>● beforeClose:应用即将关闭</p>
+<h3 id="内置对象"><a href="#内置对象" class="headerlink" title="内置对象"></a>内置对象</h3><blockquote>
+<p>详细文档：<a href="https://eggjs.org/zh-cn/basics/objects.html" target="_blank" rel="external">https://eggjs.org/zh-cn/basics/objects.html</a></p>
+</blockquote>
+<p>● application: app<br>● Context: ctx<br>● Request: ctx.request<br>● Response: ctx.response<br>● Controller: 基础类<br>● Service: 基础类<br>● Helper: ctx.helper<br>● Config: app.config<br>● Logger: ctx.logger || app.logger</p>
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><h4 id="声明规则"><a href="#声明规则" class="headerlink" title="声明规则"></a>声明规则</h4><p>router.verb(‘router-name’, ‘path-match’, ‘middleware1’, … , ‘middlewareN’, app.controller.action);<br>● router：路由对象，从全局内置对象app中解构出来<br>● verb: HTTP请求的类型，有【head,get,post,put,delete,redirect】<br>● router-name: 给路由声明一个别名，可选配置，大多场景不需要配置<br>● path-match：接口或服务的路由地址<br>● middleware：给这个路由单独指定的一些中间件名称<br>● controller： Controller层的函数名，也可以简写为字符串<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//app/router.js</div><div class="line">module.exports = app =&gt; &#123;</div><div class="line">  const &#123; router, controller &#125; = app;</div><div class="line">  router.get(&apos;/user/:id&apos;, controller.user.info);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h4 id="RESTFUL通配符"><a href="#RESTFUL通配符" class="headerlink" title="RESTFUL通配符"></a>RESTFUL通配符</h4><p>路由中可以使用变量，用通配符占位，在context对象中可以接收。<br>路由的定义也可以使用正则表达式来声明。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">例如路由：&apos;/user/:id&apos;</div><div class="line">匹配地址：&apos;/user/1264542&apos;</div><div class="line"></div><div class="line">//在controller层的ctx.params.id就可以获取道路由中的id参数</div><div class="line">const &#123; id &#125; = ctx.params;</div><div class="line">console.log(id); // 1264542</div></pre></td></tr></table></figure></p>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><blockquote>
+<p>详细文档： <a href="https://eggjs.org/zh-cn/basics/controller.html" target="_blank" rel="external">https://eggjs.org/zh-cn/basics/controller.html</a></p>
+</blockquote>
+<p>Router 将用户的请求基于 method 和 URL 分发到了对应的 Controller 上， Controller 负责解析用户的输入，处理后返回相应的结果。请求参数进行处理（校验、转换），然后调用对应的 service 方法处理业务，得到业务结果后封装并返回</p>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><p>● 接口中，Controller 接受用户的参数，从数据库中查找内容返回给用户或者将用户的请求更新到数据库中<br>● HTML 页面请求中，Controller 根据用户访问不同的 URL，渲染不同的模板得到 HTML 返回给用户<br>● 代理服务，将用户的请求转发到其他服务器上，并将其他服务器的处理结果返回给用户</p>
+<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">// app/controller/post.js</div><div class="line"></div><div class="line">//引入egg框架的Controller对象</div><div class="line">const Controller = require(&apos;egg&apos;).Controller;</div><div class="line"></div><div class="line">//声明一个继承框架Controller的类</div><div class="line">class PostController extends Controller &#123;</div><div class="line">    </div><div class="line">    async create() &#123;</div><div class="line">        const &#123; ctx, service &#125; = this;</div><div class="line">        const createRule = &#123;</div><div class="line">            title: &#123; type: &apos;string&apos; &#125;,</div><div class="line">            content: &#123; type: &apos;string&apos; &#125;,</div><div class="line">        &#125;;</div><div class="line">        // 校验参数</div><div class="line">        ctx.validate(createRule);</div><div class="line">        </div><div class="line">        // 组装参数</div><div class="line">        const author = ctx.session.userId;</div><div class="line">        const req = Object.assign(ctx.request.body, &#123; author &#125;);</div><div class="line">        </div><div class="line">        // 调用 Service 进行业务处理</div><div class="line">        const res = await service.post.create(req);</div><div class="line">        </div><div class="line">        // 设置响应内容和响应状态码</div><div class="line">        ctx.body = &#123; id: res.id &#125;;</div><div class="line">        ctx.status = 201;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">module.exports = PostController;</div></pre></td></tr></table></figure>
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><blockquote>
+<p>详细文档：<a href="https://eggjs.org/zh-cn/basics/service.html" target="_blank" rel="external">https://eggjs.org/zh-cn/basics/service.html</a></p>
+</blockquote>
+<p>Service 就是在复杂业务场景下用于做业务逻辑封装的一个抽象层，他的目的是：<br>● 保持 Controller 中的逻辑更加简洁<br>● 保持业务逻辑的独立性，抽象出来的 Service 可以被多个 Controller 重复调用<br>● 将逻辑和展现分离，更容易编写测试用例</p>
+<h4 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h4><p>● 复杂数据的处理，比如要展现的信息需要从数据库获取，还要经过一定的规则计算，才能返回用户显示。或者计算完成后，更新到数据库。<br>● 第三方服务的调用，比如 GitHub 信息获取等</p>
+<h4 id="示例代码-1"><a href="#示例代码-1" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// app/service/post.js</div><div class="line">const Service = require(&apos;egg&apos;).Service;</div><div class="line"></div><div class="line">class PostService extends Service &#123;</div><div class="line">    </div><div class="line">  async create(params) &#123;</div><div class="line">      const &#123; ctx, app &#125; = this;</div><div class="line">      const result = await app.mysql.insert(&apos;posts&apos;, params);</div><div class="line">      </div><div class="line">      if (result.affectedRows !== 1) &#123;</div><div class="line">          ctx.logger.error(&apos;Create error : %j.&apos;, fields);</div><div class="line">          return false;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      return true;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">module.exports = PostService;</div></pre></td></tr></table></figure>
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><blockquote>
+<p>详细文档： <a href="https://eggjs.org/zh-cn/core/logger.html" target="_blank" rel="external">https://eggjs.org/zh-cn/core/logger.html</a></p>
+</blockquote>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>● appLogger： 应用相关日志<br>● coreLogger：框架内核、插件日志<br>● errorLogger ： 日志中.error API生成的日志都在这里<br>● agentLogger ：agent 进程日志</p>
+<h4 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// config/config.default.js</div><div class="line">const path = require(&apos;path&apos;)</div><div class="line">module.exports = appInfo =&gt; &#123;</div><div class="line">    const config = exports;</div><div class="line">    </div><div class="line">    config.logger = &#123;</div><div class="line">        dir: path.join(appInfo.baseDir, &apos;logs&apos;), // 根目录下的logs目录下</div><div class="line">        appLogName: `$&#123;appInfo.name&#125;-web.log`, // 应用运行时产生的日志</div><div class="line">        coreLogName: &apos;core.log&apos;, // 框架日志</div><div class="line">        agentLogName: &apos;agent.log&apos;, // agent线程日志</div><div class="line">        errorLogName: &apos;error.log&apos;, // 异常错误日志</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="级别"><a href="#级别" class="headerlink" title="级别"></a>级别</h4><p>● debug： 开发调试时打印的一些日志<br>● info： 应用运行中一些关键信息记录<br>● wanr： 一些警告、提醒类的日志<br>● error： 程序错误、业务逻辑错误、异常捕获到的错误</p>
+<h4 id="动态日志"><a href="#动态日志" class="headerlink" title="动态日志"></a>动态日志</h4><p>● %s: 为一个字符串占位，动态显示一些变量数据在日志字符串中的占位符<br>● %j: 为一个对象或者数组占位，动态显示一些变量数据在日志字符串中的占位符<br>● %d: 为一个数字占位，动态显示一些变量数据在日志字符串中的占位符<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ctx.logger.error(&apos;接口请求错误，状态码:%d, 错误原因: %s, 错误数据：%j&apos;, 502, &apos;sql执行错误&apos;, &#123;data: &#123;a: 2&#125;&#125;)</div><div class="line"></div><div class="line">//输出：接口请求错误，状态码:502, 错误原因: sql执行错误, 错误数据：&#123;data: &#123;a: 2&#125;&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><blockquote>
+<p>详细文档：<a href="https://eggjs.org/zh-cn/basics/extend.html" target="_blank" rel="external">https://eggjs.org/zh-cn/basics/extend.html</a></p>
+</blockquote>
+<h4 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h4><p>在项目根目录下app/extend/目录中可以d对框架的内置对象进行扩展封装。</p>
+<p>● Application： app/extend/application.js<br>● Context： app/extend/context.js<br>● Request:  app/extend/request.js<br>● Response:  app/extend/response.js<br>● Helper:  app/extend/helper.js</p>
+<blockquote>
+<p>也可以根据环境来声明特定环境才会生效的扩展：app/extend/application.local.js</p>
+</blockquote>
+<h4 id="示例代码-2"><a href="#示例代码-2" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">//app/extend/application.js</div><div class="line">module.exports = &#123;</div><div class="line">    test (params) &#123;</div><div class="line">        // 这里的this指向app对象</div><div class="line">    &#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line">//调用方式</div><div class="line">app.test(&#123;a: 1&#125;);</div><div class="line"></div><div class="line"></div><div class="line">//app/extend/context.js</div><div class="line">module.exports = &#123;</div><div class="line">    test (params) &#123;</div><div class="line">        // 这里的this指向ctx对象</div><div class="line">    &#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line">//调用方式</div><div class="line">ctx.test(&#123;a: 1&#125;);</div><div class="line"></div><div class="line"></div><div class="line">//app/extend/request.js</div><div class="line">module.exports = &#123;</div><div class="line">    test (params) &#123;</div><div class="line">        // 这里的this指向ctx.request对象</div><div class="line">    &#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line">//调用方式</div><div class="line">ctx.request.test(&#123;a: 1&#125;);</div><div class="line"></div><div class="line"></div><div class="line">//app/extend/response.js</div><div class="line">module.exports = &#123;</div><div class="line">    test (params) &#123;</div><div class="line">        // 这里的this指向ctx.response对象</div><div class="line">    &#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line">//调用方式</div><div class="line">ctx.response.test(&#123;a: 1&#125;);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">//app/extend/helper.js</div><div class="line">module.exports = &#123;</div><div class="line">    test (params) &#123;</div><div class="line">        // 这里的this指向Helper内置对象</div><div class="line">    &#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line">//调用方式</div><div class="line">ctx.helper.test(&#123;a: 1&#125;);</div><div class="line">app.helper.test(&#123;a: 1&#125;);</div></pre></td></tr></table></figure>
+<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><blockquote>
+<p><a href="https://camo.githubusercontent.com/d80cf3b511ef4898bcde9a464de491fa15a50d06/68747470733a2f2f7261772e6769746875622e636f6d2f66656e676d6b322f6b6f612d67756964652f6d61737465722f6f6e696f6e2e706e67" target="_blank" rel="external">https://camo.githubusercontent.com/d80cf3b511ef4898bcde9a464de491fa15a50d06/68747470733a2f2f7261772e6769746875622e636f6d2f66656e676d6b322f6b6f612d67756964652f6d61737465722f6f6e696f6e2e706e67</a></p>
+</blockquote>
+<p>Egg 的中间件形式和 Koa 的中间件形式是一样的，都是基于洋葱圈模型。每次我们编写一个中间件，就相当于在洋葱外面包了一层</p>
+<h4 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h4><h5 id="中间件的通用配置属性："><a href="#中间件的通用配置属性：" class="headerlink" title="中间件的通用配置属性："></a>中间件的通用配置属性：</h5><p>● enable：控制中间件是否开启。<br>● match：设置只有符合某些规则的请求才会经过这个中间件。<br>● ignore：设置符合某些规则的请求不经过这个中间件。</p>
+<h5 id="根据环境在框架中配置"><a href="#根据环境在框架中配置" class="headerlink" title="根据环境在框架中配置"></a>根据环境在框架中配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// config/config.[env].js中配置</div><div class="line">module.exports = &#123;</div><div class="line">  </div><div class="line">  // 配置需要的中间件，数组顺序即为中间件的加载顺序</div><div class="line">  middleware: [ &apos;gzip&apos; ],</div><div class="line">  // 配置 gzip 中间件的自定义配置</div><div class="line">  gzip: &#123;</div><div class="line">    threshold: 1024, // 小于 1k 的响应体不压缩</div><div class="line">  &#125;,</div><div class="line">  </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h5 id="路由中配置"><a href="#路由中配置" class="headerlink" title="路由中配置"></a>路由中配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// app/router.js中</div><div class="line">module.exports = app =&gt; &#123;</div><div class="line">  const gzip = app.middleware.gzip(&#123; threshold: 1024 &#125;);</div><div class="line">  app.router.get(&apos;/needgzip&apos;, gzip, app.controller.handler);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="开发示例"><a href="#开发示例" class="headerlink" title="开发示例"></a>开发示例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">// middleware/gzip.js</div><div class="line">const isJSON = require(&apos;koa-is-json&apos;);</div><div class="line">const zlib = require(&apos;zlib&apos;);</div><div class="line"></div><div class="line">async function gzip(ctx, next) &#123;</div><div class="line">  await next();</div><div class="line"></div><div class="line">  // 后续中间件执行完成后将响应体转换成 gzip</div><div class="line">  let body = ctx.body;</div><div class="line">  if (!body) return;</div><div class="line">  if (isJSON(body)) body = JSON.stringify(body);</div><div class="line"></div><div class="line">  // 设置 gzip body，修正响应头</div><div class="line">  const stream = zlib.createGzip();</div><div class="line">  stream.end(body);</div><div class="line">  ctx.body = stream;</div><div class="line">  ctx.set(&apos;Content-Encoding&apos;, &apos;gzip&apos;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line">* 需要接收中间件自定义配置参数时</div><div class="line">* 使用函数封装中间件，入参配置</div><div class="line">*/</div><div class="line">module.exports = options =&gt; &#123;</div><div class="line">  return async function gzip(ctx, next) &#123;</div><div class="line">    //options为app.config.gzip的值</div><div class="line">  &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="HTTP-Client"><a href="#HTTP-Client" class="headerlink" title="HTTP Client"></a>HTTP Client</h3><h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><h3 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h3><h3 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h3><h3 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h3><h3 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h3><h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><h3 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h3>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/egg-js/" rel="tag">#egg.js</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/09/25/微前端的技术方案/" rel="next" title="微前端的技术方案">
+                <i class="fa fa-chevron-left"></i> 微前端的技术方案
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2022/10/16/Node服务端框架Egg.js/"
+     data-title="Node服务端框架Egg.js"
+     data-content=""
+     data-url="https://guohenkai.github.io/2022/10/16/Node服务端框架Egg.js/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2022/10/16/Node服务端框架Egg.js/"
+           data-title="Node服务端框架Egg.js" data-url="https://guohenkai.github.io/2022/10/16/Node服务端框架Egg.js/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#框架介绍"><span class="nav-number">1.</span> <span class="nav-text">框架介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计原则"><span class="nav-number">2.</span> <span class="nav-text">设计原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#和其他框架的差异"><span class="nav-number">3.</span> <span class="nav-text">和其他框架的差异</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">4.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#框架"><span class="nav-number">4.1.</span> <span class="nav-text">框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脚手架"><span class="nav-number">4.2.</span> <span class="nav-text">脚手架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">4.3.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多环境配置"><span class="nav-number">4.3.1.</span> <span class="nav-text">多环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件配置"><span class="nav-number">4.3.2.</span> <span class="nav-text">插件配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置加载顺序"><span class="nav-number">4.3.3.</span> <span class="nav-text">配置加载顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置内置对象"><span class="nav-number">4.3.4.</span> <span class="nav-text">配置内置对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录结构和约定"><span class="nav-number">4.3.5.</span> <span class="nav-text">目录结构和约定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能模块"><span class="nav-number">4.4.</span> <span class="nav-text">功能模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动自定义"><span class="nav-number">4.4.1.</span> <span class="nav-text">启动自定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内置对象"><span class="nav-number">4.4.2.</span> <span class="nav-text">内置对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由"><span class="nav-number">4.4.3.</span> <span class="nav-text">路由</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#声明规则"><span class="nav-number">4.4.3.1.</span> <span class="nav-text">声明规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RESTFUL通配符"><span class="nav-number">4.4.3.2.</span> <span class="nav-text">RESTFUL通配符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller"><span class="nav-number">4.4.4.</span> <span class="nav-text">Controller</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用场景"><span class="nav-number">4.4.4.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例代码"><span class="nav-number">4.4.4.2.</span> <span class="nav-text">示例代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#service"><span class="nav-number">4.4.5.</span> <span class="nav-text">service</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用场景-1"><span class="nav-number">4.4.5.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例代码-1"><span class="nav-number">4.4.5.2.</span> <span class="nav-text">示例代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日志"><span class="nav-number">4.4.6.</span> <span class="nav-text">日志</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分类"><span class="nav-number">4.4.6.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-1"><span class="nav-number">4.4.6.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#级别"><span class="nav-number">4.4.6.3.</span> <span class="nav-text">级别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态日志"><span class="nav-number">4.4.6.4.</span> <span class="nav-text">动态日志</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">4.4.7.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类型"><span class="nav-number">4.4.7.1.</span> <span class="nav-text">类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例代码-2"><span class="nav-number">4.4.7.2.</span> <span class="nav-text">示例代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端"><span class="nav-number">4.5.</span> <span class="nav-text">服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#中间件"><span class="nav-number">4.5.1.</span> <span class="nav-text">中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-2"><span class="nav-number">4.5.1.1.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#中间件的通用配置属性："><span class="nav-number">4.5.1.1.1.</span> <span class="nav-text">中间件的通用配置属性：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#根据环境在框架中配置"><span class="nav-number">4.5.1.1.2.</span> <span class="nav-text">根据环境在框架中配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#路由中配置"><span class="nav-number">4.5.1.1.3.</span> <span class="nav-text">路由中配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开发示例"><span class="nav-number">4.5.1.2.</span> <span class="nav-text">开发示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-Client"><span class="nav-number">4.5.2.</span> <span class="nav-text">HTTP Client</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库"><span class="nav-number">4.5.3.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSR"><span class="nav-number">4.5.4.</span> <span class="nav-text">SSR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定时任务"><span class="nav-number">4.5.5.</span> <span class="nav-text">定时任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程间通信"><span class="nav-number">4.5.6.</span> <span class="nav-text">进程间通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC"><span class="nav-number">4.5.7.</span> <span class="nav-text">MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息队列"><span class="nav-number">4.5.8.</span> <span class="nav-text">消息队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集群"><span class="nav-number">4.5.9.</span> <span class="nav-text">集群</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

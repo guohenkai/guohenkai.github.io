@@ -1,0 +1,945 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="装饰器: 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性或参数上，可以修改类的行为。通俗的讲装饰器就是一个方法，可以注入到类、方法、属性参数上来扩展类、属性、方法、参数的功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript中的装饰器(上)">
+<meta property="og:url" content="https://guohenkai.github.io/2019/05/26/TypeScript中的装饰器（上）/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="装饰器: 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性或参数上，可以修改类的行为。通俗的讲装饰器就是一个方法，可以注入到类、方法、属性参数上来扩展类、属性、方法、参数的功能。">
+<meta property="og:updated_time" content="2020-08-26T14:26:30.020Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TypeScript中的装饰器(上)">
+<meta name="twitter:description" content="装饰器: 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性或参数上，可以修改类的行为。通俗的讲装饰器就是一个方法，可以注入到类、方法、属性参数上来扩展类、属性、方法、参数的功能。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TypeScript中的装饰器(上) | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TypeScript中的装饰器(上)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-05-26T00:00:00+08:00" content="2019-05-26">
+              2019-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/05/26/TypeScript中的装饰器（上）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/05/26/TypeScript中的装饰器（上）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>装饰器: 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性或参数上，可以修改类的行为。<br>通俗的讲装饰器就是一个方法，可以注入到类、方法、属性参数上来扩展类、属性、方法、参数的功能。</p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li><p>通俗的讲装饰器就是一个方法，可以注入到类、方法、属性参数上来扩展类、属性、方法、参数的功能。</p>
+</li>
+<li><p>常见的装饰器有：类装饰器、属性装饰器、方法装饰器、参数装饰器</p>
+</li>
+<li><p>装饰器的写法：普通装饰器（无法传参） 、 装饰器工厂（可传参）</p>
+</li>
+<li><p>装饰器是过去几年中js最大的成就之一，已是Es7的标准特性之一</p>
+</li>
+</ul>
+<h4 id="类装饰器：类装饰器在类声明之前被声明（紧靠着类声明）。"><a href="#类装饰器：类装饰器在类声明之前被声明（紧靠着类声明）。" class="headerlink" title="类装饰器：类装饰器在类声明之前被声明（紧靠着类声明）。"></a>类装饰器：类装饰器在类声明之前被声明（紧靠着类声明）。</h4><blockquote>
+<p>类装饰器应用于类构造函数，可以用来监视，修改或替换类定义。 传入一个参数</p>
+</blockquote>
+<p>1、类装饰器:普通装饰器（无法传参）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">function logClass(params:any)&#123;</div><div class="line"></div><div class="line">    console.log(params);</div><div class="line">    // params 就是当前类</div><div class="line">    params.prototype.apiUrl=&apos;动态扩展的属性&apos;;</div><div class="line">    params.prototype.run=function()&#123;</div><div class="line">        console.log(&apos;我是一个run方法&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@logClass</div><div class="line">class HttpClient&#123;</div><div class="line">    constructor()&#123;</div><div class="line">    &#125;</div><div class="line">    getData()&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">var http:any=new HttpClient();</div><div class="line">console.log(http.apiUrl);//动态扩展的属性</div><div class="line">http.run();//我是一个run方法</div></pre></td></tr></table></figure></p>
+<p>2、 类装饰器:装饰器工厂（可传参）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function logClass(params:string)&#123;</div><div class="line">    return function(target:any)&#123;</div><div class="line">        console.log(target);//当前类</div><div class="line">        console.log(params);//hello</div><div class="line">        target.prototype.apiUrl=params;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@logClass(&apos;hello&apos;)</div><div class="line">class HttpClient&#123;</div><div class="line">    constructor()&#123;</div><div class="line">    &#125;</div><div class="line">    getData()&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">var http:any=new HttpClient();</div><div class="line">console.log(http.apiUrl);</div></pre></td></tr></table></figure>
+<p>3、类装饰器 </p>
+<pre><code>下面是一个重载构造函数的例子。
+
+类装饰器表达式会在运行时当作函数被调用，类的构造函数作为其唯一的参数。
+
+如果类装饰器返回一个值，它会使用提供的构造函数来替换类的声明。
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">function logClass(target:any)&#123;</div><div class="line">    console.log(target);//当前类</div><div class="line">    return class extends target&#123;</div><div class="line">        apiUrl:any=&apos;我是修改后的数据&apos;;</div><div class="line">        getData()&#123;</div><div class="line">            this.apiUrl=this.apiUrl+&apos;----&apos;;</div><div class="line">            console.log(this.apiUrl);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@logClass</div><div class="line">class HttpClient&#123;</div><div class="line">    public apiUrl:string | undefined;</div><div class="line">    constructor()&#123;</div><div class="line">        this.apiUrl=&apos;我是构造函数里面的apiUrl&apos;;</div><div class="line">    &#125;</div><div class="line">    getData()&#123;</div><div class="line">        console.log(this.apiUrl);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var http=new HttpClient();</div><div class="line">http.getData();//我是修改后的数据----</div></pre></td></tr></table></figure>
+<h4 id="属性装饰器"><a href="#属性装饰器" class="headerlink" title="属性装饰器"></a>属性装饰器</h4><blockquote>
+<p>属性装饰器表达式会在运行时当作函数被调用，传入下列2个参数：</p>
+</blockquote>
+<pre><code>1、对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+2、成员的名字。
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">//属性装饰器</div><div class="line"></div><div class="line">    function logProperty(params:any)&#123;</div><div class="line">        return function(target:any,attr:any)&#123;</div><div class="line">            console.log(target);//当前类</div><div class="line">            console.log(attr);//name</div><div class="line">            target[attr]=params;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    @logClass(&apos;xxxx&apos;)</div><div class="line">    class HttpClient&#123;</div><div class="line">        @logProperty(&apos;小郭&apos;)</div><div class="line">        public name:any |undefined;</div><div class="line">        constructor()&#123;</div><div class="line">        &#125;</div><div class="line">        getData()&#123;</div><div class="line">            console.log(this.name);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    var http=new HttpClient();</div><div class="line">    http.getData();//小郭</div></pre></td></tr></table></figure>
+<h4 id="方法装饰器"><a href="#方法装饰器" class="headerlink" title="方法装饰器"></a>方法装饰器</h4><blockquote>
+<p>它会被应用到方法的 属性描述符上，可以用来监视，修改或者替换方法定义。</p>
+<p>方法装饰会在运行时传入下列3个参数：</p>
+</blockquote>
+<p> 1、对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。<br> 2、成员的名字。<br> 3、成员的属性描述符。</p>
+<ul>
+<li><p>方法装饰器一</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">function get(params:any)&#123;</div><div class="line">    return function(target:any,methodName:any,desc:any)&#123;</div><div class="line">        console.log(target);</div><div class="line">        console.log(methodName);</div><div class="line">        console.log(desc);</div><div class="line">        target.apiUrl=&apos;xxxx&apos;;</div><div class="line">        target.run=function()&#123;</div><div class="line">            console.log(&apos;run&apos;);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class HttpClient&#123;  </div><div class="line">    public url:any |undefined;</div><div class="line">    constructor()&#123;</div><div class="line">    &#125;</div><div class="line">    @get(&apos;http://www.itying,com&apos;)</div><div class="line">    getData()&#123;</div><div class="line">        console.log(this.url);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var http:any=new HttpClient();</div><div class="line">console.log(http.apiUrl);</div><div class="line">http.run();</div></pre></td></tr></table></figure>
+</li>
+<li><p>方法装饰器二</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">    function get(params:any)&#123;</div><div class="line">    return function(target:any,methodName:any,desc:any)&#123;</div><div class="line">        console.log(target);</div><div class="line">        console.log(methodName);</div><div class="line">        console.log(desc.value);       </div><div class="line">        </div><div class="line">        //修改装饰器的方法  把装饰器方法里面传入的所有参数改为string类型</div><div class="line"></div><div class="line">        //1、保存当前的方法</div><div class="line"></div><div class="line">        var oMethod=desc.value;</div><div class="line">        desc.value=function(...args:any[])&#123;                </div><div class="line">            args=args.map((value)=&gt;&#123;</div><div class="line">                return String(value);</div><div class="line">            &#125;)</div><div class="line">            oMethod.apply(this,args);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class HttpClient&#123;  </div><div class="line">    public url:any |undefined;</div><div class="line">    constructor()&#123;</div><div class="line">    &#125;</div><div class="line">    @get(&apos;http://www.itying,com&apos;)</div><div class="line">    getData(...args:any[])&#123;</div><div class="line">        console.log(args);</div><div class="line">        console.log(&apos;我是getData里面的方法&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var http=new HttpClient();</div><div class="line">http.getData(123,&apos;xxx&apos;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="方法参数装饰器"><a href="#方法参数装饰器" class="headerlink" title="方法参数装饰器"></a>方法参数装饰器</h4><blockquote>
+<p>参数装饰器表达式会在运行时当作函数被调用，可以使用参数装饰器为类的原型增加一些元素数据 &gt; 传入下列3个参数：</p>
+</blockquote>
+<p>   1、对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。<br>   2、方法的名字。<br>   3、参数在函数参数列表中的索引。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"> function logParams(params:any)&#123;</div><div class="line"></div><div class="line">     return function(target:any,methodName:any,paramsIndex:any)&#123;</div><div class="line">        console.log(params);</div><div class="line">        console.log(target);</div><div class="line">        console.log(methodName);</div><div class="line">        console.log(paramsIndex);</div><div class="line">        target.apiUrl=params;</div><div class="line">     &#125;   </div><div class="line">&#125;</div><div class="line"></div><div class="line"> class HttpClient&#123;  </div><div class="line">             public url:any |undefined;</div><div class="line">             constructor()&#123;</div><div class="line">            &#125;           </div><div class="line">             getData(@logParams(&apos;xxxxx&apos;) uuid:any)&#123;               </div><div class="line">                 console.log(uuid);</div><div class="line">             &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">  var http:any = new HttpClient();</div><div class="line">  http.getData(123456);</div><div class="line"> console.log( http.apiUrl);</div></pre></td></tr></table></figure></p>
+<h4 id="装饰器执行顺序"><a href="#装饰器执行顺序" class="headerlink" title="装饰器执行顺序"></a>装饰器执行顺序</h4><p>属性》方法》方法参数》类</p>
+<blockquote>
+<p>如果有多个同样的装饰器，它会先执行后面的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">function logClass1(params:string)&#123;</div><div class="line">    return function(target:any)&#123;</div><div class="line">      console.log(&apos;类装饰器1&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function logClass2(params:string)&#123;</div><div class="line">    return function(target:any)&#123;</div><div class="line">      console.log(&apos;类装饰器2&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function logAttribute1(params?:string)&#123;</div><div class="line">    return function(target:any,attrName:any)&#123;</div><div class="line">      console.log(&apos;属性装饰器1&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function logAttribute2(params?:string)&#123;</div><div class="line">    return function(target:any,attrName:any)&#123;</div><div class="line">      console.log(&apos;属性装饰器2&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function logMethod1(params?:string)&#123;</div><div class="line">    return function(target:any,attrName:any,desc:any)&#123;</div><div class="line">      console.log(&apos;方法装饰器1&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">function logMethod2(params?:string)&#123;</div><div class="line">    return function(target:any,attrName:any,desc:any)&#123;</div><div class="line">      console.log(&apos;方法装饰器2&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">function logParams1(params?:string)&#123;</div><div class="line">    return function(target:any,attrName:any,desc:any)&#123;</div><div class="line">      console.log(&apos;方法参数装饰器1&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function logParams2(params?:string)&#123;</div><div class="line">    return function(target:any,attrName:any,desc:any)&#123;</div><div class="line">      console.log(&apos;方法参数装饰器2&apos;)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>@logClass1(&apos;http://www.itying.com/api&apos;)
+@logClass2(&apos;xxxx&apos;)
+class HttpClient{
+    @logAttribute1()
+    @logAttribute2()
+    public apiUrl:string | undefined;
+    constructor(){
+    }
+
+    @logMethod1()
+    @logMethod2()
+    getData(){
+        return true;
+    }
+
+    setData(@logParams1() attr1:any,@logParams2() attr2:any,){
+
+    }
+}
+
+var http:any=new HttpClient();
+</code></pre><p>/*<br>    4、方法参数装饰器<br>        参数装饰器表达式会在运行时当作函数被调用，传入下列3个参数：</p>
+<pre><code>1、对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+2、参数的名字。
+3、参数在函数参数列表中的索引。
+</code></pre><p>*/</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/25/TypeScript中的泛型(下)/" rel="next" title="TypeScript中的泛型(下)">
+                <i class="fa fa-chevron-left"></i> TypeScript中的泛型(下)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/27/TypeScript中的装饰器(下)/" rel="prev" title="TypeScript中的装饰器(下)">
+                TypeScript中的装饰器(下) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2019/05/26/TypeScript中的装饰器（上）/"
+     data-title="TypeScript中的装饰器(上)"
+     data-content=""
+     data-url="https://guohenkai.github.io/2019/05/26/TypeScript中的装饰器（上）/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/05/26/TypeScript中的装饰器（上）/"
+           data-title="TypeScript中的装饰器(上)" data-url="https://guohenkai.github.io/2019/05/26/TypeScript中的装饰器（上）/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#类装饰器：类装饰器在类声明之前被声明（紧靠着类声明）。"><span class="nav-number">1.</span> <span class="nav-text">类装饰器：类装饰器在类声明之前被声明（紧靠着类声明）。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性装饰器"><span class="nav-number">2.</span> <span class="nav-text">属性装饰器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法装饰器"><span class="nav-number">3.</span> <span class="nav-text">方法装饰器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法参数装饰器"><span class="nav-number">4.</span> <span class="nav-text">方法参数装饰器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#装饰器执行顺序"><span class="nav-number">5.</span> <span class="nav-text">装饰器执行顺序</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

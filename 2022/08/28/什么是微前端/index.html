@@ -1,0 +1,909 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="微前端," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="背景现在很多企业，基本在物理上进行了应用代码隔离，实行单个应用单个库，闭环部署更新测试环境、预发布环境和正式环境。于是，我们的探讨的是，基于不同应用不同库并独立部署的情况下，如何实现多个应用之间的资源共享？
+之前比较多的处理方式是npm包形式抽离和引用，比如多个应用项目之间，可能有某业务逻辑模块或者其他是可复用的，便抽离出来以npm包的形式进行管理和使用。但这样却带来了以下几个问题：
+
+发布效率低">
+<meta property="og:type" content="article">
+<meta property="og:title" content="什么是微前端">
+<meta property="og:url" content="https://guohenkai.github.io/2022/08/28/什么是微前端/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="背景现在很多企业，基本在物理上进行了应用代码隔离，实行单个应用单个库，闭环部署更新测试环境、预发布环境和正式环境。于是，我们的探讨的是，基于不同应用不同库并独立部署的情况下，如何实现多个应用之间的资源共享？
+之前比较多的处理方式是npm包形式抽离和引用，比如多个应用项目之间，可能有某业务逻辑模块或者其他是可复用的，便抽离出来以npm包的形式进行管理和使用。但这样却带来了以下几个问题：
+
+发布效率低">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fyx4kq6j20g20aj40q.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fzn3jyvj20f709cjsk.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78g05ao03j20hq0a20tn.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78g0hvsw6j20hh09p3zn.jpg">
+<meta property="og:updated_time" content="2022-10-17T10:05:42.173Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="什么是微前端">
+<meta name="twitter:description" content="背景现在很多企业，基本在物理上进行了应用代码隔离，实行单个应用单个库，闭环部署更新测试环境、预发布环境和正式环境。于是，我们的探讨的是，基于不同应用不同库并独立部署的情况下，如何实现多个应用之间的资源共享？
+之前比较多的处理方式是npm包形式抽离和引用，比如多个应用项目之间，可能有某业务逻辑模块或者其他是可复用的，便抽离出来以npm包的形式进行管理和使用。但这样却带来了以下几个问题：
+
+发布效率低">
+<meta name="twitter:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fyx4kq6j20g20aj40q.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 什么是微前端 | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                什么是微前端
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2022-08-28T00:00:00+08:00" content="2022-08-28">
+              2022-08-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/微前端/" itemprop="url" rel="index">
+                    <span itemprop="name">微前端</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2022/08/28/什么是微前端/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2022/08/28/什么是微前端/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>现在很多企业，基本在物理上进行了应用代码隔离，实行单个应用单个库，闭环部署更新测试环境、预发布环境和正式环境。于是，我们的探讨的是，基于不同应用不同库并独立部署的情况下，如何实现多个应用之间的资源共享？</p>
+<p>之前比较多的处理方式是npm包形式抽离和引用，比如多个应用项目之间，可能有某业务逻辑模块或者其他是可复用的，便抽离出来以npm包的形式进行管理和使用。但这样却带来了以下几个问题：</p>
+<ul>
+<li>发布效率低下。如果需要迭代npm包内的逻辑业务，需要先发布npm包之后，再每个使用了该npm包的应用都更新一次npm包版本，再各自构建发布一次，过程繁琐。如果涉及到的应用更多的话，花费的人力和精力就更多了。</li>
+<li>多团队协作容易不规范。包含通用模块的npm包作为共享资产，“每个人”拥有它，但在实践中，这通常意味着没有人拥有它。它很快就会充满杂乱的风格不一致的代码，没有明确的约定或技术愿景。<a id="more"></a>
+</li>
+</ul>
+<p>这些问题让我们意识到，扩展前端开发规模以便于多个团队可以同时开发一个大型且复杂的产品是一个重要但又棘手的难题。</p>
+<p>微前端概念</p>
+<p>Micro Frontends 官网定义了微前端概念：</p>
+<blockquote>
+<p>Techniques, strategies and recipes for building a modern web app with multiple teams that can ship features independently.</p>
+</blockquote>
+<p>翻译成中文：构建一个现代web应用所需要的技术、策略和方法，具备多个团队独立开发、部署的特性。</p>
+<p>从Micro Frontends 官网可以了解到，微前端概念是从微服务概念扩展而来的，摒弃大型单体方式，将前端整体分解为小而简单的块，这些块可以独立开发、测试和部署，同时仍然聚合为一个产品出现在客户面前。可以理解微前端是一种将多个可独立交付的小型前端应用聚合为一个整体的架构风格。</p>
+<p>狭义的理解：微前端是一个工程使用多种框架，React + Vue + Jquery，解决多种框架共存的一个方案</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78fyx4kq6j20g20aj40q.jpg" alt="image"></p>
+<h4 id="微前端优势"><a href="#微前端优势" class="headerlink" title="微前端优势"></a>微前端优势</h4><h5 id="同步更新"><a href="#同步更新" class="headerlink" title="同步更新"></a>同步更新</h5><p>微前端由于是多个子应用的聚合，如果多个业务应用依赖同一个服务应用的功能模块，只需要更新服务应用，其他业务应用就可以立马更新，从而缩短了更新流程和节约了更新成本。</p>
+<h5 id="增量升级"><a href="#增量升级" class="headerlink" title="增量升级"></a>增量升级</h5><p>可维护性和扩展性更好，便于局部升级和增量升级</p>
+<h5 id="简单、解耦的代码库"><a href="#简单、解耦的代码库" class="headerlink" title="简单、解耦的代码库"></a>简单、解耦的代码库</h5><p>代码库更小、内聚性更强、耦合性更低</p>
+<h5 id="独立部署"><a href="#独立部署" class="headerlink" title="独立部署"></a>独立部署</h5><p>便于独立编译、测试和部署，可靠性更高</p>
+<h5 id="自主的团队"><a href="#自主的团队" class="headerlink" title="自主的团队"></a>自主的团队</h5><p>各个团队可以独立开发，互不干扰</p>
+<h4 id="微前端架构模式"><a href="#微前端架构模式" class="headerlink" title="微前端架构模式"></a>微前端架构模式</h4><p>目前国内微前端方案大概分为：</p>
+<ul>
+<li>基座模式：通过搭建基座、配置中心来管理子应用。如基于SIngle Spa的偏通用的qiankun方案，也有基于本身团队业务量身定制的方案。</li>
+<li>自组织模式： 通过约定进行互调，但会遇到处理第三方依赖等问题。如system.js</li>
+<li>去中心模式： 脱离基座模式，每个应用之间都可以彼此分享资源。如基于Webpack 5 Module Federation实现的EMP微前端方案，可以实现多个应用彼此共享资源分享。</li>
+</ul>
+<h5 id="基座模式"><a href="#基座模式" class="headerlink" title="基座模式"></a>基座模式</h5><p>主要基于路由分发，即由一个基座应用来监听路由，并按照路由规则来加载不同的应用，以实现应用间解耦；目前成熟的方案较多<br><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78fzn3jyvj20f709cjsk.jpg" alt="image.png"></p>
+<h5 id="自组织模式"><a href="#自组织模式" class="headerlink" title="自组织模式"></a>自组织模式</h5><p>应用之间是平等的，不存在相互管理的模式。设计难度大，不方便实施，但是通用度高<br><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78g05ao03j20hq0a20tn.jpg" alt="image.png"></p>
+<h5 id="去中心模式"><a href="#去中心模式" class="headerlink" title="去中心模式"></a>去中心模式</h5><p>每个应用之间都可以彼此分享资源，也可以有公共的资源放在一个应用中管理，目前成熟的方案有EMP<br><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78g0hvsw6j20hh09p3zn.jpg" alt="image.png"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微前端/" rel="tag">#微前端</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/08/07/Git 常用操作/" rel="next" title="Git 常用操作">
+                <i class="fa fa-chevron-left"></i> Git 常用操作
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/09/04/实名认证和实人认证/" rel="prev" title="实名认证和实人认证（阿里云）">
+                实名认证和实人认证（阿里云） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2022/08/28/什么是微前端/"
+     data-title="什么是微前端"
+     data-content=""
+     data-url="https://guohenkai.github.io/2022/08/28/什么是微前端/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2022/08/28/什么是微前端/"
+           data-title="什么是微前端" data-url="https://guohenkai.github.io/2022/08/28/什么是微前端/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#微前端优势"><span class="nav-number">2.</span> <span class="nav-text">微前端优势</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#同步更新"><span class="nav-number">2.1.</span> <span class="nav-text">同步更新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#增量升级"><span class="nav-number">2.2.</span> <span class="nav-text">增量升级</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#简单、解耦的代码库"><span class="nav-number">2.3.</span> <span class="nav-text">简单、解耦的代码库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#独立部署"><span class="nav-number">2.4.</span> <span class="nav-text">独立部署</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自主的团队"><span class="nav-number">2.5.</span> <span class="nav-text">自主的团队</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#微前端架构模式"><span class="nav-number">3.</span> <span class="nav-text">微前端架构模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基座模式"><span class="nav-number">3.1.</span> <span class="nav-text">基座模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自组织模式"><span class="nav-number">3.2.</span> <span class="nav-text">自组织模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#去中心模式"><span class="nav-number">3.3.</span> <span class="nav-text">去中心模式</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

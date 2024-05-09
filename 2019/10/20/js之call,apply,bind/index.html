@@ -1,0 +1,951 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="callmdn 对call  fun.call(thisArg[, arg1[, arg2[, …]]])  对call是这么定义的
+
+call  是改变this 指向的，第一个对象是this指向的对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js之 call,apply,bind原生实现">
+<meta property="og:url" content="https://guohenkai.github.io/2019/10/20/js之call,apply,bind/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="callmdn 对call  fun.call(thisArg[, arg1[, arg2[, …]]])  对call是这么定义的
+
+call  是改变this 指向的，第一个对象是this指向的对象">
+<meta property="og:updated_time" content="2020-08-28T13:04:11.243Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js之 call,apply,bind原生实现">
+<meta name="twitter:description" content="callmdn 对call  fun.call(thisArg[, arg1[, arg2[, …]]])  对call是这么定义的
+
+call  是改变this 指向的，第一个对象是this指向的对象">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> js之 call,apply,bind原生实现 | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                js之 call,apply,bind原生实现
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-10-20T00:00:00+08:00" content="2019-10-20">
+              2019-10-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JS/" itemprop="url" rel="index">
+                    <span itemprop="name">JS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/10/20/js之call,apply,bind/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/10/20/js之call,apply,bind/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="call"><a href="#call" class="headerlink" title="call"></a>call</h4><p>mdn 对call  fun.call(thisArg[, arg1[, arg2[, …]]])  对call是这么定义的</p>
+<blockquote>
+<p>call  是改变this 指向的，第一个对象是this指向的对象</p>
+</blockquote>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo=&#123;</div><div class="line">    value:1</div><div class="line">&#125;</div><div class="line">function bar()&#123;</div><div class="line">    console.log(this.value)</div><div class="line">&#125;</div><div class="line">bar.call(foo)</div></pre></td></tr></table></figure>
+<ul>
+<li>call  改变了this的指向，</li>
+<li>同时执行了bar方法</li>
+</ul>
+<p>我们改造一下这个函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo=&#123;</div><div class="line">    value:1,</div><div class="line">    bar:()=&gt;&#123;</div><div class="line">        console.log(this.value)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">foo.bar()</div></pre></td></tr></table></figure></p>
+<p><strong>这个时候 this 就指向了 foo，是不是很简单呢？</strong></p>
+<p>但是这样却给 foo 对象本身添加了一个属性，这可不行呐！</p>
+<p>不过也不用担心，我们用 delete 再删除它不就好了~</p>
+<p>所以我们的思路是：</p>
+<ul>
+<li>先将函数设为对象的属性</li>
+<li>执行该函数</li>
+<li>删除该函数</li>
+</ul>
+<p>第一步</p>
+<p>foo.fn = bar</p>
+<p>第二步</p>
+<p>foo.fn()</p>
+<p>第三步</p>
+<p>delete foo.fn<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Function.prototype.call2=function(context)&#123;</div><div class="line">    // 首先要获取调用call的函数，用this可以获取</div><div class="line">    console.log(context)</div><div class="line">    console.log(this)   // this 是指当前函数中正在执行的上下文环境  ,这里指的就是bar</div><div class="line">    console.log(1)</div><div class="line">    context.fn = this;  // 把bar函数作为context的一个属性fn</div><div class="line">   </div><div class="line">    context.fn();  // 执行</div><div class="line">    delete context.fn; // 从这个对象上删掉这个函数，本身这个属性也是自己手动添加进来的，最后还是需要把它删了，还原</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>测试一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo = &#123;</div><div class="line">    value: 1</div><div class="line">&#125;;</div><div class="line">function bar() &#123;</div><div class="line">    console.log(this.value);</div><div class="line">&#125;</div><div class="line">bar.call2(foo); // 1      完美实现了</div></pre></td></tr></table></figure></p>
+<p>走到这步，貌似好像实现了call的功能欸，但是call的一个特变就是，除了改变this指向问题，还能传参，怎么做到通配呢<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var foo = &#123;</div><div class="line">    value: 1</div><div class="line">&#125;;</div><div class="line">function bar(name, age) &#123;</div><div class="line">    console.log(name)</div><div class="line">    console.log(age)</div><div class="line">    console.log(this.value);</div><div class="line">&#125;</div><div class="line">bar.call(foo, &apos;kevin&apos;, 18);</div></pre></td></tr></table></figure></p>
+<p>但是这里的动态参数如何来处理呢，我们需要借助  Arguments对象，取出第二个到最后一个参数，然后放到一个数组里面</p>
+<p>以上例子为例,此时的arguments为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">arguments=&#123;</div><div class="line">    0:value,</div><div class="line">    1:name,</div><div class="line">    2:age,</div><div class="line">    length:3</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>arguments  是类数组，具有length的属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var  args=[]</div><div class="line">for (var i=1;i&lt;arguments.length;i++)&#123;  // 这里i=1是去取第二个参数开始，第一个是this指向的对象，不是参数</div><div class="line">    args.push(&apos;argument[&apos;+i+&apos;]&apos;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行后 args为 [“arguments[1]”, “arguments[2]”, “arguments[3]”]</p>
+<p>不定长的参数问题解决了，我们接着要把这个参数数组放到要执行的函数的参数里面去</p>
+<p>我们再来回到之前咱们写的第一版的call的实现</p>
+<p><strong>最完整的一版</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Function.prototype.call2=function(context)&#123;</div><div class="line">    console.log(context) </div><div class="line">    console.log(arguments) </div><div class="line">    var context = context || window;  // this 参数可以传 null，当为 null 的时候，视为指向 window</div><div class="line">    context.fn=this   </div><div class="line">    // 谁调用指向谁，bar调用，this指向bar   [Function bar]</div><div class="line">    // 接下来我们需要将后面的参数解析出来，传进fn中</div><div class="line">    var  args=[]</div><div class="line">    for (var i=1;i&lt;arguments.length;i++)&#123;  // 这里i=1是去取第二个参数开始，第一个是this指向的对象，不是参数</div><div class="line">        args.push(&apos;arguments[&apos;+i+&apos;]&apos;)</div><div class="line">    &#125;</div><div class="line">    // 执行后 args为 [&quot;arguments[1]&quot;, &quot;arguments[2]&quot;, &quot;arguments[3]&quot;]  这一步还没有得到值，只是完成了字符串拼接</div><div class="line">    var  result=eval(&apos;context.fn(&apos; + args +&apos;)&apos;); // Array.toString()  这里 args 会自动调用 Array.toString() 这个方法。</div><div class="line">    // 在执行了eval()时，他会首先把数组转成字符串，然后把eval()里面的内容当做执行语句，这时候arguments[2]  才会真正从arguments中取出</div><div class="line">    // eval() 函数可计算某个字符串，并执行其中的的 JavaScript 代码。</div><div class="line">    // 来说eval eval方法接收字符串作为脚本来执行。也就是说，</div><div class="line">    // 如果接收的参数不是字符串，会强转为字符串。这也就是为啥他会自动调用Array.toString()方法</div><div class="line">    // context.fn(args.toString())</div><div class="line">    delete context.fn</div><div class="line">    return   result</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var foo=&#123;</div><div class="line">    value:1</div><div class="line">&#125;</div><div class="line">function bar(name,age)&#123;</div><div class="line">    console.log(this.value)</div><div class="line">    console.log(name)</div><div class="line">    console.log(age)</div><div class="line">&#125;</div><div class="line"> bar.call2(foo,&apos;协修彭&apos;,118)</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Function.prototype.apply2=function(context)&#123;</div><div class="line">    context.fn=this</div><div class="line">   </div><div class="line">    // 接下来解决这个不定长的参数问题，而且apply传的是数组</div><div class="line">    //console.info(arguments[1]) // 后面传的数组参数</div><div class="line">    var  arg=[]</div><div class="line">    for(var i=0;i&lt;arguments[1].length;i++)&#123;</div><div class="line">        arg.push(&quot;arguments[1][&quot;+i+&quot;]&quot;)  // 同理，我们只转化成字符串，此时我们不解析出来</div><div class="line">    &#125;</div><div class="line">    var result=eval(&quot;context.fn(&quot;+arg+&quot;)&quot;)</div><div class="line">     // 执行这个函数</div><div class="line">    delete context.fn  // 删除这个属性（函数）</div><div class="line">    return  result</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>由于apply其实内部也是展开了传入的数组</strong></p>
+<p>在新的es6中，我们经常用扩展运算符…来结构数组，使之扁平化</p>
+<p>或者在apply的实现上，我们可以不用for循环，只用扩展运算符，或者用slice(1)来截取数组再转成字符串参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var foo=&#123;</div><div class="line">    value:2</div><div class="line">&#125;</div><div class="line">function bar(name,age)&#123; </div><div class="line">    console.info(this.value)</div><div class="line">    console.info(name)</div><div class="line">    console.info(age)</div><div class="line">&#125;</div><div class="line">bar.apply2(foo,[&apos;xiexiupeng&apos;,12])</div></pre></td></tr></table></figure></p>
+<h4 id="bind"><a href="#bind" class="headerlink" title="bind"></a>bind</h4><p>这里简要介绍一下bind和call,apply的区别，call和apply只是后面传递的参数形势不同，一个是参数列表，一个是数组的形势</p>
+<p>但是bind() 是返回一个新的函数，并且需要调用才会执行，不会像call和apply一样立即执行</p>
+<p>这里插入一下 ，之前我们了解过原型链和原型，构造函数之间的关系，现在我们来深入的了解一下instanceof</p>
+<p>instanceof 运算符用来检测 constructor.prototype 是否存在于参数 object 的原型链上。</p>
+<p>在mdn中他是这么定义的：object instanceof constructor   其中object 为要检测的对象，constructor为某个构造函数</p>
+<p>instanceof 运算符用于测试构造函数的prototype属性是否出现在对象的原型链中的任何位置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function Person() &#123;</div><div class="line">&#125;</div><div class="line">var person = new Person();</div><div class="line">// true  构造函数的prototype属性是否出现在对象的原型链中的任何位置 </div><div class="line">console.log(person.__proto__ === Person.prototype); </div><div class="line">// true   上述我们已经讲清楚了三者之间的关系</div><div class="line">console.log(Person === Person.prototype.constructor); </div><div class="line">console.log(person instanceof Person)</div></pre></td></tr></table></figure></p>
+<p>现在想想难怪面试的时候必考bind的原生实现，原来涉及到那么多知识点</p>
+<p>我们知道返回新的一个函数，我们有多种方式，可以直接在后面加上()上调用即可</p>
+<p>但是我们也可以new()一下，然后再来调用，那么这样会对我们我们实现bind有什么影响呢？先保留悬念，我们先来看一下new（）发生了什么</p>
+<p>这个也是面试必考的知识点</p>
+<p><strong>我们先来回忆一下，new（）中到底发生了什么，或者new()实现了那些功能</strong></p>
+<p>1.访问到构造函数的属性</p>
+<p>2.访问到构造函数的原型属性</p>
+<p>我们来模拟实现new() 的功能<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function Otaku () &#123;</div><div class="line">    // ....</div><div class="line">&#125;</div><div class="line">// 使用 new</div><div class="line">var person = new Otaku();</div><div class="line">// 使用 objectFactory</div><div class="line">var person = objectFactory(Otaku)</div></pre></td></tr></table></figure></p>
+<p><strong>第一版</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function objectFactory()&#123;</div><div class="line">    var obj=new Object() // 创建一个新的对象</div><div class="line">    Constructor =[].shift.call(arguments)  //  取出arguments 中的第一个参数,就是我们传入的构造函数</div><div class="line">    // shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。</div><div class="line">    obj.__proto__=Constructor.prototype // 构造函数的protptype指向obj的_proto_  ,使obj可以继承Constructor的属性</div><div class="line">    Constructor.apply(obj,arguments)  // 改变this指向，同时可以传入其他参数，arguments为相当于new(arg)中的arg</div><div class="line">    return obj  // 返回这个obj</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第二版</p>
+<p>在一版我们会发现，其实我们并不确定他是返回的什么，有可能是新创建的这个对象的本身，也有可能是执行构造函数返回的字符串抑或是其他</p>
+<p>这里我们就要做个判断了 ，如果是结果是对象的话，就返回这个新创建的对象，如果不是的话，返回结果本身就好了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function objectFactory()&#123;</div><div class="line">    // 创建一个新的对象</div><div class="line">    var obj=new Object()</div><div class="line">    //  取出arguments 中的第一个参数,就是我们传入的构造函数</div><div class="line">    // shift() 方法用于把数组的第一个元素从其中删除，并返回第一个元素的值。</div><div class="line">    Constructor =[].shift.call(arguments) </div><div class="line">    // 构造函数的protptype指向obj的_proto_  ,使obj可以继承Constructor的属性</div><div class="line">    obj.__proto__=Constructor.prototype</div><div class="line">    // 改变this指向，同时可以传入其他参数，arguments为相当于new(arg)中的arg</div><div class="line">    var ret = Constructor.apply(obj,arguments) </div><div class="line">    return ret ===&apos;Object&apos;?obj: ret // 返回这个obj</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>以上就是new()的过程发生的一切，我们再来看一下bind的实现</p>
+<p><strong>我们要解决一下几个事情</strong></p>
+<p>1.解决改变this指向的问题</p>
+<p>2.解决不定长参数传递问题</p>
+<p>3.解决new之后，this绑定失效的问题</p>
+<p>我们先来看一下<strong>第一版</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Function.prototype.bind2=function(context)&#123;  </div><div class="line">    // 其实之前一直对这个context理解不了，为啥取context,我们可以理解为执行上下文，即this对象</div><div class="line">    //  从js传参的角度来说也是一样的，context代表的是第一个参数对象，即绑定的this对象</div><div class="line">    var self=this  // 谁调用this指向谁，此处为bar</div><div class="line">    // 返回一个函数</div><div class="line">    return function()&#123;</div><div class="line">        //这里改变this指向我们也可以用call，其实真正内部改变this指向的是用的call，详见可以看一下mdn的实现</div><div class="line">        return  self.apply(context)  </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一版改变改变this指向，返回一个新的函数 我们实现了，接下来我们要解决传参的模拟实现</p>
+<p><strong>第二版本</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Function.prototype.bind2=function(context)&#123;</div><div class="line">    var  self=this</div><div class="line">    // 获取到bind2函数从第二个到最后一个参数  arguments</div><div class="line">    var args = Array.prototype.slice.call(arguments, 1);   // 伪数组转成真数组。这个方法是常用的</div><div class="line">    </div><div class="line">    return function()&#123;</div><div class="line">        // 获取到第二段函数传递的参数</div><div class="line">        var bindArgs=Arry.prototype.slice.call(arguments)</div><div class="line">        // 最后拼接的参数</div><div class="line">        return self.apply(context,args.concat(bindArgs))</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们已经实现了返回新的函数，同时解决了不定长参数的问题，接下来我们需要解决new()构造函数效果的模拟实现</p>
+<p><strong>第三版本</strong></p>
+<p>一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。提供的 this 值被忽略，同时调用时的参数被提供给模拟函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">Function.prototype.bind2=function(context)&#123;</div><div class="line">    var  self=this</div><div class="line">    var agrs=Arry.prototype.slice.call(arguments)</div><div class="line">    // return  function()&#123;</div><div class="line">    //     var bindArgs=Arry.prototype.slice.call(arguments)</div><div class="line">    //     return self.apply(context,args.concat(bindArgs))</div><div class="line">    // &#125;</div><div class="line">    var fBound=function()&#123;</div><div class="line">        var bindArgs=Arry.prototype.slice.call(arguments)</div><div class="line">        // 如果this是bBound的实例的话，Bfound作为构造函数，this指向实例，此时为true</div><div class="line">        //  将绑定函数的this 指向该实例，可以让实例获得来自绑定函数的值，如下面的obj其实就是fun1的实例</div><div class="line">        // 当作为普通函数的时候，this指向window(直接调用fun1()),此时结果为false,将绑定函数的this指向context</div><div class="line">        return self.apply(this instanceof fBound ? this: context,args.concat(bindArgs))</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">     // 修改返回函数的 prototype 为绑定函数的 prototype，实例就可以继承绑定函数的原型中的值</div><div class="line">     // 其实昨晚一直不解为啥需要加上这个，这个其实就是为了如果是通过new操作符构造的话，这个新的对象需要继承构造函数的属性</div><div class="line">     // </div><div class="line">    fBound.prototype = this.prototype;</div><div class="line">    return  fBound</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>第四版本</strong>，对于博主说的加一个函数进行空转其实没怎么看懂,说是我们直接将 fBound.prototype = this.prototype，我们直接修改 fBound.prototype 的时候，也会直接修改绑定函数的 prototype<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">Function.prototype.bind2=function(context)&#123;</div><div class="line">    var   self=this</div><div class="line">    var   agrs=Arry.prototype.slice.all(arguments,1) // 第一部分参数</div><div class="line">    var  fNOP=function()&#123; // 哪一个空函数出来进行中转</div><div class="line">    &#125;</div><div class="line">    var   bind2Fun=function()&#123;</div><div class="line">        // 如果是通过new操作符来的 直接指向this,否则是普通函数不是构造而来的，直接指向绑定的对象</div><div class="line">        </div><div class="line">        var bind2Agrs=Array.prototype.slice(arguments,1)</div><div class="line">        return self.apply(this instanceof fNOP?this:context,agrs.concat(bind2Agrs))</div><div class="line">    &#125;</div><div class="line">    //  为了不影响this的原型对象，我们中间通过fNOP来进行中转，当你改变bind2Fun.protype的时候,也只改变fNOP这个函数原型属性</div><div class="line">    //  而不会影响到this.prototype</div><div class="line">    fNOP.prototype=this.prototype</div><div class="line">    bind2Fun.prototype=new fNOP()</div><div class="line">    return bind2Fun</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>相信你对以上拿一个函数进行中转没有看懂</p>
+<p>我们直接将 fBound.prototype = this.prototype，我们直接修改 fBound.prototype 的时候也会直接修改绑定函数的 prototype。这里有点不太懂诶， 我也是一样的，下面我们在解释这个问题</p>
+<p>如果我们没有拿一个函数来空转，以第三版为基准， 那么我们来看下面这段代码会输出啥<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function bar() &#123;&#125;</div><div class="line">var bindFoo = bar.bind2(null);</div><div class="line">bindFoo.prototype.value = 1;    // 这里就相当于直接改变fBound.prototype的值，改变其原型属性</div><div class="line">console.log(bar.prototype.value)</div></pre></td></tr></table></figure></p>
+<p>以第三版为例，输出会是  1，这也就是为啥，我改变的是bindFoo的原型属性，但是也会改变bar的原型属性</p>
+<p>也许你还会问，为啥fBound.prototype = this.prototype;就会改变bar的原型属性呢，因为他们都是关联同一个原型对象，原型对象被修改了，当然也会改变啦<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var  foo=&#123;</div><div class="line">    value:1</div><div class="line">&#125;</div><div class="line"> function bar(name,age)&#123;</div><div class="line">     console.log(this.value)</div><div class="line">     console.log(name)</div><div class="line">     console.log(age)</div><div class="line"> &#125;</div><div class="line"> var fun1=bar.bind2(foo,&apos;xiexiupeng&apos;,&apos;18&apos;) // 其实这个fun1为绑定bind2返回的一个新的函数</div><div class="line"> fun1(&apos;22&apos;)  //  直接调用   第一种用法</div><div class="line"> var obj=new fun1()  // 当作为构造函数的时候，使用了new操作符</div></pre></td></tr></table></figure></p>
+<p> <strong>再来梳理一下，重写一个bind实现</strong><br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"> Function.prototype.bind2=function(context)&#123;</div><div class="line">    // 这里我们要注意问你们要防止我们调用bind的是不是一个函数</div><div class="line">    if(typeof this !==&apos;function&apos;)&#123;</div><div class="line">        throw new Error(&apos;调用的不是一个函数&apos;)</div><div class="line">    &#125;</div><div class="line">    var self=this</div><div class="line">    var args=Array.prototype.slice(arguments,1)</div><div class="line">    // 函数中转</div><div class="line">    var fNOP=function()&#123;</div><div class="line">    &#125;</div><div class="line">    var bindFunc=function()&#123;</div><div class="line">        // 参数不定长，分布在多处的问题</div><div class="line">        var bindArgs=Array.prototype.slice(arguments,1)</div><div class="line">        // 构造函数的问题。new操作符，this指向失效问题</div><div class="line">        // 普通函数照旧</div><div class="line">        return self.apply(bindFunc instanceof this?this:context,args.concat(bindArgs))</div><div class="line">    &#125;</div><div class="line">    // 解决new继承的问题，同时避免继承污染</div><div class="line">    fNOP.prototype=this.prototype</div><div class="line">    bindFoo.prototype=new fNOP()</div><div class="line">    // 返回一个新的函数</div><div class="line">    return  bindFoo</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>上面提到了typeof这个玩意儿，所以就特意的在mdn上查了一下。typeof  在let  const前使用会存在暂存死区 ，会返回 ReferenceError</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag">#JS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/25/js之类数组和arguments/" rel="next" title="js之 类数组和arguments">
+                <i class="fa fa-chevron-left"></i> js之 类数组和arguments
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/10/26/浅析 Ant Design Pro 工作流程/" rel="prev" title="浅析 Ant Design Pro 工作流程">
+                浅析 Ant Design Pro 工作流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2019/10/20/js之call,apply,bind/"
+     data-title="js之 call,apply,bind原生实现"
+     data-content=""
+     data-url="https://guohenkai.github.io/2019/10/20/js之call,apply,bind/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/10/20/js之call,apply,bind/"
+           data-title="js之 call,apply,bind原生实现" data-url="https://guohenkai.github.io/2019/10/20/js之call,apply,bind/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#call"><span class="nav-number">1.</span> <span class="nav-text">call</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apply"><span class="nav-number">2.</span> <span class="nav-text">apply</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bind"><span class="nav-number">3.</span> <span class="nav-text">bind</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,871 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工具函数," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="新窗口工具文件名：windowUtils.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="必备工具函数类集合">
+<meta property="og:url" content="https://guohenkai.github.io/2020/05/26/必备工具函数类集合/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="新窗口工具文件名：windowUtils.js">
+<meta property="og:updated_time" content="2020-09-14T13:53:27.572Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="必备工具函数类集合">
+<meta name="twitter:description" content="新窗口工具文件名：windowUtils.js">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 必备工具函数类集合 | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                必备工具函数类集合
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-05-26T00:00:00+08:00" content="2020-05-26">
+              2020-05-26
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/工具函数/" itemprop="url" rel="index">
+                    <span itemprop="name">工具函数</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/05/26/必备工具函数类集合/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/05/26/必备工具函数类集合/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="新窗口工具"><a href="#新窗口工具" class="headerlink" title="新窗口工具"></a>新窗口工具</h4><p>文件名：windowUtils.js<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">import &#123; parse &#125; from &quot;date-fns&quot;;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 浏览器窗口工具</div><div class="line"> */</div><div class="line"></div><div class="line">const windowUtils = &#123;</div><div class="line"></div><div class="line">    // 打开一个水平垂直居中的新窗口---若不设置宽高，则显示全屏</div><div class="line">    openNewWindow: (&#123; url, name = url, width, height, otherSpecs = &#123;&#125; &#125;) =&gt; &#123;</div><div class="line"></div><div class="line">        const sizeSpecs = width &amp;&amp; height ? &#123;</div><div class="line">            width,</div><div class="line">            height,</div><div class="line">            top: (window.screen.height - height) / 2,</div><div class="line">            left: (window.screen.width - width) / 2,</div><div class="line">        &#125; : &#123;&#125;;</div><div class="line"></div><div class="line">        const specObj = Object.assign(</div><div class="line">            &#123; location: 0, menubar: 0, toolbar: 0 &#125;,</div><div class="line">            sizeSpecs,</div><div class="line">            otherSpecs,</div><div class="line">        );</div><div class="line"></div><div class="line">        const specs = Object.keys(specObj)</div><div class="line">            .map(key =&gt; `$&#123;key&#125;=$&#123;specObj[key]&#125;`)</div><div class="line">            .join(&apos;,&apos;);</div><div class="line"></div><div class="line">        return window.open(url, name, specs);    // 若在父窗口中关闭子窗口，可以通过当前对象:obj.close()</div><div class="line">    &#125;,</div><div class="line"></div><div class="line"></div><div class="line">    // 在子窗口中关闭当前窗口</div><div class="line">    closeCurrentWindow: () =&gt; &#123;</div><div class="line">        window.opener = null; //把父窗口声明为空</div><div class="line">        window.open(&apos;&apos;, &apos;_self&apos;, &apos;&apos;); // 父窗口把自己变成“子窗口”</div><div class="line">        window.close(); //关闭当前窗口</div><div class="line">    &#125;,</div><div class="line"></div><div class="line"></div><div class="line">    // 在子窗口中使用父窗口的dispatch,从而刷新父窗口数据</div><div class="line">    parentWindowDispatch: (action) =&gt; &#123;</div><div class="line">        window.opener.g_app._store.dispatch(action);</div><div class="line"></div><div class="line">        // 调用例子：</div><div class="line">        // parentWindowDispatch(&#123;</div><div class="line">        //     type: &apos;user/getUserList&apos;,</div><div class="line">        //     playload: &#123;&#125;,</div><div class="line">        //     callback: () =&gt; &#123; &#125;</div><div class="line">        // &#125;);</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    // 获取url地址的第一个参数值</div><div class="line">    getPageQuery:()=&gt;&#123;</div><div class="line">        return parse(window.location.href.split(&apos;?&apos;)[1]);</div><div class="line"></div><div class="line">        // 调用例子：</div><div class="line">        // localhost:8000/user?ation=Tom</div><div class="line">        // 返回 &quot;Tom&quot;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line">export default windowUtils;</div></pre></td></tr></table></figure></p>
+<h4 id="数据表格工具"><a href="#数据表格工具" class="headerlink" title="数据表格工具"></a>数据表格工具</h4><p>文件名：tableUtils.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 数据表格相关工具</div><div class="line"> */</div><div class="line"></div><div class="line">const tableUtils = &#123;</div><div class="line"></div><div class="line">    //分页、筛选、表头排序</div><div class="line">    onChange: (pagination, filters, sorter, searchParams = &#123;&#125;) =&gt; &#123;</div><div class="line"></div><div class="line">        let sorterParams;</div><div class="line">        if (!sorter || !sorter.columnKey || !sorter.order) &#123;</div><div class="line">            sorterParams = &#123;&#125;;</div><div class="line">        &#125; else &#123;</div><div class="line">            //将字段转化后端可以识别的排序名称</div><div class="line">            sorterParams = &#123;</div><div class="line">                orderBy: sorter.columnKey,  // 排序字段</div><div class="line">                isDesc: sorter.order === &apos;descend&apos; ? &apos;desc&apos; : sorter.order === &apos;ascend&apos; ? &apos;asc&apos; : sorter.order,  // 正序或者倒序</div><div class="line">            &#125;;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        const allSortParams = &#123;</div><div class="line">            pageSize: pagination.pageSize,  // 页数</div><div class="line">            pageNum: pagination.current,    // 页码</div><div class="line">            ...sorterParams, // 表头排序参数</div><div class="line">            ...searchParams, // 搜索条件参数</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        return allSortParams;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    // 分页展示参数</div><div class="line">    pagination: (params, otherParams = &#123;&#125;) =&gt; &#123;</div><div class="line"></div><div class="line">        // 注:params参数可以从model中,通过this.props获取</div><div class="line">        const paginationParams = &#123;</div><div class="line">            current: params.pageNum, // 页码</div><div class="line">            pageSize: params.pageSize, // 页数</div><div class="line">            total: params.total,  // 总数</div><div class="line">            showSizeChanger: true,  // 是否可以改变 pageSize</div><div class="line">            showQuickJumper: true,  // 是否可以快速跳转至某页</div><div class="line">            showTotal: () =&gt; `共$&#123;params.total&#125;条`,  // 显示总数</div><div class="line">            ...otherParams,</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        return paginationParams;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">export default tableUtils;</div></pre></td></tr></table></figure>
+<h4 id="数组相关工具"><a href="#数组相关工具" class="headerlink" title="数组相关工具"></a>数组相关工具</h4><p>arrayUtils.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 数组相关工具</div><div class="line"> * @author SPY</div><div class="line"> * @description -- 对于数组排序、数组转换等的操作函数</div><div class="line"> * @date -- 2019/10/23</div><div class="line"> */</div><div class="line"></div><div class="line">const arrayUtils = &#123;</div><div class="line"></div><div class="line">    arrayMoveMutate: (array, from, to) =&gt; &#123;</div><div class="line">        array.splice(to &lt; 0 ? array.length + to : to, 0, array.splice(from, 1)[0]);</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    /**</div><div class="line">     * arrayMove:数组位置交换</div><div class="line">     * const input = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</div><div class="line">     * arrayMove(input, 1, 2);</div><div class="line">     * //=&gt; [&apos;a&apos;, &apos;c&apos;, &apos;b&apos;]</div><div class="line">     * </div><div class="line">     * arrayMove(input, -1, 0);</div><div class="line">     * //=&gt; [&apos;c&apos;, &apos;a&apos;, &apos;b&apos;]</div><div class="line">     * </div><div class="line">     * arrayMove(input, -2, -3);</div><div class="line">     * //=&gt; [&apos;b&apos;, &apos;a&apos;, &apos;c&apos;]</div><div class="line">     */</div><div class="line">    arrayMove: (array, from, to) =&gt; &#123;</div><div class="line">        array = array.slice();</div><div class="line">        arrayUtils.arrayMoveMutate(array, from, to);</div><div class="line">        return array;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line"></div><div class="line">    // 根据list数据列表中某一个字段值大小排序</div><div class="line">    sortCallBack: (sortField, orderBy = &apos;asc&apos;) =&gt; &#123;</div><div class="line">        if (orderBy === &apos;asc&apos;) &#123;</div><div class="line">            // 默认正序</div><div class="line">            return (a, b) =&gt; a[sortField] - b[sortField];</div><div class="line">        &#125;</div><div class="line">        if (orderBy === &apos;desc&apos;) &#123;</div><div class="line">            // 倒序</div><div class="line">            return (a, b) =&gt; b[sortField] - a[sortField];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;,</div><div class="line"></div><div class="line"></div><div class="line">    // 将一维数组或者对象的value值组成字符串，默认以‘,’隔开</div><div class="line">    getStringValue: (obj, mark = &apos;,&apos;) =&gt; Object.keys(obj).map(key =&gt; obj[key]).join(mark)</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">export default arrayUtils;</div></pre></td></tr></table></figure>
+<h4 id="日期相关工具"><a href="#日期相关工具" class="headerlink" title="日期相关工具"></a>日期相关工具</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 时间相关工具类</div><div class="line"> */</div><div class="line">import moment from &apos;moment&apos;;</div><div class="line"></div><div class="line">const formatter = &apos;YYYY-MM-DD&apos;;</div><div class="line"></div><div class="line">const dateUtils = &#123;</div><div class="line"></div><div class="line">   // 对单个时间字段格式化处理</div><div class="line">   formart: (date, dateFormat) =&gt; &#123;</div><div class="line">      if (!moment(date).isValid()) return date;</div><div class="line">      return moment(date).format(dateFormat === undefined ? formatter : dateFormat);</div><div class="line">   &#125;,</div><div class="line"></div><div class="line">   // 对区间两个时间字段格式化处理</div><div class="line">   rangerFormart: (startTime, endTime, dateFormat) =&gt; &#123;</div><div class="line">      if (!moment(startTime).isValid()) return startTime;</div><div class="line">      if (!moment(endTime).isValid()) return endTime;</div><div class="line">      return `$&#123;moment(startTime).format(dateFormat === undefined ? formatter : dateFormat)&#125; 至 $&#123;moment(endTime).format(dateFormat === undefined ? formatter : dateFormat)&#125;`;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">export default dateUtils;</div></pre></td></tr></table></figure>
+<h4 id="树形数据处理工具"><a href="#树形数据处理工具" class="headerlink" title="树形数据处理工具"></a>树形数据处理工具</h4><p>文件名：treeUtils.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 树形数据处理工具类</div><div class="line"> * @author SPY</div><div class="line"> * @description -- 对于树形数据进行必要的处理</div><div class="line"> * @date  -- 2019/11/11</div><div class="line"> */</div><div class="line">import arrayUtils from &apos;./arrayUtils&apos;;</div><div class="line"></div><div class="line">const treeUtils = &#123;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 将树形list数据的叶子节点转化为一维数组</div><div class="line">     * @param &#123;object&#125; treeList -- 要遍历的list对象,格式为:&#123;id:1,name:&apos;河南&apos;,subList:[&#123;id:11,name:&apos;郑州&apos;&#125;]&#125;,</div><div class="line">     * @param &#123;string&#125; childListKey -- 树节点的子集list的id的名称</div><div class="line">     */</div><div class="line">    treeLeafToArray: (treeList = &#123;&#125;, childListKey = &apos;subList&apos;) =&gt; &#123;</div><div class="line">        const data = [];</div><div class="line">        const func = (treeList, childListKey) =&gt; &#123;</div><div class="line">            if (treeList[childListKey] &amp;&amp; treeList[childListKey].length !== 0) &#123;</div><div class="line">                // 说明树节点有子节点</div><div class="line">                treeList[childListKey].forEach(item =&gt; &#123;</div><div class="line">                    func(item, childListKey);</div><div class="line">                &#125;);</div><div class="line">            &#125; else &#123;</div><div class="line">                // 说明树节点为叶子节点</div><div class="line">                data.push(treeList);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        func(treeList, childListKey);</div><div class="line">        return data;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 将树形数据平铺为同级数组</div><div class="line">     * @param &#123;array&#125; treeList -- 要平铺的list数组</div><div class="line">     * @param &#123;string&#125; childListKey -- 树节点的子集list的id的名称</div><div class="line">     */</div><div class="line">    flatten: (treeList = [], childListKey = &apos;children&apos;) =&gt; &#123;</div><div class="line">        const data = [];</div><div class="line">        const func = (treeList, childListKey) =&gt; &#123;</div><div class="line">            treeList.forEach(item =&gt; &#123;</div><div class="line">                data.push(item);</div><div class="line">                if (item[childListKey] &amp;&amp; item[childListKey].length !== 0) &#123;</div><div class="line">                    //说明有子节点</div><div class="line">                    func(item[childListKey], childListKey = &apos;children&apos;);</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">        func(treeList, childListKey);</div><div class="line">        return data;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 遍历树形数据函数(查找)</div><div class="line">     * @param &#123;array&#125; treeList -- 要遍历的list数组</div><div class="line">     * @param &#123;string&#125; childListKey -- 树节点的子集list的id的名称</div><div class="line">     * @param &#123;func&#125; callback -- 回调函数,可以在函数做一些node节点id的数据处理</div><div class="line">     * @param &#123;object&#125; parentNode -- 父级节点及子集的数据</div><div class="line">     */</div><div class="line">    forEach: (treeList = [], childListKey = &apos;subList&apos;, callback, parentNode) =&gt; &#123;</div><div class="line">        if (!Array.isArray(treeList)) return;</div><div class="line">        for (let i = 0; i &lt; treeList.length; i++) &#123;</div><div class="line">            const node = treeList[i];</div><div class="line">            callback(node, parentNode); // 要查询的条件,以及查询之后的数据操作</div><div class="line">            treeUtils.forEach(node[childListKey], childListKey, callback, node);</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    // treeUtils.forEach(dataList, childListKey, (node, parentNode) =&gt; &#123;</div><div class="line">    //     if (value &amp;&amp; searchMatcher(value, node, this.props)) &#123;</div><div class="line">    //         expandedKeys.push(node[idKey]);</div><div class="line">    //     &#125;</div><div class="line">    // &#125;);</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 组装树函数</div><div class="line">     * @param &#123;array&#125; data -- 要组装的list数组</div><div class="line">     * @param &#123;string&#125; idKey -- 树节点的id的名称</div><div class="line">     * @param &#123;string&#125; parentKey -- 树节点的父节点id的名称</div><div class="line">     * @param &#123;string&#125; childListKey -- 树节点的子集list的id的名称</div><div class="line">     */</div><div class="line">    toTree: (data = [], idKey = &apos;id&apos;, parentKey = &apos;pid&apos;, childListKey = &apos;subList&apos;) =&gt; &#123;</div><div class="line">        // 删除 所有 children,以防止多次调用</div><div class="line">        data.forEach(function (item) &#123;</div><div class="line">            delete item[childListKey];</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        // 将数据存储为 以 id 为 KEY 的 map 索引数据列</div><div class="line">        var map = &#123;&#125;;</div><div class="line">        data.forEach(function (item) &#123;</div><div class="line">            map[item[idKey]] = item;</div><div class="line">        &#125;);</div><div class="line">        var val = [];</div><div class="line">        data.forEach((item) =&gt; &#123;</div><div class="line">            // 以当前遍历项，的pid,去map对象中找到索引的id</div><div class="line">            var parent = map[item[parentKey]];</div><div class="line">            // 如果找到索引，那么说明此项不在顶级当中,那么需要把此项添加到，他对应的父级中</div><div class="line">            if (parent) &#123;</div><div class="line">                (parent[childListKey] || (parent[childListKey] = [])).push(item);</div><div class="line">            &#125; else &#123;</div><div class="line">                // 如果没有在map中找到对应的索引ID,那么直接把 当前的item添加到 val结果集中，作为顶级</div><div class="line">                val.push(item);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        return val;</div><div class="line">    &#125;,</div><div class="line">    // const data = [</div><div class="line">    //     &#123; id: 1, name: &quot;办公管理&quot;, pid: 0 &#125;,</div><div class="line">    //     &#123; id: 2, name: &quot;请假申请&quot;, pid: 1 &#125;,</div><div class="line">    //     &#123; id: 3, name: &quot;出差申请&quot;, pid: 1 &#125;,</div><div class="line">    //     &#123; id: 4, name: &quot;请假记录&quot;, pid: 2 &#125;,</div><div class="line">    //     &#123; id: 5, name: &quot;系统设置&quot;, pid: 0 &#125;,</div><div class="line">    //     &#123; id: 6, name: &quot;权限管理&quot;, pid: 5 &#125;,</div><div class="line">    //     &#123; id: 7, name: &quot;用户角色&quot;, pid: 6 &#125;,</div><div class="line">    //     &#123; id: 8, name: &quot;菜单设置&quot;, pid: 6 &#125;,</div><div class="line">    // ];</div><div class="line">    </div><div class="line"></div><div class="line">    /**</div><div class="line">     * 树结构排序函数</div><div class="line">     * @param &#123;array&#125; data -- 要排序的树组</div><div class="line">     * @param &#123;string&#125; sortField -- 根据排序的字段名称</div><div class="line">     * @param &#123;string&#125; childListKey -- 树节点的子集list的id的名称 </div><div class="line">     * @param &#123;string&#125; orderBy -- 正序：&apos;asc&apos;  倒序：’desc‘</div><div class="line">     */</div><div class="line">    sortTree: (data = [], sortField = &apos;id&apos;, childListKey = &apos;subList&apos;, orderBy = &apos;asc&apos;) =&gt; &#123;</div><div class="line">        // 默认正序</div><div class="line">        const func = (data, sortField, childListKey, orderBy) =&gt; &#123;</div><div class="line">            if (!Array.isArray(data)) return;</div><div class="line">            data.sort(arrayUtils.sortCallBack(sortField, orderBy)).forEach((node) =&gt; &#123;</div><div class="line">                func(node[childListKey], sortField, childListKey, orderBy);</div><div class="line">            &#125;);</div><div class="line">        &#125;;</div><div class="line">        func(data, sortField, childListKey, orderBy);</div><div class="line">        return data;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">export default treeUtils;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具函数/" rel="tag">#工具函数</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/25/聊一聊 connect/" rel="next" title="必备工具函数类集合">
+                <i class="fa fa-chevron-left"></i> 必备工具函数类集合
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/06/React的生命周期及React16中的变化/" rel="prev" title="React的生命周期及React16中的变化">
+                React的生命周期及React16中的变化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2020/05/26/必备工具函数类集合/"
+     data-title="必备工具函数类集合"
+     data-content=""
+     data-url="https://guohenkai.github.io/2020/05/26/必备工具函数类集合/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/05/26/必备工具函数类集合/"
+           data-title="必备工具函数类集合" data-url="https://guohenkai.github.io/2020/05/26/必备工具函数类集合/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#新窗口工具"><span class="nav-number">1.</span> <span class="nav-text">新窗口工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据表格工具"><span class="nav-number">2.</span> <span class="nav-text">数据表格工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组相关工具"><span class="nav-number">3.</span> <span class="nav-text">数组相关工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日期相关工具"><span class="nav-number">4.</span> <span class="nav-text">日期相关工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#树形数据处理工具"><span class="nav-number">5.</span> <span class="nav-text">树形数据处理工具</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,983 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Node," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="nodejs简介特点非租塞式的异步I/O绝大多数的API和操作都以异步回调的方式执行，每个调用之间无须等待之前的I/O调用结束。为了适应更多的应用场景，大多数异步API都有对应的同步API来处理流程的控制。
+事件驱动以前端浏览器中应用成熟的事件机制为参考，node也实现了事件模块，配合异步IO来完成异步流程的调度和控制。这样我们就可以轻量级、松耦合的关注事务本身的业务逻辑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS分享">
+<meta property="og:url" content="https://guohenkai.github.io/2022/05/15/NodeJs分享/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="nodejs简介特点非租塞式的异步I/O绝大多数的API和操作都以异步回调的方式执行，每个调用之间无须等待之前的I/O调用结束。为了适应更多的应用场景，大多数异步API都有对应的同步API来处理流程的控制。
+事件驱动以前端浏览器中应用成熟的事件机制为参考，node也实现了事件模块，配合异步IO来完成异步流程的调度和控制。这样我们就可以轻量级、松耦合的关注事务本身的业务逻辑。">
+<meta property="og:updated_time" content="2022-10-17T10:54:11.226Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS分享">
+<meta name="twitter:description" content="nodejs简介特点非租塞式的异步I/O绝大多数的API和操作都以异步回调的方式执行，每个调用之间无须等待之前的I/O调用结束。为了适应更多的应用场景，大多数异步API都有对应的同步API来处理流程的控制。
+事件驱动以前端浏览器中应用成熟的事件机制为参考，node也实现了事件模块，配合异步IO来完成异步流程的调度和控制。这样我们就可以轻量级、松耦合的关注事务本身的业务逻辑。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> NodeJS分享 | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                NodeJS分享
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2022-05-15T00:00:00+08:00" content="2022-05-15">
+              2022-05-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Node/" itemprop="url" rel="index">
+                    <span itemprop="name">Node</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2022/05/15/NodeJs分享/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2022/05/15/NodeJs分享/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="nodejs简介"><a href="#nodejs简介" class="headerlink" title="nodejs简介"></a>nodejs简介</h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><h5 id="非租塞式的异步I-O"><a href="#非租塞式的异步I-O" class="headerlink" title="非租塞式的异步I/O"></a>非租塞式的异步I/O</h5><p>绝大多数的API和操作都以异步回调的方式执行，每个调用之间无须等待之前的I/O调用结束。为了适应更多的应用场景，大多数异步API都有对应的同步API来处理流程的控制。</p>
+<h5 id="事件驱动"><a href="#事件驱动" class="headerlink" title="事件驱动"></a>事件驱动</h5><p>以前端浏览器中应用成熟的事件机制为参考，node也实现了事件模块，配合异步IO来完成异步流程的调度和控制。这样我们就可以轻量级、松耦合的关注事务本身的业务逻辑。<br> <a id="more"></a></p>
+<h5 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h5><p>Node保持了JavaScript在浏览器中单线程的特点。而且在Node中，JavaScript与其余线程是无法共享任何状态的。单线程的最大好处是不用像多线程编程那样处处在意状态的同步问题，这里没有死锁的存在，也没有线程上下文交换所带来的性能上的开销。</p>
+<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><p>在高并发的网络应用场景和IO密集型的应用场景中，有着明显的优势</p>
+<p>事件驱动、非阻塞式 I/O 的模型，异步编程。由于node更改了连接到服务器的方式，每个连接发射一个在 Node 引擎的进程中运行的事件，而不是为每个连接生成一个新的 OS 线程，也不用为每一个链接分配内存。</p>
+<p>不会线程死锁，因为根本就不允许使用锁。</p>
+<h4 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h4><p>单进程</p>
+<p>异步回调的方式，处理流程累的业务比较费力</p>
+<h3 id="二、Buffer"><a href="#二、Buffer" class="headerlink" title="二、Buffer"></a>二、Buffer</h3><h4 id="常用的字符编码"><a href="#常用的字符编码" class="headerlink" title="常用的字符编码"></a>常用的字符编码</h4><ul>
+<li>utf8：多字节编码的 Unicode 字符</li>
+<li>hex：将每个字节编码成两个十六进制的字符</li>
+<li>base64：基于64个可打印字符来表示二进制数据的字符集</li>
+<li>ascii: 美国信息交换标准代码,即用来表示英文字母和特殊控制字符的二进制数组</li>
+<li>binary： Unicode 字符。 每个字符使用单个字节进行编码。超出该范围的字符会被截断，并映射成该范围内的字符</li>
+</ul>
+<h4 id="Buffer的数据类型"><a href="#Buffer的数据类型" class="headerlink" title="Buffer的数据类型"></a>Buffer的数据类型</h4><blockquote>
+<p>端模式：在计算机中，我们是以字节为单位的，每个地址单元都对应着一个字节，16位或者32位的处理器，由于寄存器宽度大于一个字节，那么必然存在着如果将多个字节安排的问题。就有了大端存储模式和小端存储模式</p>
+</blockquote>
+<ul>
+<li>大端 - [BE]：高字节在前，低字节在后</li>
+<li>小端 - [LE]：低字节在前，高字节在后</li>
+</ul>
+<h5 id="Int：整形"><a href="#Int：整形" class="headerlink" title="Int：整形"></a>Int：整形</h5><p>有符号：二进制最高位是符号位，1位正数，0位负数，其余位数标识数值本身。单字节取值-128~127</p>
+<p>无符号：全部位数为数值本身，均为正数。单字节取值0~255</p>
+<ul>
+<li>Int8: 8位有符号</li>
+<li>UInt8：8位无符号</li>
+<li>Int16BE：大端16位有符号</li>
+<li>UInt16BE：大端16位无符号</li>
+<li>Int16LE：小端16位有符号</li>
+<li>UInt16LE：小端16位无符号</li>
+<li>Int32BE：大端32位有符号</li>
+<li>UInt32BE：大端32位无符号</li>
+<li>Int32LE：小端32位有符号</li>
+<li>UInt32LE：小端32位无符号</li>
+<li>BigInt64BE：大端64位有符号</li>
+<li>BigUInt64BE：大端64位无符号</li>
+<li>BigInt64LE：小端64位有符号</li>
+<li>BigUInt64LE：掉段64位无符号</li>
+</ul>
+<h5 id="Float：单精度浮点（32位）"><a href="#Float：单精度浮点（32位）" class="headerlink" title="Float：单精度浮点（32位）"></a>Float：单精度浮点（32位）</h5><ul>
+<li>FloatBE：大端单精度浮点</li>
+<li>FloatLE：小端单精度浮点</li>
+</ul>
+<h5 id="Double：双精度浮点（64位）"><a href="#Double：双精度浮点（64位）" class="headerlink" title="Double：双精度浮点（64位）"></a>Double：双精度浮点（64位）</h5><ul>
+<li>DoubleBE：大端双精度浮点</li>
+<li>DoubleLE：小端双精度浮点</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//大端和小端的区别</div><div class="line">const buf = Buffer.alloc(2);</div><div class="line">buf.writeUInt16BE(300);// buf: &lt;Buffer 01 2c&gt;</div><div class="line">buf.writeUInt16LE(300);// buf: &lt;Buffer 2c 01&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//有符号和无符号的区别</div><div class="line">const buf = Buffer.alloc(1);</div><div class="line">buf.writeUInt8(128);//&lt;Buffer 80&gt;</div><div class="line">buf.writeInt8(128);//报错</div><div class="line">buf.writeUInt8(-1);//报错</div><div class="line">buf.writeUInt8(-1);//&lt;Buffer ff&gt;</div></pre></td></tr></table></figure>
+<h4 id="常用的API"><a href="#常用的API" class="headerlink" title="常用的API"></a>常用的API</h4><h5 id="Buffer-alloc-size-fill-encoding"><a href="#Buffer-alloc-size-fill-encoding" class="headerlink" title="Buffer.alloc(size[, fill[, encoding]])"></a>Buffer.alloc(size[, fill[, encoding]])</h5><p>创建一个新的空buffer.</p>
+<blockquote>
+<p>buffer一旦创建，长度不能更改。如果给buffer中设置的内容长度超出buffer本身的长度，则会报ERR_INVALID_OPT_VALUE错误</p>
+</blockquote>
+<ul>
+<li>size: {number} - 新buffer的长度</li>
+<li>fill: {*} - 新buffer预填充的内容。如果不填充，用0默认</li>
+<li>encoding: {string} - 声明fill内容的字符编码，默认utf8</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//&lt;Buffer 00 00 00 00 00&gt;</div><div class="line">const buf = Buffer.alloc(5);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="Buffer-from-data"><a href="#Buffer-from-data" class="headerlink" title="Buffer.from(data)"></a>Buffer.from(data)</h5><p>将某一段数据转为buffer</p>
+<ul>
+<li>data: {*} - 数据</li>
+</ul>
+<h5 id="Buffer-byteLength-string-encoding"><a href="#Buffer-byteLength-string-encoding" class="headerlink" title="Buffer.byteLength(string[, encoding])"></a>Buffer.byteLength(string[, encoding])</h5><p>计算一段数据的字节数</p>
+<ul>
+<li>string： {*} - 要进行计算长度的数据内容</li>
+<li>encoding: {string} - 数据内容的字符编码，默认utf8</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const buf = Buffer.byteLength(&apos;你好&apos;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="Buffer-compare-buf1-buf2"><a href="#Buffer-compare-buf1-buf2" class="headerlink" title="Buffer.compare(buf1, buf2)"></a>Buffer.compare(buf1, buf2)</h5><p>用于比较两段buffer的数值是否一致，相同则返回0，不同返回-1</p>
+<h5 id="Buffer-concat-list-totalLength"><a href="#Buffer-concat-list-totalLength" class="headerlink" title="Buffer.concat(list[, totalLength])"></a>Buffer.concat(list[, totalLength])</h5><p>按照数组的顺序，合并两段buffer,返回一个新的buffer</p>
+<ul>
+<li>list: {array} - 要合并的buffer数组，</li>
+<li>totalLength: {number} - 合并后buffer的总长度，默认为list数组长度总和</li>
+</ul>
+<h5 id="buf-copy-target-targetStart-sourceStart-sourceEnd"><a href="#buf-copy-target-targetStart-sourceStart-sourceEnd" class="headerlink" title="buf.copy(target[, targetStart[, sourceStart[, sourceEnd]]])"></a>buf.copy(target[, targetStart[, sourceStart[, sourceEnd]]])</h5><p>从目标buffer中拷贝指定长度的buffer到当前buffer中,并返回拷贝了多少个字节长度值</p>
+<ul>
+<li>taget: {buffer} - 要拷贝的目标对象</li>
+<li>tagetStart: {number} - 拷贝对象的起始下表，即偏移量。默认0</li>
+<li>sourceStart: {number} - buf中开始拷贝的起始偏移量，默认0</li>
+<li>sourceEnd: {number} - buf中结束拷贝的偏移量，默认buf的length</li>
+</ul>
+<h5 id="buf-fill-value-offset-end-encoding"><a href="#buf-fill-value-offset-end-encoding" class="headerlink" title="buf.fill(value, offset, end, encoding)"></a>buf.fill(value, offset, end, encoding)</h5><ul>
+<li>value: {*} - 用来填充的数据值</li>
+<li>offset: {number}- 开始填充的偏移量，默认0</li>
+<li>end: {number} - 结束填充的偏移量，默认buf的length</li>
+<li>encoding: {string} - 填充内容的字符编码</li>
+</ul>
+<h5 id="buf-length"><a href="#buf-length" class="headerlink" title="buf.length"></a>buf.length</h5><p>返回一段buffer的字节长度</p>
+<h5 id="buffer数据读写操作"><a href="#buffer数据读写操作" class="headerlink" title="buffer数据读写操作"></a>buffer数据读写操作</h5><p>以下API没有列举全部，只是通过部分API展示API的命名规则和使用方法，在buffer的数据类型中，每一个数据类型都有对应的读写API，具体参考官方文档的API。</p>
+<ul>
+<li>readInt8(offset)</li>
+<li>writeInt8(offset)</li>
+<li>readUInt8(offset)</li>
+<li>writeUInt8(offset)</li>
+<li>readInt16BE(offset)</li>
+<li>writeInt16BE(value, offset)</li>
+<li>readInt16LE(offset)</li>
+<li>writeInt16LE(value, offset)</li>
+<li>readUInt16LE(offset)</li>
+<li>writeUInt16LE(value, offset)</li>
+</ul>
+<h3 id="三、练习"><a href="#三、练习" class="headerlink" title="三、练习"></a>三、练习</h3><h4 id="小试牛刀"><a href="#小试牛刀" class="headerlink" title="小试牛刀"></a>小试牛刀</h4><p>计算HEX色值 “#A265FE”的RGB色值</p>
+<p>计算GRB色值 (231, 65, 132) 的HEX色值</p>
+<h4 id="他山之石"><a href="#他山之石" class="headerlink" title="他山之石"></a>他山之石</h4><p>将以下两段字符串转换为一句完整的中文文本，不能有乱码</p>
+<ul>
+<li>‘ZTVhNTk0ZTZiNjhjZTU5MA==’</li>
+<li>‘YTdlZmJjOGNlNTkwOGVlNmI1YWFlZmJjODE=’</li>
+</ul>
+<blockquote>
+<p>提示：<br>本字符串可看出是base64编码，在破解webStorm，接入微信、钉钉等第三方开放接口，在鉴权验证出也都能遇到base64编码的应用。<br>转为buffer<br>转为utf8，拿到hex文本<br>HEX转buffer<br>将两段buffer合并<br>转为utf8，即看到一句中文描述</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node/" rel="tag">#Node</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/04/03/React-refs的使用/" rel="next" title="React-refs的使用">
+                <i class="fa fa-chevron-left"></i> React-refs的使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/06/26/GitLab安装/" rel="prev" title="GitLab安装">
+                GitLab安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2022/05/15/NodeJs分享/"
+     data-title="NodeJS分享"
+     data-content=""
+     data-url="https://guohenkai.github.io/2022/05/15/NodeJs分享/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2022/05/15/NodeJs分享/"
+           data-title="NodeJS分享" data-url="https://guohenkai.github.io/2022/05/15/NodeJs分享/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#nodejs简介"><span class="nav-number">1.</span> <span class="nav-text">nodejs简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点"><span class="nav-number">1.1.</span> <span class="nav-text">特点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#非租塞式的异步I-O"><span class="nav-number">1.1.1.</span> <span class="nav-text">非租塞式的异步I/O</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#事件驱动"><span class="nav-number">1.1.2.</span> <span class="nav-text">事件驱动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#单线程"><span class="nav-number">1.1.3.</span> <span class="nav-text">单线程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优势"><span class="nav-number">1.2.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺陷"><span class="nav-number">1.3.</span> <span class="nav-text">缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Buffer"><span class="nav-number">2.</span> <span class="nav-text">二、Buffer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的字符编码"><span class="nav-number">2.1.</span> <span class="nav-text">常用的字符编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Buffer的数据类型"><span class="nav-number">2.2.</span> <span class="nav-text">Buffer的数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Int：整形"><span class="nav-number">2.2.1.</span> <span class="nav-text">Int：整形</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Float：单精度浮点（32位）"><span class="nav-number">2.2.2.</span> <span class="nav-text">Float：单精度浮点（32位）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Double：双精度浮点（64位）"><span class="nav-number">2.2.3.</span> <span class="nav-text">Double：双精度浮点（64位）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的API"><span class="nav-number">2.3.</span> <span class="nav-text">常用的API</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Buffer-alloc-size-fill-encoding"><span class="nav-number">2.3.1.</span> <span class="nav-text">Buffer.alloc(size[, fill[, encoding]])</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Buffer-from-data"><span class="nav-number">2.3.2.</span> <span class="nav-text">Buffer.from(data)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Buffer-byteLength-string-encoding"><span class="nav-number">2.3.3.</span> <span class="nav-text">Buffer.byteLength(string[, encoding])</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Buffer-compare-buf1-buf2"><span class="nav-number">2.3.4.</span> <span class="nav-text">Buffer.compare(buf1, buf2)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Buffer-concat-list-totalLength"><span class="nav-number">2.3.5.</span> <span class="nav-text">Buffer.concat(list[, totalLength])</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#buf-copy-target-targetStart-sourceStart-sourceEnd"><span class="nav-number">2.3.6.</span> <span class="nav-text">buf.copy(target[, targetStart[, sourceStart[, sourceEnd]]])</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#buf-fill-value-offset-end-encoding"><span class="nav-number">2.3.7.</span> <span class="nav-text">buf.fill(value, offset, end, encoding)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#buf-length"><span class="nav-number">2.3.8.</span> <span class="nav-text">buf.length</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#buffer数据读写操作"><span class="nav-number">2.3.9.</span> <span class="nav-text">buffer数据读写操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、练习"><span class="nav-number">3.</span> <span class="nav-text">三、练习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#小试牛刀"><span class="nav-number">3.1.</span> <span class="nav-text">小试牛刀</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#他山之石"><span class="nav-number">3.2.</span> <span class="nav-text">他山之石</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

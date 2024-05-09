@@ -1,0 +1,969 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="微前端," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="现状随着大数据行业的高速发展，传统的ToB领域产品，几乎都会面临业务快速发展之后，单体应用进化成巨石应用的问题：如随着业务越来越多，单体应用的模块、文件、组件也越来越多，随之而来的就是打包、编译速度越来越慢，开发人员的介入也越来越多，代码维护起来就会越来越难，更重要的是无法进行增量升级，只能全量升级等等一系列的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微前端的技术方案">
+<meta property="og:url" content="https://guohenkai.github.io/2022/09/25/微前端的技术方案/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="现状随着大数据行业的高速发展，传统的ToB领域产品，几乎都会面临业务快速发展之后，单体应用进化成巨石应用的问题：如随着业务越来越多，单体应用的模块、文件、组件也越来越多，随之而来的就是打包、编译速度越来越慢，开发人员的介入也越来越多，代码维护起来就会越来越难，更重要的是无法进行增量升级，只能全量升级等等一系列的问题。">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78frf2i7gj20lu09vjuz.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fsern7yj20vg0a3go9.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78ft0osvmj21bo0hcdqb.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78ftgtbsgj20ov0a5q41.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78ftvcnvnj20hu0c1dgz.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fu7rmrnj20ny0csac8.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fv0nhsdj20ku0axjvq.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fvngp1uj20ia0byta3.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fw50ix1j20vo0dfq77.jpg">
+<meta property="og:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78fwi05ahj20y407odij.jpg">
+<meta property="og:updated_time" content="2022-10-17T10:01:54.747Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微前端的技术方案">
+<meta name="twitter:description" content="现状随着大数据行业的高速发展，传统的ToB领域产品，几乎都会面临业务快速发展之后，单体应用进化成巨石应用的问题：如随着业务越来越多，单体应用的模块、文件、组件也越来越多，随之而来的就是打包、编译速度越来越慢，开发人员的介入也越来越多，代码维护起来就会越来越难，更重要的是无法进行增量升级，只能全量升级等等一系列的问题。">
+<meta name="twitter:image" content="http://tva1.sinaimg.cn/large/e0823b04ly1h78frf2i7gj20lu09vjuz.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 微前端的技术方案 | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                微前端的技术方案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2022-09-25T00:00:00+08:00" content="2022-09-25">
+              2022-09-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术方案/" itemprop="url" rel="index">
+                    <span itemprop="name">技术方案</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2022/09/25/微前端的技术方案/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2022/09/25/微前端的技术方案/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h3><p>随着大数据行业的高速发展，传统的ToB领域产品，几乎都会面临业务快速发展之后，单体应用进化成巨石应用的问题：如随着业务越来越多，单体应用的模块、文件、组件也越来越多，随之而来的就是打包、编译速度越来越慢，开发人员的介入也越来越多，代码维护起来就会越来越难，更重要的是无法进行增量升级，只能全量升级等等一系列的问题。</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78frf2i7gj20lu09vjuz.jpg" alt="image.png"></p>
+ <a id="more"></a>
+<h3 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h3><p>将前端应用分解成一些更小、更简单的能够分团队进行独立开发、测试、部署的小块，而在用户看来仍然是内聚的单个产品，各子应用可自由组合，适配不同的客户群体。</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78fsern7yj20vg0a3go9.jpg" alt="image.png"></p>
+<h3 id="技术方案"><a href="#技术方案" class="headerlink" title="技术方案"></a>技术方案</h3><p>目前国内微前端的主流的技术实现方案主要有Ifram,组合式集成、web components、ESM、emp、基座模式</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78ft0osvmj21bo0hcdqb.jpg" alt="image.png"></p>
+<h4 id="iframe"><a href="#iframe" class="headerlink" title="iframe"></a>iframe</h4><p>是传统的微前端解决方案，基于iframe标签实现，技术难度低，隔离性和兼容性很好，但是性能和使用体验比较差，多用于集成第三方系统；</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78ftgtbsgj20ov0a5q41.jpg" alt="image.png"></p>
+<p><strong>iframe大家都知道，他的一个兼容性和隔离性是特别好的，天生的就支持了样式、js隔离，但是它的使用体验是不太好的：</strong></p>
+<ol>
+<li>页面加载问题<br>iframe 和主页面共享连接池，而浏览器对相同域的连接有限制，所以会影响页面的并行加载，阻塞 onload 事件。每次点击都需要重新加载，虽然可以采用 display:none 来做缓存，但是页面缓存过多会导致电脑卡顿。</li>
+<li>布局问题<br>iframe 必须给一个指定的高度，否则会塌陷。</li>
+<li>弹窗及遮罩层问题<br>弹窗只能在 iframe 范围内垂直水平居中，没法在整个页面垂直水平居中</li>
+<li>浏览器前进/后退问题<br>iframe 和主页面共用一个浏览历史，iframe 会影响页面的前进后退。大部分时候正常，iframe 多次重定向则会导致浏览器的前进后退功能无法正常使用</li>
+<li>iframe 加载失败的情况不好处理<br>非同源的 iframe 在火狐及 chorme 都不支持 onerror 事件。</li>
+<li>每次子应用进入都是一次浏览器上下文重建、资源重新加载的过程，占用大量资源的同时也在极大地消耗资源</li>
+<li>iframe的特性导致搜索引擎无法获取到其中的内容，进而无法实现应用的seo</li>
+</ol>
+<h4 id="组合式集成"><a href="#组合式集成" class="headerlink" title="组合式集成"></a>组合式集成</h4><p>微应用化，即在开发时，应用都是以单一、微小应用的形式存在，而在运行时，则通过构建系统合并这些应用，组合成一个新的应用。</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78ftvcnvnj20hu0c1dgz.jpg" alt="image.png"></p>
+<p><strong>组合式集成，即通过软件工程的方式在构建前、构建时、构建后等步骤中，对应用进行一步的拆分，并重新组合。</strong></p>
+<h5 id="常见的方式有："><a href="#常见的方式有：" class="headerlink" title="常见的方式有："></a>常见的方式有：</h5><p>● 独立构建组件和应用，生成 chunk 文件，构建后再归类生成的 chunk 文件。（这种方式更类似于微服务，但是成本更高）<br>● 开发时独立开发组件或应用，集成时合并组件和应用，最后生成单体的应用。<br>● 在运行时，加载应用的 Runtime，随后加载对应的应用代码和模板。</p>
+<h5 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h5><p>● 统一依赖。统一这些依赖的版本，引入新的依赖时都需要一一加入。<br>● 规范应用的组件及路由。避免不同的应用之间，因为这些组件名称发生冲突。<br>● 构建复杂。在有些方案里，我们需要修改构建系统，有些方案里则需要复杂的架构脚本。<br>● 共享通用代码。这显然是一个要经常面对的问题。<br>● 制定代码规范。</p>
+<h4 id="Web-Components"><a href="#Web-Components" class="headerlink" title="Web Components"></a>Web Components</h4><p>Web Components 是一套不同的技术，允许开发者创建可重用的定制元素（它们的功能封装在代码之外），并且在 Web 应用中使用它们。</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78fu7rmrnj20ny0csac8.jpg" alt="image.png"></p>
+<p><strong>Web Components是Web组件模型标准，由浏览器提供原生特性支持，包括Shadow DOM，Custom Elements，HTML Imports和HTML Templates</strong></p>
+<h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><p>天生的样式、js隔离，</p>
+<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><p>1、上下游生态系统不完善。缺乏相应的一些第三方控件支持<br>2、需要重构现有的前端应用<br>3、Web Components 触发的事件可能无法通过 React 渲染树正确的传递。 你需要在 React 组件中手动添加事件处理器来处理这些事件。</p>
+<h5 id="目前困扰"><a href="#目前困扰" class="headerlink" title="目前困扰"></a>目前困扰</h5><p>Web Components 技术推广的主要因素，在于浏览器的支持程度。在 Chrome 和 Opera 浏览器上，对于 Web Components 支持良好，而对于 Safari、IE、Firefox 浏览器的支持程度，并没有那么理想。</p>
+<h4 id="ESM"><a href="#ESM" class="headerlink" title="ESM"></a>ESM</h4><p><strong>ESM是ES Module的缩写，是Ecma script 2015中提出的一种前端模块化手段</strong></p>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点:"></a>特点:</h5><ol>
+<li>无技术栈限制：ESM加载的只是js内容，无论哪个框架，最终都要编译成js，因此，无论哪种框架，ESM都能加载。</li>
+<li>应用单独开发： ESM只是js的一种规范，不会影响应用的开发模式。</li>
+<li>多应用整合： 只要将微应用以ESM的方式暴露出来，就能正常加载。</li>
+<li>远程加载模块: ESM能够直接请求cdn资源，这是它与生俱来的能力。</li>
+</ol>
+<h5 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h5><p>兼容性问题</p>
+<h4 id="EMP"><a href="#EMP" class="headerlink" title="EMP"></a>EMP</h4><p>使用指南：<a href="https://github.com/efoxTeam/emp/wiki" target="_blank" rel="external">https://github.com/efoxTeam/emp/wiki</a></p>
+<p><strong>EMP是由欢聚时代业务中台自主研发的最年轻的单页微前端解决方案，基于Webpack5 Module Federation，一种去中心化的微前端实现方案，它不仅能很好地隔离应用，还可以轻松实现应用间的资源共享和通信</strong></p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78fv0nhsdj20ku0axjvq.jpg" alt="image.png"></p>
+<h5 id="特点：-1"><a href="#特点：-1" class="headerlink" title="特点："></a>特点：</h5><p>● 基于Webpack5的新特性Module Federation实现，达到第三方依赖共享，减少不必要的代码引入的目的，什么是Module Federation这里就不再赘述。<br>● 每个微应用独立部署运行，并通过cdn的方式引入主程序中，因此只需要部署一次，便可以提供给任何基于Module Federation的应用使用。并且此部分代码是远程引入，无需参与应用的打包。<br>● 动态更新微应用：EMP是通过cdn加载微应用，因此每个微应用中的代码有变动时，无需重新打包发布新的整合应用便能加载到最新的微应用。<br>● 去中心化，每个微应用间都可以引入其他的微应用，无中心应用的概念。<br>● 跨技术栈组件式调用，提供了在主应用框架中可以调用其他框架组件的能力（目前已支持互相调用的框架及使用方式请参阅官方文档）。<br>● 按需加载，开发者可以选择只加载微应用中需要的部分，而不是强制只能将整个应用全部加载。<br>● 应用间通信，每一个应用都可以进行状态共享，就像在使用npm模块进行开发一样便捷。<br>● 生成对应技术栈模板，它能像create-react-app一样，也能像create-vue-app一样，通过指令一键搭建好开发环境，减少开发者的负担。<br>● 远程拉取ts声明文件，emp-cli中内置了拉取远程应用中代码声明文件的能力，让使用ts开发的开发者不再为代码报错而烦恼。</p>
+<h4 id="基座模式"><a href="#基座模式" class="headerlink" title="基座模式"></a>基座模式</h4><h5 id="SingleSpa"><a href="#SingleSpa" class="headerlink" title="SingleSpa"></a>SingleSpa</h5><p><strong>SingleSpa是一个javascript库，它让很多小页面、小组件、不同架构的前端组件在一个页面应用程序中共存。</strong></p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78fvngp1uj20ia0byta3.jpg" alt="image.png"></p>
+<p>single-spa 约定了应用、包的生命周期，并调度着应用、包生命周期周转（路由匹配机制）的流程。至于应用、包的加载函数、路由匹配策略及其生命周期函数则由开发者手动实现。基座本身只提供生命周期规范。</p>
+<h6 id="缺点：-2"><a href="#缺点：-2" class="headerlink" title="缺点："></a>缺点：</h6><ol>
+<li>配置复杂</li>
+<li>一定的资源浪费<br> 由于核心逻辑还是在于请求manifest，拿到js文件后执行渲染，这个过程不可避免会产生一些冗余，对于C端的应用来说，这个问题比较致命，当然，对于B端来说，这个是可以接受的，在可控制的范围之内</li>
+</ol>
+<h5 id="qiankun"><a href="#qiankun" class="headerlink" title="qiankun"></a>qiankun</h5><p>官网：<a href="https://qiankun.umijs.org/zh/guide" target="_blank" rel="external">https://qiankun.umijs.org/zh/guide</a></p>
+<p>参考文档：<a href="https://www.jianshu.com/p/3484415c8a00；https://www.jianshu.com/p/009785740345" target="_blank" rel="external">https://www.jianshu.com/p/3484415c8a00；https://www.jianshu.com/p/009785740345</a></p>
+<p><strong>qiankun（乾坤） 就是一款由蚂蚁金服推出的比较成熟的微前端框架，基于 single-spa 进行二次开发，用于将 Web 应用由单一的单体应用转变为多个小型前端应用聚合为一的应用</strong></p>
+<h6 id="在微前端界，qiankun算得上是最早成型且知名度最广的框架了，它是真正意义上的单页微前端框架，其主要特点是："><a href="#在微前端界，qiankun算得上是最早成型且知名度最广的框架了，它是真正意义上的单页微前端框架，其主要特点是：" class="headerlink" title="在微前端界，qiankun算得上是最早成型且知名度最广的框架了，它是真正意义上的单页微前端框架，其主要特点是："></a>在微前端界，qiankun算得上是最早成型且知名度最广的框架了，它是真正意义上的单页微前端框架，其主要特点是：</h6><p>● 基于single-spa封装，提供了更加开箱即用的 API<br>● 技术栈无关，任意技术栈的应用均可 使用/接入，不论是 React/Vue/Angular/JQuery 还是其他等框架<br>● HTML Entry 接入方式，让你接入微应用像使用 iframe 一样简单<br>● 样式隔离，确保微应用之间样式互相不干扰<br>● JS 沙箱，确保微应用之间 全局变量/事件 不冲突<br>● 资源预加载，在浏览器空闲时间预加载未打开的微应用资源，加速微应用打开速度<br>● umi 插件，提供了 @umijs/plugin-qiankun 供 umi 应用一键切换成微前端架构系统</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78fw50ix1j20vo0dfq77.jpg" alt="image.png"></p>
+<h5 id="icestark"><a href="#icestark" class="headerlink" title="icestark"></a>icestark</h5><p>icestark内部维护了所有微应用的配置信息，包括路由规则、bundle 地址等，同时劫持了 window.history 相关的几个跳转事件，当捕获到页面跳转事件时，icestark会根据跳转的路由获取对应的微应用信息，然后跟之前的微应用信息进行对比，如果是同一个微应用，则什么都不做，如果是不同的微应用，则将前一个微应用的 bundle 卸载，同时加载新的微应用 bundle 资源，加载完成后微应用 bundle 会执行自身的渲染逻辑。</p>
+<p><img src="http://tva1.sinaimg.cn/large/e0823b04ly1h78fwi05ahj20y407odij.jpg" alt="image.png"></p>
+<p>参考文档： <a href="https://zhuanlan.zhihu.com/p/88449415" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/88449415</a></p>
+<h5 id="对比："><a href="#对比：" class="headerlink" title="对比："></a>对比：</h5><p>● single-spa：社区公认的主流方案，可以基于它做二次开发<br>● qiankun：基于 single-spa 封装，增加 umi 特色，增加沙箱机制（JS、ShadowDOM 等）<br>● icestark：类似于 single-spa 实现，React 技术栈友好，阿里的另一个轮子</p>
+<h3 id="技术方案对比"><a href="#技术方案对比" class="headerlink" title="技术方案对比"></a>技术方案对比</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>相对特点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iFrame</td>
+<td>天生隔离样式与脚本、多页</td>
+<td>页面加载问题、布局问题 、弹窗及遮罩层问题、缺少通信机制等</td>
+</tr>
+<tr>
+<td>Web Components</td>
+<td>天生隔离样式与脚本</td>
+<td>无法兼容所有浏览器，对老应用需要重构，子应用通信较为复杂易踩坑</td>
+</tr>
+<tr>
+<td>ESM</td>
+<td>远程加载模块</td>
+<td>无法兼容所有浏览器(但可以通过编译工具解决)     需手动隔离样式（可通过css module解决）</td>
+</tr>
+<tr>
+<td>EMP</td>
+<td>去中心化、跨技术栈组件式调用、应用间通信 、远程拉取ts声明文件</td>
+<td></td>
+</tr>
+<tr>
+<td>基座模式</td>
+<td>统一的基座管理HTML Entry、JS 接入方式 成熟的通信机制、路由机制等</td>
+<td>需要对现有代码进行配置（需要添加生命周期钩子、配置）</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/微前端/" rel="tag">#微前端</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/09/04/实名认证和实人认证/" rel="next" title="实名认证和实人认证（阿里云）">
+                <i class="fa fa-chevron-left"></i> 实名认证和实人认证（阿里云）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/10/16/Node服务端框架Egg.js/" rel="prev" title="Node服务端框架Egg.js">
+                Node服务端框架Egg.js <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2022/09/25/微前端的技术方案/"
+     data-title="微前端的技术方案"
+     data-content=""
+     data-url="https://guohenkai.github.io/2022/09/25/微前端的技术方案/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2022/09/25/微前端的技术方案/"
+           data-title="微前端的技术方案" data-url="https://guohenkai.github.io/2022/09/25/微前端的技术方案/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#现状"><span class="nav-number">1.</span> <span class="nav-text">现状</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#期望"><span class="nav-number">2.</span> <span class="nav-text">期望</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术方案"><span class="nav-number">3.</span> <span class="nav-text">技术方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#iframe"><span class="nav-number">3.1.</span> <span class="nav-text">iframe</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组合式集成"><span class="nav-number">3.2.</span> <span class="nav-text">组合式集成</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#常见的方式有："><span class="nav-number">3.2.1.</span> <span class="nav-text">常见的方式有：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#特点："><span class="nav-number">3.2.2.</span> <span class="nav-text">特点：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Web-Components"><span class="nav-number">3.3.</span> <span class="nav-text">Web Components</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点："><span class="nav-number">3.3.1.</span> <span class="nav-text">优点：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点："><span class="nav-number">3.3.2.</span> <span class="nav-text">缺点：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#目前困扰"><span class="nav-number">3.3.3.</span> <span class="nav-text">目前困扰</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ESM"><span class="nav-number">3.4.</span> <span class="nav-text">ESM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#特点"><span class="nav-number">3.4.1.</span> <span class="nav-text">特点:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点：-1"><span class="nav-number">3.4.2.</span> <span class="nav-text">缺点：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EMP"><span class="nav-number">3.5.</span> <span class="nav-text">EMP</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#特点：-1"><span class="nav-number">3.5.1.</span> <span class="nav-text">特点：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基座模式"><span class="nav-number">3.6.</span> <span class="nav-text">基座模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SingleSpa"><span class="nav-number">3.6.1.</span> <span class="nav-text">SingleSpa</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#缺点：-2"><span class="nav-number">3.6.1.1.</span> <span class="nav-text">缺点：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#qiankun"><span class="nav-number">3.6.2.</span> <span class="nav-text">qiankun</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#在微前端界，qiankun算得上是最早成型且知名度最广的框架了，它是真正意义上的单页微前端框架，其主要特点是："><span class="nav-number">3.6.2.1.</span> <span class="nav-text">在微前端界，qiankun算得上是最早成型且知名度最广的框架了，它是真正意义上的单页微前端框架，其主要特点是：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#icestark"><span class="nav-number">3.6.3.</span> <span class="nav-text">icestark</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对比："><span class="nav-number">3.6.4.</span> <span class="nav-text">对比：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术方案对比"><span class="nav-number">4.</span> <span class="nav-text">技术方案对比</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

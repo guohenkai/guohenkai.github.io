@@ -1,0 +1,889 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在任何应用中管理数据都是必不可少的。通过用户界面来编排数据流是一项具有挑战的工程。现代的 Web 应用会涉及复杂的 UI 交互，比如改变了一个地方的 UI 数据，需要直接或者间接的改变其他地方的 UI 数据。一些双向绑定的框架（比如：Angular.js 等）都是对这种场景比较好的解决方案。
+对于一些应用（尤其是数据流比较简单的），这种双向绑定是非常快速和足够的解决方案。但是对于一些更加复杂的应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React的props和state">
+<meta property="og:url" content="https://guohenkai.github.io/2021/12/12/React的props和state/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="在任何应用中管理数据都是必不可少的。通过用户界面来编排数据流是一项具有挑战的工程。现代的 Web 应用会涉及复杂的 UI 交互，比如改变了一个地方的 UI 数据，需要直接或者间接的改变其他地方的 UI 数据。一些双向绑定的框架（比如：Angular.js 等）都是对这种场景比较好的解决方案。
+对于一些应用（尤其是数据流比较简单的），这种双向绑定是非常快速和足够的解决方案。但是对于一些更加复杂的应用">
+<meta property="og:updated_time" content="2022-10-17T09:40:05.694Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React的props和state">
+<meta name="twitter:description" content="在任何应用中管理数据都是必不可少的。通过用户界面来编排数据流是一项具有挑战的工程。现代的 Web 应用会涉及复杂的 UI 交互，比如改变了一个地方的 UI 数据，需要直接或者间接的改变其他地方的 UI 数据。一些双向绑定的框架（比如：Angular.js 等）都是对这种场景比较好的解决方案。
+对于一些应用（尤其是数据流比较简单的），这种双向绑定是非常快速和足够的解决方案。但是对于一些更加复杂的应用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> React的props和state | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                React的props和state
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2021-12-12T00:00:00+08:00" content="2021-12-12">
+              2021-12-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2021/12/12/React的props和state/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2021/12/12/React的props和state/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在任何应用中管理数据都是必不可少的。通过用户界面来编排数据流是一项具有挑战的工程。现代的 Web 应用会涉及复杂的 UI 交互，比如改变了一个地方的 UI 数据，需要直接或者间接的改变其他地方的 UI 数据。一些双向绑定的框架（比如：Angular.js 等）都是对这种场景比较好的解决方案。</p>
+<p>对于一些应用（尤其是数据流比较简单的），这种双向绑定是非常快速和足够的解决方案。但是对于一些更加复杂的应用场景，数据双向绑定已经被证明是不够的，它会妨碍用户界面的设计。实际上，React 并没有解决这样一个复杂应用中比较复杂的数据流问题（虽然后面出现了 Flux 这种解决方案），但是他确实解决了一个组件中数据流的问题。</p>
+<p>对于一个有上下文关系的组件， React 解决了数据流问题 —— 即通过更新 UI 来反应数据流的结果；除此之外，React 解决的另外一个问题是命名模式问题 —— 通过比较有创意的虚拟 DOM 解决。<br> <a id="more"></a></p>
+<h4 id="一、-组件数据的类型：-组件数据存储在props和state中"><a href="#一、-组件数据的类型：-组件数据存储在props和state中" class="headerlink" title="一、 组件数据的类型： 组件数据存储在props和state中"></a>一、 组件数据的类型： 组件数据存储在props和state中</h4><p>props 是一个组件的输入。他经常被用作渲染组件和初始化状态。当实例化完一个组件，props 应该是不可变的（持久的）。props 被用作在实例化组件的时候，然后组件将再次渲染 DOM，在这个过程中，React 将会对比新 props 和老 props 然后来确定哪些 DOM 的变化是必要的。</p>
+<blockquote>
+<p>下面是一个设置 props 然后用 props 的变化来更新 DOM 的例子：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&quot;use strict&quot;;</div><div class="line">var HelloWorld = React.createClass(&#123;</div><div class="line"></div><div class="line">  render: function() &#123;</div><div class="line">    return (</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;span&gt;Counter: &#123;this.props.count&#125;&lt;/span&gt;</div><div class="line">        &lt;br /&gt;</div><div class="line">        &lt;input type=&quot;text&quot; /&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    );</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">&#125;);</div><div class="line">var mainElement = document.querySelector(&quot;main&quot;)</div><div class="line">count = 1</div><div class="line">setInterval(function() &#123;</div><div class="line">ReactDOM.render(&lt;HelloWorld count=&#123;count++&#125;&gt;&lt;/HelloWorld&gt;, mainElement)</div></pre></td></tr></table></figure>
+<p>state 可以通过组组件发生变化，这种变化经常会和组件的事件处理函数连接起来。通常情况下，state的这种变化会触发组件的重新渲染。在组件初始化之前，他的 state 必须先进行初始化，其值包含常数、props。</p>
+<h4 id="二、-props"><a href="#二、-props" class="headerlink" title="二、 props"></a>二、 props</h4><p>当我们给一个组件添加 css 样式的 class 时，我们必须用 className，而不是 class。这是因为在 ES 2015 中 class 是一个用来定义对象的保留字。为了去避免这种冲突，在 React 中使用了 className。如果你使用了 class，React 将会在 console 里面输出一段友好的提示，让你使用 className 而不是 class。 </p>
+<p>除了像 className 一样这些 props 的名字之外，props 还有一些其他有意思的地方。比如改变 props 的值就是一种反模式。props 应该在组件实例化之前就进行设置，在这之后进行设置是不可的。其中就包括在组件实例化之后（render 之后）。可变值在组件中被认为是状态，一般使用 state 而不是 props。</p>
+<p>在下面的这个例子中，someComponent 实例化了，在这之后 props 的值发生了变化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var someComponent = &lt;SomeComponent /&gt;</div><div class="line">someComponent.props.prop1 = “some value”</div><div class="line">someComponent.props.prop2 = “some value”</div></pre></td></tr></table></figure></p>
+<p>改变 props 的值会让应用程序发生一些错误，并且这种错误是无法跟踪的。于此同时，改变 props 的值不会触发组件的再次渲染，这样就会让数据和界面不是同步的。<br>所以。props 应该在实例化的时候作为组件的一部分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var someComponent = &lt;SomeComponent prop1=”some value” prop2=”some value” /&gt;</div></pre></td></tr></table></figure></p>
+<p>这样，props 发生变化的时候就会协调进行 DOM 树的对比，然后进行 UI 的更新。</p>
+<h4 id="三、-state"><a href="#三、-state" class="headerlink" title="三、 state"></a>三、 state</h4><p>state 表示组件内可变的状态，这个状态一般是由用户去作用而产生的。为了促成这种改变，事件处理程序将会作用在相应的 DOM 元素上，当事件触发之后，值将会从 DOM 上取得，然后去通知组件有一个新的 state。在组件使用 state 之前，state 必须通过 getInitialState 函数进行初始化。通常情况下，getInitilaState 函数通过静态值、props 或者其他数据源进行初始化 state。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var Message = React.createClass(&#123; </div><div class="line"></div><div class="line">getInitialState: function() &#123; </div><div class="line">   return &#123; message: this.props.message &#125;; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>一旦 state 被初始化，就能像 props 一样在组件中使用了。为了去捕获用户的行为带来，然后去更新 state，各种需要使用的事件函数都会注册。为了保持组件的独立（和其他组件之间只通过数据进行交换，较少耦合性），每个事件处理函数都可以以 props的形式进性传递，也可以直接在组件内进行定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&quot;use strict&quot;</div><div class="line"></div><div class="line">var Message = React.createClass(&#123;</div><div class="line"></div><div class="line">  getInitialState: function() &#123;</div><div class="line">    return &#123; message: this.props.message &#125;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  _messageChange: function(e) &#123;</div><div class="line">    this.setState(&#123; message: e.target.value &#125;)</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  render: function() &#123;</div><div class="line">    return (</div><div class="line">      &lt;div&gt;</div><div class="line">        &lt;span&gt;Message: &#123;this.state.message&#125;&lt;/span&gt;</div><div class="line">        &lt;br /&gt;</div><div class="line">        Message: &lt;input type=&quot;text&quot; value=&#123;this.state.message&#125; onChange=&#123;this._messageChange&#125; /&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">&#125;)</div><div class="line"></div><div class="line">var mainElement = document.querySelector(&quot;main&quot;)</div><div class="line"></div><div class="line">ReactDOM.render(&lt;Message message=&quot;Hello World!!&quot; /&gt;, mainElement)</div></pre></td></tr></table></figure>
+<p>React 的另外一个优点就是使用了标准的 HTML 事件。这样一来学习特殊的事件库，事件处理函数和第三方事件就不再是需要的。</p>
+<p>为了去处理 state 的变化，setState 函数被用来设置 state 的新值。调用这个函数会触发组件的重新渲染。</p>
+<h4 id="四、-总结"><a href="#四、-总结" class="headerlink" title="四、 总结"></a>四、 总结</h4><p>React 组件对数据提供了两种机制： props 与 state。他把数据清楚的划分为了持久性数据 props 与经常改变的数据 state，然后把这两种数据和组件产生关联。</p>
+<p>通常意义上，对于简单的数据流 props 是首选的，state 对于捕获用户交互或者其他 UI 事件造成的数据更新是非常有用的。</p>
+<p>props 和 state 之间的关系促成了数据通过组件的流动。props 可以用来初始化 state，state 可以在初始化、渲染组件的使用设置 props。通过 state 来捕获用户输出的值、更新 props</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/10/25/React---创建同时受控组件与非受控的组件/" rel="next" title="React---创建同时受控组件与非受控的组件">
+                <i class="fa fa-chevron-left"></i> React---创建同时受控组件与非受控的组件
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/02/20/Hooks常见问题总结/" rel="prev" title="Hooks常见问题总结">
+                Hooks常见问题总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2021/12/12/React的props和state/"
+     data-title="React的props和state"
+     data-content=""
+     data-url="https://guohenkai.github.io/2021/12/12/React的props和state/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2021/12/12/React的props和state/"
+           data-title="React的props和state" data-url="https://guohenkai.github.io/2021/12/12/React的props和state/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、-组件数据的类型：-组件数据存储在props和state中"><span class="nav-number">1.</span> <span class="nav-text">一、 组件数据的类型： 组件数据存储在props和state中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、-props"><span class="nav-number">2.</span> <span class="nav-text">二、 props</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、-state"><span class="nav-number">3.</span> <span class="nav-text">三、 state</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、-总结"><span class="nav-number">4.</span> <span class="nav-text">四、 总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>

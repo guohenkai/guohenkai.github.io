@@ -1,0 +1,955 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Webpack," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ghk's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="创建配置文件
+创建文件 webpack.config.js 
+配置内容如下 
+
+123456789const &amp;#123; resolve &amp;#125; = require(&amp;apos;path&amp;apos;); // node 内置核心模块，用来处理路径问题。module.exports = &amp;#123;     entry: &amp;apos;./src/js/index.js&amp;apos;, // 入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack(二)：开发环境的基本配置介绍">
+<meta property="og:url" content="https://guohenkai.github.io/2019/04/03/webpack(2)/index.html">
+<meta property="og:site_name" content="ghk's Blog">
+<meta property="og:description" content="创建配置文件
+创建文件 webpack.config.js 
+配置内容如下 
+
+123456789const &amp;#123; resolve &amp;#125; = require(&amp;apos;path&amp;apos;); // node 内置核心模块，用来处理路径问题。module.exports = &amp;#123;     entry: &amp;apos;./src/js/index.js&amp;apos;, // 入">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1ghu3eiiz8rj205s04qt9g.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1ghu3n8nzm2j206603ygm5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1ghu3slk2klj2058074dh2.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1ghu419g9caj205j07ymyg.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1ghu4c8jticj205l07zmyi.jpg">
+<meta property="og:updated_time" content="2020-08-17T14:48:11.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack(二)：开发环境的基本配置介绍">
+<meta name="twitter:description" content="创建配置文件
+创建文件 webpack.config.js 
+配置内容如下 
+
+123456789const &amp;#123; resolve &amp;#125; = require(&amp;apos;path&amp;apos;); // node 内置核心模块，用来处理路径问题。module.exports = &amp;#123;     entry: &amp;apos;./src/js/index.js&amp;apos;, // 入">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/e0823b04ly1ghu3eiiz8rj205s04qt9g.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> webpack(二)：开发环境的基本配置介绍 | ghk's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?79de4c5de7ea450da2211481144c258d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ghk's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">(*@ο@*~) show me the code</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                webpack(二)：开发环境的基本配置介绍
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-04-03T00:00:00+08:00" content="2019-04-03">
+              2019-04-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Webpack/" itemprop="url" rel="index">
+                    <span itemprop="name">Webpack</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/04/03/webpack(2)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/04/03/webpack(2)/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="创建配置文件"><a href="#创建配置文件" class="headerlink" title="创建配置文件"></a>创建配置文件</h4><ul>
+<li>创建文件 webpack.config.js </li>
+<li>配置内容如下 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const &#123; resolve &#125; = require(&apos;path&apos;); // node 内置核心模块，用来处理路径问题。</div><div class="line">module.exports = &#123; </div><div class="line">    entry: &apos;./src/js/index.js&apos;, // 入口文件 </div><div class="line">    output: &#123; // 输出配置 </div><div class="line">        filename: &apos;./built.js&apos;, // 输出文件名 </div><div class="line">        path: resolve(__dirname, &apos;build/js&apos;) // 输出文件路径配置 </div><div class="line">        </div><div class="line">    &#125;,</div><div class="line">    mode: &apos;development&apos; //开发环境 &#125;;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<ul>
+<li>运行指令: webpack</li>
+</ul>
+<h4 id="打包样式资源"><a href="#打包样式资源" class="headerlink" title="打包样式资源"></a>打包样式资源</h4><ul>
+<li><p>创建文件</p>
+<p><img src="http://ww1.sinaimg.cn/large/e0823b04ly1ghu3eiiz8rj205s04qt9g.jpg" alt="微信图片_20200817204235.png"></p>
+</li>
+<li><p>下载安装 loader 包 </p>
+<ul>
+<li>npm i css-loader style-loader less-loader less -D</li>
+</ul>
+</li>
+<li><p>修改配置文件 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">// resolve 用来拼接绝对路径的方法 </div><div class="line">const &#123; resolve &#125; = require(&apos;path&apos;); </div><div class="line">module.exports = &#123; </div><div class="line">    // webpack 配置 </div><div class="line">    // 入口起点 </div><div class="line">    entry: &apos;./src/index.js&apos;, </div><div class="line">    // 输出 </div><div class="line">    output: &#123; </div><div class="line">        // 输出文件名 filename: &apos;built.js&apos;, </div><div class="line">        // 输出路径</div><div class="line">        //__dirname nodejs 的变量，代表当前文件的目录绝对路径 </div><div class="line">        path: resolve(__dirname, &apos;build&apos;)</div><div class="line">    &#125;,</div><div class="line">    // loader 的配置 </div><div class="line">    module: &#123; </div><div class="line">        rules: [ </div><div class="line">            // 详细 loader 配置 </div><div class="line">            // 不同文件必须配置不同 loader 处理 </div><div class="line">            &#123; </div><div class="line">                // 匹配哪些文件 </div><div class="line">                test: /\.css$/, </div><div class="line">                // 使用哪些 loader 进行处理 </div><div class="line">                use: [ </div><div class="line">                    // use 数组中 loader 执行顺序：从右到左，从下到上 依次执行 </div><div class="line">                    // 创建 style 标签，将 js 中的样式资源插入进行，添加到 head 中生效 &apos;style-loader&apos;, </div><div class="line">                    // 将 css 文件变成 commonjs 模块加载 js 中，里面内容是样式字符串 </div><div class="line">                    &apos;css-loader&apos; </div><div class="line">                    ] </div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                test: /\.less$/, </div><div class="line">                use: [ </div><div class="line">                    &apos;style-loader&apos;, </div><div class="line">                    &apos;css-loader&apos;, </div><div class="line">                    // 将 less 文件编译成 css 文件 </div><div class="line">                    // 需要下载 less-loader 和 less </div><div class="line">                    &apos;less-loader&apos; </div><div class="line">                ] </div><div class="line">            &#125; </div><div class="line">            ] </div><div class="line">    &#125;,</div><div class="line">    // plugins 的配置 </div><div class="line">    plugins: [ </div><div class="line">        // 详细 plugins 的配置 </div><div class="line">        ],</div><div class="line">    // 模式 </div><div class="line">    mode: &apos;development&apos;, </div><div class="line">    // 开发模式 // mode: &apos;production&apos; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="打包-HTML-资源"><a href="#打包-HTML-资源" class="headerlink" title="打包 HTML 资源"></a>打包 HTML 资源</h4><ul>
+<li>创建文件</li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/e0823b04ly1ghu3n8nzm2j206603ygm5.jpg" alt="微信图片_20200817205051.png"></p>
+<ul>
+<li><p>下载安装 plugin 包 </p>
+<ul>
+<li>npm install –save-dev html-webpack-plugin</li>
+</ul>
+</li>
+<li><p>修改配置文件</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">const &#123; resolve &#125; = require(&apos;path&apos;);</div><div class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;); </div><div class="line">module.exports = &#123;</div><div class="line">    entry: &apos;./src/index.js&apos;,</div><div class="line">    output: &#123; </div><div class="line">        filename: &apos;built.js&apos;, </div><div class="line">        path: resolve(__dirname, &apos;build&apos;) </div><div class="line">        </div><div class="line">    &#125;,</div><div class="line">    module: &#123; </div><div class="line">        rules: [ // loader 的配置 ] </div><div class="line">        </div><div class="line">    &#125;,</div><div class="line">    plugins: [ </div><div class="line">    // plugins 的配置 </div><div class="line">    // html-webpack-plugin </div><div class="line">    // 功能：默认会创建一个空的 HTML，自动引入打包输出的所有资源（JS/CSS） </div><div class="line">    // 需求：需要有结构的 HTML 文件 </div><div class="line">    new HtmlWebpackPlugin(&#123; </div><div class="line">    // 复制 &apos;./src/index.html&apos; 文件，并自动引入打包输出的所有资源（JS/CSS） </div><div class="line">        template: &apos;./src/index.html&apos; </div><div class="line">    &#125;) </div><div class="line">    ],</div><div class="line">    mode: &apos;development&apos; </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li>运行指令: webpack</li>
+</ul>
+<h4 id="打包图片资源"><a href="#打包图片资源" class="headerlink" title="打包图片资源"></a>打包图片资源</h4><ul>
+<li><p>创建文件<br><img src="http://ww1.sinaimg.cn/large/e0823b04ly1ghu3slk2klj2058074dh2.jpg" alt="c20cdfc2392306248851cb28567433c.png"></p>
+</li>
+<li><p>下载安装 loader 包</p>
+<p>  npm install –save-dev html-loader url-loader file-loader</p>
+</li>
+<li><p>修改配置文件</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">const &#123; resolve &#125; = require(&apos;path&apos;); </div><div class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;); </div><div class="line">module.exports = &#123; </div><div class="line">    entry: &apos;./src/index.js&apos;, </div><div class="line">    output: &#123; </div><div class="line">        filename: &apos;built.js&apos;,</div><div class="line">        path: resolve(__dirname, &apos;build&apos;) </div><div class="line">        </div><div class="line">    &#125;,</div><div class="line">    module: &#123;</div><div class="line">        rules: [ </div><div class="line">            &#123; </div><div class="line">                test: /\.less$/, </div><div class="line">                // 要使用多个 loader 处理用 use </div><div class="line">                use: [&apos;style-loader&apos;, &apos;css-loader&apos;, &apos;less-loader&apos;] </div><div class="line">                </div><div class="line">            &#125;,&#123; </div><div class="line">                // 问题：默认处理不了 html 中 img 图片 </div><div class="line">                // 处理图片资源 </div><div class="line">                test: /\.(jpg|png|gif)$/,</div><div class="line">                // 使用一个 loader </div><div class="line">                // 下载 url-loader file-loader </div><div class="line">                loader: &apos;url-loader&apos;, </div><div class="line">                options: &#123;</div><div class="line">                    // 图片大小小于 8kb，就会被 base64 处理 </div><div class="line">                    // 优点: 减少请求数量（减轻服务器压力） </div><div class="line">                    // 缺点：图片体积会更大（文件请求速度更慢） </div><div class="line">                    limit: 8 * 1024, </div><div class="line">                    // 问题：因为 url-loader 默认使用 es6 模块化解析，而 html-loader 引入图片是 commonjs </div><div class="line">                    // 解析时会出问题：[object Module] </div><div class="line">                    // 解决：关闭 url-loader 的 es6 模块化，使用 commonjs 解析 </div><div class="line">                    esModule: false, </div><div class="line">                    // 给图片进行重命名 </div><div class="line">                    // [hash:10]取图片的 hash 的前 10 位 </div><div class="line">                    // [ext]取文件原来扩展名 </div><div class="line">                    name: &apos;[hash:10].[ext]&apos; </div><div class="line">                &#125; </div><div class="line">            &#125;,&#123; </div><div class="line">                test: /\.html$/, </div><div class="line">                // 处理 html 文件的 img 图片（负责引入 img，从而能被 url-loader 进行处理）</div><div class="line">                </div><div class="line">                loader: &apos;html-loader&apos; </div><div class="line">            &#125; </div><div class="line">        ] </div><div class="line">    &#125;,</div><div class="line">    plugins: [ </div><div class="line">        new HtmlWebpackPlugin(&#123; </div><div class="line">            template: &apos;./src/index.html&apos; </div><div class="line">        &#125;) </div><div class="line">    ],</div><div class="line">    mode: &apos;development&apos; </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li>运行指令: webpack</li>
+</ul>
+<h4 id="打包其他资源"><a href="#打包其他资源" class="headerlink" title="打包其他资源"></a>打包其他资源</h4><ul>
+<li>创建文件</li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/large/e0823b04ly1ghu419g9caj205j07ymyg.jpg" alt="f1b04dcde6b20e1d49be24c9e7d443d.png"></p>
+<ul>
+<li><p>下载安装 loader 包</p>
+<p>  npm install –save-dev file-loader</p>
+</li>
+<li><p>修改配置文件</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">const &#123; resolve &#125; = require(&apos;path&apos;); </div><div class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;); </div><div class="line">module.exports = &#123; </div><div class="line">    entry: &apos;./src/index.js&apos;,</div><div class="line">    output: &#123; </div><div class="line">        filename: &apos;built.js&apos;, </div><div class="line">        path: resolve(__dirname, &apos;build&apos;) </div><div class="line">    &#125;,</div><div class="line">    module: &#123; </div><div class="line">        rules: [ &#123; </div><div class="line">            test: /\.css$/, </div><div class="line">            use: [&apos;style-loader&apos;, &apos;css-loader&apos;] </div><div class="line">        &#125;,</div><div class="line">        // 打包其他资源(除了 html/js/css 资源以外的资源) </div><div class="line">        &#123;</div><div class="line">            // 排除 css/js/html 资源 </div><div class="line">            exclude: /\.(css|js|html|less)$/, </div><div class="line">            loader: &apos;file-loader&apos;, </div><div class="line">            options: &#123; name: &apos;[hash:10].[ext]&apos; &#125; </div><div class="line">        &#125; </div><div class="line">    ] &#125;,</div><div class="line">    plugins: [ </div><div class="line">        new HtmlWebpackPlugin(&#123; template: &apos;./src/index.html&apos; &#125;)</div><div class="line">    ],</div><div class="line">    mode: &apos;development&apos; </div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<ul>
+<li>运行指令: webpack</li>
+</ul>
+<h4 id="devserver"><a href="#devserver" class="headerlink" title="devserver"></a>devserver</h4><ul>
+<li><p>创建文件<br><img src="http://ww1.sinaimg.cn/large/e0823b04ly1ghu4c8jticj205l07zmyi.jpg" alt="cf3d1ed3139a93546c344bac8e77d3b.png"></p>
+</li>
+<li><p>修改配置文件</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">const &#123; resolve &#125; = require(&apos;path&apos;);</div><div class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">  entry: &apos;./src/index.js&apos;,</div><div class="line">  output: &#123;</div><div class="line">    filename: &apos;built.js&apos;,</div><div class="line">    path: resolve(__dirname, &apos;build&apos;)</div><div class="line">  &#125;,</div><div class="line">  module: &#123;</div><div class="line">    rules: [</div><div class="line">      &#123;</div><div class="line">        test: /\.css$/,</div><div class="line">        use: [&apos;style-loader&apos;, &apos;css-loader&apos;]</div><div class="line">      &#125;,</div><div class="line">      // 打包其他资源(除了html/js/css资源以外的资源)</div><div class="line">      &#123;</div><div class="line">        // 排除css/js/html资源</div><div class="line">        exclude: /\.(css|js|html|less)$/,</div><div class="line">        loader: &apos;file-loader&apos;,</div><div class="line">        options: &#123;</div><div class="line">          name: &apos;[hash:10].[ext]&apos;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  plugins: [</div><div class="line">    new HtmlWebpackPlugin(&#123;</div><div class="line">      template: &apos;./src/index.html&apos;</div><div class="line">    &#125;)</div><div class="line">  ],</div><div class="line">  mode: &apos;development&apos;,</div><div class="line"></div><div class="line">  // 开发服务器 devServer：用来自动化（自动编译，自动打开浏览器，自动刷新浏览器~~）</div><div class="line">  // 特点：只会在内存中编译打包，不会有任何输出</div><div class="line">  // 启动devServer指令为：npx webpack-dev-server</div><div class="line">  devServer: &#123;</div><div class="line">    // 项目构建后路径</div><div class="line">    contentBase: resolve(__dirname, &apos;build&apos;),</div><div class="line">    // 启动gzip压缩</div><div class="line">    compress: true,</div><div class="line">    // 端口号</div><div class="line">    port: 3000,</div><div class="line">    // 自动打开浏览器</div><div class="line">    open: true</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Webpack/" rel="tag">#Webpack</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/webpack(1)/" rel="next" title="webpack(一)：webpack简介">
+                <i class="fa fa-chevron-left"></i> webpack(一)：webpack简介
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/06/webpack(3)/" rel="prev" title="webpack(三)：开发环境的基本配置">
+                webpack(三)：开发环境的基本配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2019/04/03/webpack(2)/"
+     data-title="webpack(二)：开发环境的基本配置介绍"
+     data-content=""
+     data-url="https://guohenkai.github.io/2019/04/03/webpack(2)/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2019/04/03/webpack(2)/"
+           data-title="webpack(二)：开发环境的基本配置介绍" data-url="https://guohenkai.github.io/2019/04/03/webpack(2)/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="郭恒开" />
+          <p class="site-author-name" itemprop="name">郭恒开</p>
+          <p class="site-description motion-element" itemprop="description">清风徐来，水波不兴。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">99</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/guo-Allen" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3766631172" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://zhihu.com/people/allen-18-6" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://sunqi.info/" title="孙琦" target="_blank">孙琦</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://liergou.vip/" title="二狗" target="_blank">二狗</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/home.html" title="阮一峰" target="_blank">阮一峰</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建配置文件"><span class="nav-number">1.</span> <span class="nav-text">创建配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包样式资源"><span class="nav-number">2.</span> <span class="nav-text">打包样式资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包-HTML-资源"><span class="nav-number">3.</span> <span class="nav-text">打包 HTML 资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包图片资源"><span class="nav-number">4.</span> <span class="nav-text">打包图片资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打包其他资源"><span class="nav-number">5.</span> <span class="nav-text">打包其他资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#devserver"><span class="nav-number">6.</span> <span class="nav-text">devserver</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭恒开</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"guohengkai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>
